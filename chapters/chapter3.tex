@@ -245,12 +245,118 @@ Veronderstel dat een thread $T$ poogt om een resource aan te spreken. De basisre
 \begin{blockquote}
 Beschouw het geval waarin we een vertrouwde component het recht willen geven om bepaalde venster te openenen zonder het recht te geven om arbitraire vensters te openen.
 \end{blockquote}
+\noindent
+De oplossing is gebruik te maken van \textbf{stack walk modifiers}.
+\begin{itemize}
+	\item \texttt{Enable\_permission(P)}
+	\begin{itemize}
+		\item De oproeper worden niet gecheckt en de vragende partij neemt volledige verantwoordelijkheid.
+		\item Essentieel om gecontroleerde toegang tot resources mogelijk te maken voor minder betrouwbare code.
+	\end{itemize}
+	\item \texttt{Disable\_permission(P)}
+	\begin{itemize}
+		\item De oproeper zegt dat hij deze permissie niet nodig heeft.
+		\item Nodig voor \textit{principle of least privileged}.
+	\end{itemize}
+\end{itemize}
 
+\subsubsection{Beveiligingsautomaat voor RBAC}
+\begin{lstlisting}
+// NOTE: only support for enabling of permissions, atomic permissions,
+// and single threading
+type StackFrame = <Component,Set<Permission>> // set of enabled perms
+Set<Component> components = new Set();
+Map<Component,Set<Permission>> perms = new Map(); // static permissions
+List<StackFrame> callstack = new List();
 
+// Access checks
+void demand(Permission p)
+  requires demandOK(callstack, p); {}
+bool demandOK(List<StackFrame> stack, Permission p) // pure helper function
+{ foreach (<cp, ep> in stack) {
+    if ! (p in perms[cp]) return false;
+    if (p in ep) return true;
+  };
+  return true;
+}
 
+// Enabling a permission
+void enable(Permission p)
+  requires (let <c,ep> = callstack.Top in ( p in perms[c] ));
+{
+  <c,ep> = callstack.Pop();
+  ep[p] = true;
+  callstack.Push(<c, ep>);
+}
 
+// calling a function in component c
+void call(Component c)
+  requires (c in components);
+{
+  callstack.Push(<c,{}>);
+}
 
+// returning from a function
+void return() requires true;
+{
+  callstack.Pop();
+}
+\end{lstlisting}
 
+\section{Conclusie}
+We kunnen concluderen dat de meeste modellen het \textbf{Lampson model} implementeren met \textit{principal}, \textit{action}, \textit{guard} en \textit{protected system}. Daarnaast zien we dat beveiligingsautomaten een krachting concept vormen om de semantiek van de beveiligingsbeleid voor te stellen. Vervolgens hebben we drie modellen besproken met elk hun eigen toepasbaarheidsgebied:
+\begin{itemize}
+	\item \textbf{DAC}: Besturingssystemen
+	\item \textbf{RBAC}: Applicaties en gegevensbanken
+	\item \textbf{LBAC}: Begint stilaan gebruikt te worden voor integriteitsbescherming.
+\end{itemize}
+Tenslotte besproken we \textit{Code Acces Control} wat een andere aanpak vereiste dan de andere modellen.
 
+\section{Windows toegangscontrole en authenticatie}
+Bij het Windowsbesturingssysteem zijn de \textbf{principals} de gebruikers, machines of groepen. Deze worden ge\"identificeerd aan de hand van hi\"erarchischer en globaal unieke  \textbf{Security Identifiers}. \textbf{Authorities} beheren de principals en hun \textit{credentials}. Op elke computer is een dergelijke \textbf{Local Security Authority} aanwezig. De \textbf{Domain Controller} is de authority voor een domein. Tussen \textit{Authorities} heert vertrouwen. Zo vertrouwt een computer die deel uitmaakt van een domein dit domein. Verschillende domeinen kunnen vetrouwenslinken tussen elkaar vastleggen.
+\subsection{Logon Session}
+Authenticatie gebeurt lokaal aan de hand van een paswoord. Wanneer de computer deel uitmaakt van een domein wordt \textit{Kerberos} of \textit{NTLM} gebruikt. Succesvolle authenticatie leidt tot een \textbf{logon session}. Hiervan bestaan verschillende varianten:
+\begin{itemize}
+	\item \textbf{Interactieve logon session} voor gebruiker die lokaal aangemeld zijn.
+	\item \textbf{Network logon session} voor gebruiker die op afstand zijn aangemeld.
+	\item \textbf{Service logon session} voor services die uitgevoerd worden als een gegeven gebruiker.
+\end{itemize}
+De \textit{logon session} ontvangt een \textbf{access token} die alle autorisatie-attributen bevat die verbonden zijn met de gebruiker. Alle processen of threads die worden aangemaakt onder een \textit{logon session} ontvangen dezelfde \textit{access token}. 
+
+\subsection{Access Token}
+\begin{itemize}
+	\item SID voor de gebruiker
+	\item SID's voor de groepen waartoe de gebruiker behoort
+	\begin{itemize}
+		\item Gedefinieerd door de \textit{authority} (doorgaans het domein)
+		\item Representeert de organisationele stuctuur
+	\end{itemize}
+	\item SID's voor de lokale groepen waartoe de gebruiker behoort
+	\begin{itemize}
+		\item Lokaal gedefinieerd
+		\item Representeert de logische rollen van applicaties
+	\end{itemize}
+	\item Privileges voor de gebruiker
+\end{itemize}
+
+\subsection{Windows Security Descriptor}
+Elke \textit{beschermbaar object} draagt een \textbf{security descriptor}. Voorbeelden van dergelijke objecten zijn bestanden, registers, gedeelde geheugenplaatsen, etc. Deze \textit{descriptor} bestaat uit:
+\begin{itemize}
+	\item Eigenaars SID
+	\item Primaire groep SID
+	\item DACL (Discretionary ACL): gebruikt voor toegangscontrole
+	\item SACL (System ACL): specificeert wat geauditeerd moet worden
+\end{itemize}
+Deze wordt aangemaakt op basis van een standaardvoorbeeld op het moment dat een object wordt gecreëerd. 
+
+\subsubsection{Windows DACL}
+Een DACL bevat een gesorteerde lijst met toegangscontrole-elementen. Elk item verleent of verbiedt een specifiek toegangsrecht aan een groep gebruikers. Items die toegang verbieden worden vooraan in de lijst geplaatst.
+\\\\
+De kernel voert toeganscontrole checks uit voor elk beveiligbaar object.
+\begin{itemize}
+	\item Overloop alle items in de DACL van het object.
+	\item Elk item wordt gematcht op een \textit{access token} van de vragende thread.
+	\item De eerste match beslist, wat verklaart waarom verbiedende items eerst in de lijst geplaatst moeten worden.
+\end{itemize}
 
 \end{document}

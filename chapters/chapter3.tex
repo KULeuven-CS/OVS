@@ -359,4 +359,20 @@ De kernel voert toeganscontrole checks uit voor elk beveiligbaar object.
 	\item De eerste match beslist, wat verklaart waarom verbiedende items eerst in de lijst geplaatst moeten worden.
 \end{itemize}
 
+\subsection{Caching}
+Uitgebreide caching wordt gebruikt om de performantie op te drijven. Zo worden de autorisatie attributen gecached in het \textit{access token}. Wanneer een bestand is geopend wordt diens \textit{file handle} gebruikt als \textit{capability} zodat verder geen toegangscontrole moet worden uitgevoerd. Dit betekent echter wel dat verandering niet onmiddellijk worden doorgevoerd als de gebruiker aangemeld is.
+
+\subsection{Toegangcontrole in applicaties}
+\begin{itemize}
+	\item \textbf{Impersionation} De server verifieert de cli\"ent en bindt diens token aan de thread die de aanvraag uitvoert.
+	\item \textbf{Role-Based} Zoek de lokale groep SID die overeenkomt met de rol van het \textit{access token} van de cli\"ent.
+	\item \textbf{Object-Based} Beheer zelfs ACL's aan de hand van een API.
+
+\subsection{Running least privilege}
+De toegangscontrole van het besturingssysteem kan ook gebruikt worden om programma's te \textit{sandboxen} om het OS te beschreven tegen kwetsbaarheden in het programma, virussen, of Trojaanse paarden. Er moet echter aandacht worden besteed aan welke objecten de applicatie nodig heeft en welke geprivilegieerde API's het programma wilt aanspreken.
+
+\subsection{Windows Vista's integriteitsbescherming}
+Windows Vista voegt een \textit{lattice-based} toegangscontrolesysteem toe aan zijn model. Het wordt gebruikt voor integriteitscontrole (cfr. Biba model) Beveiligbare objecten ontvangen een integriteitsniveau wat representeert hoe belangrijk zijn integriteit is. Ook \textit{access tokens} ontvangen een niveau wat representeert hoe "ge\"infecteerd" ze zijn. Er wordt onderscheid gemaakt tussen drie niveaus: \textbf{High} (admin), \textbf{Medium} (gebruiker) en \textbf{Low} (niet vertrouwd).
+
+\end{itemize}
 \end{document}

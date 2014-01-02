@@ -5,8 +5,8 @@
 \usepackage{titling}
 
 % Optional
-\usepackage{hyperref}
-\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{tikz}
@@ -14,8 +14,8 @@
 \usepackage{float}
 \usepackage[official]{eurosym}
 \usepackage{xcolor}
-
 \usepackage{subfiles}
+\usepackage{thmbox}
 
 
 % Titleplage
@@ -48,17 +48,21 @@
 % Personal Preferences
 %\setlength\parindent{0pt}
 
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conj}{Conjecture}[section]
+\newtheorem{exmp}{Example}[section]
+
+
 \begin{document}
 
 \frontmatter
 
 % Title Page
 \maketitle
-\newpage
 
 % Table of Contents Page
 \tableofcontents
-\newpage
 
 \mainmatter
 

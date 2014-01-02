@@ -2,4 +2,119 @@
 \begin{document}
 \chapter{Authenticatie en toegangscontrole}
 
+\section{Inleiding}
+Beveiliging is het voorkomen en opsporen van ongeautoriseerde gebeurtenissen met betrekking tot informatie. We kunnen twee belangrijke gevallen onderscheiden:
+\begin{itemize}
+	\item Een aanvallen heeft toegang tot de bits die de informatie voorstelt. Hier is nood aan cryptografische technieken.
+	\item Er bevindt zich een softwarelaag tussen de aanvaller en de informatie. Hier is nood aan toegangscontrole. 
+\end{itemize} 
+
+\subsection{Algemeen model}
+Een algemeen model voor toegangscontrole bestaat uit volgende elementen: \textbf{Principal}, \textbf{Action}, \textbf{Guard} en \textbf{Protected System}.
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline 
+\textbf{Principal} & \textbf{Action} & \textbf{Guard} & \textbf{Protected System} \\ 
+\hline 
+Host & Packet send & Firewall & Intranet \\ 
+\hline 
+User & Open File & OS Kernel & File System \\ 
+\hline 
+Java Program & Open File & Java Security Manager & File \\ 
+\hline 
+User & Query & DBMS & Database \\ 
+\hline 
+User & Get page & Web Server  & Web Site \\ 
+\hline 
+\end{tabular} 
+\end{center}
+
+\subsection{Principal}
+Authenticatie van de entiteit bestaat uit het verifi\"eren van de geclaimde identiteit van een entiteit (de \textbf{principal}) waarmee de \textbf{guard} interageert. Deze entiteit kan een menselijke gebruiker zijn, een computer, een gebruiker op een andere computer of een gebruiker die een specifiek stuk code uitvoert. Afhankelijk van de entiteit is er nood aan een andere oplossing. We beperken ons hier tot het geval waarbij de \textbf{principal} een gebruiker is.
+\\\\
+De authenticatie kan bestaan uit het kennen van een geheim (paswoord of PIN), uit het bezitten van een fysieke eigenschap (biometrie) of door in het bezit te zijn van een token (smartcard, digipas). Andere opties zijn het verifi\"eren of een gebruiker op een bepaalde locatie is (dialback) of in staat is \textit{iets} te doen (handtekening, CAPTCHA).
+
+\subsection{Guard}
+Wanneer de guard een actie ontvangt zal beslist hij wat ermee te doen. We beschouwen enkel het geval waarbij de keuze bestaat uit \textbf{pass} of \textbf{drop} maar er zijn verschillende alternatieven mogelijk. 
+\\\\
+De guard kan gemodelleerd worden als een \textit{beveiligingsautomaat} die zich in een zekere toestand bevindt. Zijn verzameling toestanden wordt dan gekenmerkt door een aantal getypeerde toestandsvariabelen. Overgangen kunnen worden beschreven door predicaten gebaseerd op de lokale toestand en de actie.
+
+
+\section{Klassieke modellen toegangscontrole}
+We maken onderscheid tussen tussen het \textbf{toegangscontrolebeleid} (\textit{access control policy}) en het \textbf{toegangscontrolemodel} (\textit{access control model}). Het beleid bepaalt de regels die zeggen wat toegestaan is en wat niet. De semantiek hiervan is een beveiligingsautomaat in een zekere toestand. Het toegangsmodel is een verzameling \textit{policies} met gelijkaardige karakteristieken. het model maakt bepaalde beslissingen over wat zich in de beveiligingstoestand bevindt en hoe acties worden afgehandeld. 
+
+\subsection{Discretionary Access Control (DAC)}
+Het doel van die model is het delen van informatie onder controle van de maker ervan.
+\\\\
+De sleutelconcepten zijn:
+\begin{multicols}{2}
+\begin{itemize}
+	\item Principals zijn gebruikers
+	\item Beschermde systeem beheert \textbf{objecten}
+	\item Passieve entiteiten vereisten gecontroleerde toegang
+	\item Objecten worden benaderd aan de hand van \textbf{operaties}
+	\item Elk object heeft een eigenaar
+	\item De eigenaar kan rechten toekennen aan andere gebruikers om operaties uit te voeren.
+\end{itemize}
+\end{multicols}
+\noindent
+Verschillende varianten bepalen of het mogelijk is om de eigendom van een object door te geven, om het recht tot toekenning van rechten door te geven of om rechten al dan niet te kunnen intrekken.
+
+\subsubsection{Beveiligingsautomaat voor DAC}
+\begin{lstlisting}[caption=DAC Automaat]
+type Right = <User, Obj, {read, write}>;
+Set<User> users = new Set();
+Set<Obj> objects = new Set();
+Set<Right> rights = new Set(); // represents the Access Control Matrix
+Map<Obj,User> ownerOf = new Map();
+
+// Access checks
+void read(User u, Obj o) requires <u,o, read> in rights; {}
+void write(User u, Obj o) requires <u,o,write> in rights; {}
+
+// Actions that impact the protection state
+void addRight(User u, Right <u’,o,r>)
+  requires (u in users) && (u’ in users) && (o in objects) && ownerOf[o] == u; {
+    rights[<u’,o,r>] = true; // means: add <u’,o,r> to the rights set
+}
+
+void deleteRight(User u, Right <u’,o,r>)
+  requires (u in users) && (u’ in users) && (o in objects) && ownerOf[o] == u; {
+    rights[<u’,o,r>] = false;
+}
+
+void addObject(User u, Obj o)
+  requires (u in users) && (o notin objects); {
+   objects[o] = true;
+   ownerOf[o] = u;
+}
+
+void delObject(User u, Obj o)
+  requires (o in objects) && (ownerOf[o] == u); {
+    objects[o] = false;
+    ownerOf[o] = none;
+    rights = rights \ { <u’,o’,r’> in rights where o’==o};
+}
+
+// Administrative functions
+void addUser(User u, User u’) requires u’ notin users; {
+  users[u’] = true;
+}
+\end{lstlisting}
+
+\subsubsection{Eigenschappen}
+Een nadeel van DAC is de lastige administratie en de beperkte mate van beveiliging.
+
+Door een groepsstructuur toe te voegen met groepen en negatieve permissies kan het DAC model worden uitgebreid. Het beheer blijft echter lasting. Ook uitbreidingen die een structuren van operaties voorzien zijn mogelijk.
+
+DAC wordt doorgaans echter niet ge\"implementeerd aan de hand van een gecentraliseerde beveiligingstoestand. Typisch wordt er gebruik gemaakt van \textbf{access control lists} (Windows 2000) of \textbf{capabilities} (Unix).
+
+\subsection{Mandatory Access Control (MAC)}
+\subsection{Role-Based Access Control (RBAC)}
+\subsection{Andere modellen voor toegangscontrole}
+
+
+\section{Toegangscontrole voor code}
+
 \end{document}

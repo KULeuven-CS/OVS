@@ -1,4 +1,50 @@
-\documentclass[main.tex]{subfiles} 
+\documentclass[../main.tex]{subfiles} 
 \begin{document}
 \chapter{Uitdagingen Veilige Software}
+
+\section{Motivatie}
+De laatste jaren zien we een enorme toename in de aanwezigheid van software. Zo waren er in 2003 al 670 miljoen computers en in 2005 reeds twee miljard mobiele telefoons en meer dan tien miljard smart cards. Daarnaast merken we dat we meer en meer afhankelijk worden van software met de opkomst van E-services zoals \textit{E-business}, \textit{E-government} en \textit{E-health}. 
+\\\\
+Gelijklopend merken we een toename van connectiviteit. Meer en meer apparaten zijn verbonden met het internet, al dan niet draadloos. Deze opkomst zorgt ervoor dat applicaties soms door miljoenen gebruikers tegelijk worden gebruikt. Webapplicaties zoals Amazon en Google vormen momenteel \'e\'en van de belangrijkste klasse van programma's.
+\\\\
+Tenslotte merken we dat computers meer en meer ondersteuning bieden voor software van derde partijen. Hoewel dit een van de succesfactoren was voor het succes van de personal computer, speelde dit ook een sleutelrol in veel van diens veiligheidsproblemen. Embedded devices (telefoons, auto's, set-top boxes) bieden vaak de mogelijkheid om software te installeren wat leidt tot een zeker veiligheidsrisico.
+
+\subsection{Lessen uit het verleden}
+Uit het verleden hebben we volgende lessen kunnen trekken:
+\begin{itemize}
+	\item Ondersteuning voor softwaremobiliteit verhoogt het risico. \\ bv. \textit{virussen} (= codefragment dat andere programma's kan infecteren)
+	\item Softwaremobiliteit + connectiviteit: nog erger! \\ bv. \textit{wormen} (= zelf replicerend virus. Verspreid zich zonder interactie van de gebruiker.)
+	\item Verbonden applicaties zijn moeilijk te beveiligen. \\ bv \textit{defacements, phishing, incidenten}
+\end{itemize}
+
+
+\subsection{Web gerelateerde bedreigingen}
+Tot ongeveer 10 jaar geleden richtte aanvallers zich doorgaans op infrastructurele software zoals besturingssystemen of server. Met de toename in verbondenheid zien we dat aanvallen zich vaker en vaker richten op webapplicaties. Hier volgen enkele nieuwe trends die dit met zich mee heeft gebracht.
+
+\paragraph{Defacement} Defacement is vergelijkbaar \textit{grafitti} op het internet. De aanvaller wijzigt of vervangt de webpagina om zijn aanwezigheid kenbaar te maken. 
+
+\paragraph{Phishing} Phishing is een combinatie van \textit{social engineering} en \textit{spoofing}. Het doel is het stelen van persoonlijke data zoals bankgegevens. Met deze gegevens kan de aanvaller toegang krijgen tot applicaties onder de naam van het slachtoffer.
+
+\paragraph{Drive-By-Downloads} Kwaadwillige webservers maken gebruik van kwetsbaarheden om malware te installeren op de computer van de gebruiker.
+
+\paragraph{Tracking} Allerhande technieken die worden gebruik om bezoeken aan websites te correleren aan een gebruiker. 
+\\\\
+Naast bovenvermelde bedreiging doen zich dagelijks incidenten voor op het internet. Enkele voorbeelden zijn het lekker van kredietkaart gegevens, klanten die producten aan een fractie van de prijs kopen of gedistribueerde \textit{Denial of Service} aanvallen die een site onbruikbaar maken door deze te \textit{flooden} met requests.
+
+
+
+\paragraph{Browser} De browser moet HTML weergeven, JavaScript en plugins uitvoeren en verschillende protocols en API's ondersteunen. Elk van deze taken brengt een risico met zich mee. Bovendien dient de browser isolatie te voorzien tussen inhoud van verschillende bronnen. De browser gedraagt zich als een soort besturingssysteem voor de webomgeving.
+
+\paragraph{HTTP} Hoewel dit een eenvoudig protocol is laat het toe arbitrair complexe dingen te doen. Het is standaard \textit{stateless} maar een zijn verschillende mechanismen om dit te veranderen. Daarnaast is er een snelle toename van \textit{header} velden die elk hun eigen standaard vereisten. Dit is slechts \'e\'en van de vele web protocols.
+
+\subsection{Conclusie}
+Verschillende niet te stoppen trends zoals de toename van computers, connectiviteit, ondersteuning voor softwaremobiliteit en de wereldwijde beschikbaarheid van applicaties maken twee vragen zeer relevant:
+\begin{itemize}
+	\item Hoe ontwikkelen we een veilig systeem voor computers?
+	\item Hoe ontwikkelen we veilige applicaties?
+\end{itemize}
+
+\section{Veiligheidsconcepten}
+\section{Kwetsbaarheden}
+
 \end{document}

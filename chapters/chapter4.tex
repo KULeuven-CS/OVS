@@ -141,7 +141,92 @@ Deze aanval bestaat uit een aanvaller die de browser misleidt tot het injecteren
 De cli\"ent wordt misleid tot het klikken op een knop en link die een request start binnen de geautoriseerde sessie door het plaatsen van een onzichtbare frame over een andere pagina. Tegenmaatregelen zijn \textit{Framebusting Javasript code} of gebruik van de \textit{X-Frame-Options} header. Deze laatste voorziet dat een pagina niet in een frame kan weergegeven worden.
 
 \subsection{SQL injectie}
+De meeste webpagina's geven HTML weer na interactie met een gegevensbank. Deze interactie bestaat doorgaans uit SQL queries die (deels) worden gevormd aan de hand van gebruikersinvoer. Een SQL injectie is een aanval waarbij de gebruiker erin slaagt zo'n invoer te voorziend at het effect van SQL querie verandert. 
+\\\\
+Elke invoer gebruikt door de webapplicatie die kan gemanipuleerd worden door de aanvaller is een mogelijke plaats voor injectie.
+\begin{itemize}
+	\item HTML form fields
+	\item Cookies
+	\item HTTP request headers
+	\item \textbf{Second-Order} injecties: twee-fasen aanval
+	\begin{enumerate}
+		\item Voorzie invoer in de database.
+		\item Gebruik deze gegevens uit de database om nieuwe queries te vormen.	
+	\end{enumerate}
+\end{itemize}
 
+\subsubsection{Voorbeeld second-order injectie}
+\begin{enumerate}
+	\item Registreer als een gebruiker met de naam \texttt{admin' --}.
+	\begin{itemize}
+		\item Op dit moment is er nog geen sprake van injectie. De naam is correct opgeslagen in de database.
+		\item Veronderstel nu dat het aanpassen van wachtwoorden gebeurd zoals in de listing hieronder.
+	\end{itemize}
+	\item Als we nu ons wachtwoord aanpassen krijgen we een nieuwe query zoals hieronder.
+\end{enumerate}
+\begin{lstlisting}[caption=Updaten wachtwoord]
+queryString = "UPDATE users SET password=`" + newPassword + "` WHERE userName=`" + userName + "` AND password=`" +oldPassword+ "`"
+\end{lstlisting}
+\begin{lstlisting}[caption=SQL Injection]
+queryString = "UPDATE users SET password=`newpwd` WHERE userName=`admin`--` AND password=`oldPassword`"
+\end{lstlisting}
+
+\subsubsection{Doelstelling}
+De aanvaller kan verschillende doelen hebben:
+\begin{multicols}{2}
+\begin{itemize}
+	\item Identificeren van injecteerbare parameters
+	\item Verkrijgen metadata van de database
+	\item Ophalen, aanpassen of updaten van data
+	\item Een DoS-aanval uitvoeren
+	\item Authenticatie omzeilen
+	\item Verhogen van privileges
+\end{itemize}
+\end{multicols}
+
+\subsubsection{Injectievormen}
+
+\paragraph{Tautologie} Door het invoeren van \texttt{` or 1=1--} krijgen we onderstaande query met als resultaat dat de authenticatie slaagt.
+\begin{lstlisting}[caption=Tautologie]
+SELECT accounts FROM users WHERE
+login=`` or 1=1 -- AND pass=`` and pin=
+\end{lstlisting}
+
+\paragraph{Illegal / logically incorrect queries} Door een foutieve query te vormen krijgen we een error bij diens uitvoer. Neem als invoer
+\begin{lstlisting}[caption=Illegal input]
+convert(int,(select top 1 name from sysobjects where xtype=`u`))
+\end{lstlisting}
+\noindent
+Daarnaast zijn er nog verschillende ander manieren:
+\begin{multicols}{2}
+\begin{itemize}
+	\item Piggy-backed queries
+	\item Blind injection
+	\item Timing attacks
+	\item Obfuscating encoding
+\end{itemize}
+\end{multicols}
+
+\subsubsection{Tegenmaatregelen}
+Tegenmaatregelen kunnen worden genomen in de drie fasen van de ontwikkelingscyclus:
+\begin{enumerate}
+	\item \textbf{At coding time} Voorkom de introductie van kwetsbaarheden.
+	\item \textbf{At testing time} Onderschep de aanwezigheid van kwetsbaarheden.
+	\item \textbf{At run time} Onderschep aanvallen die overblijvende kwetsbaarheden exploiteren.
+\end{enumerate}
+
+\paragraph{Preventie} Preventie bestaat uit defensief programmeren. Het is veel interessanter en goedkoper om dit vooraf te doen dan bij bestaande code.
+\begin{itemize}
+	\item Zuiveren van in- en uitvoer. 
+	\item Whitelisten van toegestane invoer.
+	\item Identificeren van alle invoerbronnen.
+	\item Gebruikmaken van gebruiksklare statements.
+	\item Gebruikmaken van nieuwe query ontwikkelingstechnieken.
+\end{itemize}
+
+\paragraph{Onderscheppen} Statische, dynamische of hybride controle van code tijdens de ontwikkelings- en testfase. Deze technieken zijn gebaseerd op een verzameling regels die gevaarlijke patronen onderscheppen.
+\\\\
+Voorbeelden van dergelijke programma's zijn \textit{Fortify Source Code Analyzer}, \textit{FindBugs}, \textit{Coverity Static Analysis}. Deze software kan echter slachtoffer worden van \textit{false-positives} en \textit{false-negatives}.
 
 \subsection{Scripts}
 \subsection{Andere}

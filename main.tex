@@ -1,0 +1,73 @@
+\documentclass[11pt]{book}
+
+% Essential
+\usepackage[english]{babel}
+\usepackage{titling}
+
+% Optional
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage[official]{eurosym}
+\usepackage{xcolor}
+
+% Titleplage
+\title{OVS}
+\date{\today}
+\author{Jonas Devlieghere}
+ 
+% Margins
+\setlength{\topmargin}{0in}
+\setlength{\footskip}{0.5in}
+\setlength{\textwidth}{6.5in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{8.5in}
+
+% Listings 
+\lstset{
+	basicstyle=\scriptsize,
+	breaklines=true,
+	extendedchars=true,
+	frame=lines,
+	numbers=left,
+	numberstyle=\tiny,
+	keywordstyle=\bfseries,
+	showstringspaces=false,
+	tabsize=2,
+	title=\lstname 
+}
+
+% Personal Preferences
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\frontmatter
+
+% Title Page
+\maketitle
+\newpage
+
+% Table of Contents Page
+\tableofcontents
+\newpage
+
+\mainmatter
+
+
+
+% Appendix
+\appendix 
+
+% References
+\bibliographystyle{plain}
+\bibliography{references}
+\nocite{*}
+
+\end{document}
+

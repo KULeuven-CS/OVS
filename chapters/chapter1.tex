@@ -44,7 +44,125 @@ Verschillende niet te stoppen trends zoals de toename van computers, connectivit
 	\item Hoe ontwikkelen we veilige applicaties?
 \end{itemize}
 
-\section{Veiligheidsconcepten}
-\section{Kwetsbaarheden}
+\section{Veilighiedsdoelstelling en concepten}
+Software doet vaak dienst als een \textit{enabler} van functionaliteit maar nieuwe functionaliteit komt met een zeker risico. Beveiliging draait rond het beheren van dit risico.
+\subsection{Sleutelconcepten}
+\subsubsection{Bedreigingen en veiligheidsdoelen}
+Op het eerste zicht zijn bedreiging en veiligheidsdoelen elkaars ontkenning. Een veiligheidsdoel is een intentieverklaring om gekende bedreigingen tegen te gaan. Een bedreiging is een intentie van een agent om een beveiligingsdoel te doorbreken.
 
+\paragraph{Information disclosure} 
+Het lekken van informatie naar de bedreigingsagent die geen toegang hoort te hebben tot deze informatie. Een voorbeeld hiervan is het stelen van kredietkaartnummers. 
+\\
+Corresponderende beveiligingsdoelen:
+\begin{itemize}
+	\item \textbf{Data Confidentiality} Het beschermen van de data tegen het ongeautoriseerd lezen ervan.
+	\item \textbf{Access Control} Het voorkomen van ongeautoriseerde toegang tot softwareonderdelen.
+\end{itemize}
+
+\paragraph{Information tampering} 
+De bedreigingsagenten knoeien met data waarvan zij het recht niet hebben om deze te wijzigen. Een voorbeeld is het aanpassen van de prijzen van gekochte goederen. 
+\\
+Corresponderende beveiligingsdoelen:
+\begin{itemize}
+	\item \textbf{Data Integrity} Bescherem van data tegen ongeautoriseerd schrijven.
+	\item \textbf{Data Origin Authentication} Verifi\"eren van de geclaimde identiteit van de verzender van een bericht. 
+	\item \textbf{Access Control} Het voorkomen van ongeautoriseerde toegang tot softwareonderdelen.
+\end{itemize}
+
+\paragraph{Repudiation} Het ontkennen van betrokkenheid bij een gebeurtenis door de bedreigingsagent. Een voorbeeld is het ontkennen van het plaatsen van een aandelenorder. 
+\\
+Corresponderende beveiligingsdoelen:
+\begin{itemize}
+	\item \textbf{Non-Repudiation} Verstrekken van onweerlegbaar bewijs over wat gebeurt is en wie erbij betrokken was.
+	\item \textbf{Audit} Chronologische verslag van systeemactiviteiten om toe te laten gebeurtenissen te reconstrueren.
+\end{itemize}
+
+\paragraph{Denial of Service}
+De bedreigingsagent vernietigt de bruikbaarheid van een systeem voor legitieme gebruikers. Bijvoorbeeld door een gedistribueerde \textit{flood} attack.
+\\
+Corresponderende beveiligingsdoelen:
+\begin{itemize}
+	\item \textbf{Availability} Waarborgen van beschikbaarheid van het systeem voor legitieme gebruikers.
+\end{itemize}
+
+\paragraph{Elevation of privilege}
+De bedreigingsagent krijgt meer toegang tot informatie, communicatie of rekenmiddelen dan waartoe hij is geautoriseerd. Een voorbeeld hiervan is het verkrijgen van \textit{root} privileges.  
+\\
+Corresponderende beveiligingsdoelen:
+\begin{itemize}
+	\item \textbf{Access Control} Het voorkomen van ongeautoriseerde toegang tot softwareonderdelen.
+	\item \textbf{Entity Authentication} Verifi\"eren van de geclaimde identiteit van de partij waarmee er interactie plaatsvindt.
+\end{itemize}
+
+\paragraph{Spoofing}
+De bedreigingsagent doet zich voor als iets of iemand die hij niet is. Een voorbeeld hiervan is \textit{phishing}.  
+\\
+Corresponderende beveiligingsdoelen:
+\begin{itemize}
+	\item \textbf{Entity Authentication} Verifi\"eren van de geclaimde identiteit van de partij waarmee er interactie plaatsvindt.
+	\item \textbf{Data Origin Authentication} Verifi\"eren van de geclaimde identiteit van de verzender van een bericht. 
+\end{itemize}
+
+\subsubsection{Kwetsbaarheden}
+Een kwetsbaarheid is een een aspect van een component of systeem dat een bedreigingsagent toelaat om een bedreiging te realiseren. Dit betekent dat kwetsbaarheden relatief zijn ten opzichte van de agent. Zo kan een systeem bijvoorbeeld niet kwetsbaar zijn voor een buitenstaander maar wel voor een insider. Bovendien komen kwetsbaarheden voor in verschillende lagen van het software systeem. 
+\\\\
+Kwetsbaarheden ontstaan door fouten bij de:
+\begin{itemize}
+	\item \textbf{Vereisten} 
+	\begin{itemize}
+		\item Niet slagen in het identificeren van alle relevante assets of bedreigingen. 
+		\\ \textit{Het verhinderen van downloaden van kwaadaardige code werd niet gezien als een vereiste voor besturingssystemen in de jaren '80.}
+	\end{itemize}
+	\item \textbf{Constructie}
+	\begin{itemize}
+		\item Kwetsbaarheden in veiligheidscomponenten
+		\\ \textit{Een zwak cryptografisch algoritme}
+		\item Kwetsbaarheden in functionaliteit
+		\\ \textit{Buffer overflows, SQL injection}
+	\end{itemize}
+	\item \textbf{Werking} \\ \textit{Zetten van een foute policy}
+\end{itemize}
+
+
+\subsubsection{Tegenmaatregelen}
+Tegenmaatregelen vormen een mechanisme om kwetsbaarheden te reduceren en daarbij doelstellingen te realiseren en bedreigingen te verijdelen. Tegenmaatregelen kunnen op drie manieren worden genomen:
+\begin{itemize}
+	\item \textbf{Preventief} om een kwetsbaarheid te voorkomen.
+	\item \textbf{Opsporend} om een kwetsbaarheid en dienst uitbuiting op te sporen.
+	\item \textbf{Reactief} om een incident af te handelen.
+\end{itemize}
+\noindent
+Zowel de software ingenieur die de software ontwerpt als de beheerder die de software uitrolt kunnen tegenmaatregelen nemen.
+
+\paragraph{Software ingenieur} 
+Voor kwetsbaarheden die ontstaan tijdens de vereistefase kan de ingenieur doen aan het analyseren en modelleren van veiligheidsvereisten  en bedreigingen. Deze kunnen dan worden voorkomen door gebruikt te maken van beveiligingstechnologie\"n zoals cryptografie, toegangscontrole, authentificatie.
+
+Voor kwetsbaarheden ontstaan tijdens de ontwikkeling kan gebruik gemaakt worden van \textit{secure programming}, \textit{static analysis} en veilige talen. Kwetsbaarheden tijdens de uitvoering kunnen worden voorkomen door goede documentatie, veilige standaardwaarden en operationele procedures.
+
+\paragraph{Administrator} 
+Preventieve tegenmaatregelen kunnen door de beheerde worden genomen door zwaktes te herstellen en bijkomende beveiliging te voorzien zoals firewalls en VPN's. 
+
+Opsporende tegenmaatregelen kunnen bestaan uit het voorzien van \textit{Intrusion} of \textit{Fraud} \textit{Detection} software te voorzien. Bovendien is het de taak van de beheerder om beveilingsoplossingen te voorzien om reactieve tegenmaatregelen te ondersteunen.
+
+\section{Kwetstbaarheden }
+Het beveiligen van software komt neer op het reduceren van het aantal kwetsbaarheden. Hierbij geven we voorkeur aan diegenen die het grootste risio vormen. Het is daarom van belang een idee te hebben van welke kwetsbaarheden het belangrijkste zijn in de realiteit. 
+\\\\
+Verschillende websites bieden een overzicht van kwetsbaarheden met statistieken, abstracties en gekende varianten.
+\begin{itemize}
+	\item The Common Vulnerabilities and Exposures dictionary
+	\item The Common Weaknesses Enumeration
+	\item The Open Web Application Security Project
+\end{itemize}
+\noindent
+Aan de hand van statistieken over 2001 t.e.m. 2006 merken we dat de top 3 bestaat uit:
+\begin{itemize}
+	\item Buffer overflow
+	\item SQL injection
+	\item Cross site scripting
+\end{itemize} 
+We kunnen bovendien vaststellen dat 8/10 van de kwetsbaarheden te maken hebben met het valideren van in- en uitvoer en defensief programmeren. Dit betekent dat softwarebeveiliging sterk gekoppeld is aan \textbf{softwarekwaliteit}.
+\\\\
+Een tweede vaststelling is dat 2/3 van de kwetsbaarheden zich in de applicatielaag bevinden. Het belang hiervan is alleen maar toegenomen de laatste jaren. Het \textbf{beveiligen van applicaties} zal dan ook centraal komen te staan de komende jaren.
+\\\\
+Tenslotte merken we op dat kwetsbaarheden in termen van populariteit komen en gaan. Het beveiligen van software is dan ook een \textbf{voortdurend proces}.
 \end{document}

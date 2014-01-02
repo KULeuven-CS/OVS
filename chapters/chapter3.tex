@@ -111,10 +111,146 @@ Door een groepsstructuur toe te voegen met groepen en negatieve permissies kan h
 DAC wordt doorgaans echter niet ge\"implementeerd aan de hand van een gecentraliseerde beveiligingstoestand. Typisch wordt er gebruik gemaakt van \textbf{access control lists} (Windows 2000) of \textbf{capabilities} (Unix).
 
 \subsection{Mandatory Access Control (MAC)}
-\subsection{Role-Based Access Control (RBAC)}
-\subsection{Andere modellen voor toegangscontrole}
+Het doel van dit model is strikte controle verkrijgen over de informatiestroom. Een concreet voorbeeld van dit model is \textbf{Lattice Based Access Control (LBAC)}. Hierbij wordt een raster van \textit{veiligheidslabels} opgesteld. Elke object en gebruiker worden gelabeld met een beveiligingslabel. Er wordt dan afgedwongen dat gebruikers enkel informatie kunnen zien onder hun veiligheidsniveau. 
+\\\\
+Een beveiligingslabel bestaat is een tupel bestaande uit een \textit{level} en een \textit{afdeling}. Deze laatste bestaat uit een verzameling van \textit{categorie\"en}. Een \textit{categorie} is een sleutelwoord gerelateerd aan een project of interessegebied. De levels worden vervolgend lineair geordend. Bijvoorbeeld: Top Secret - Secret - Confidential - Unclassified. Afdelingen worden geordend volgens het bevatten van een deelverzameling.
+\\\\
+Elke gebruiker start een \textit{sessie} of \textit{onderwerp} welke wordt gelabeld bij hun creatie. Gebruikers met niveau $L$ kunnen onderwerpen starten met labels $L' \leq L$.  Volgende regels worden afgedwongen:
+\begin{itemize}
+	\item Een onderwerp met label $L$ kan enkel objecten lezen met label $L' \leq L$. (geen \textit{read up})
+	\item Een onderwerp met label $L$ kan enkel objecten schrijven met label $L' \geq L$. (geen \textit{write down})
+\end{itemize}
+Deze laatste regel biedt een oplossing voor het \textit{trojan horse} probleem.
 
+\subsubsection{Beveiligingsautomaat voor LBAC}
+\begin{lstlisting}[caption=LBAC Automaat]
+// Stable part of the protection state
+Set<User> users;
+Map<User,Label> ulabel; // clearance of users
+
+//Dynamic part of the protection state
+Set<Obj> objects = new Set();
+Set<Session> sessions = new Set();
+Map<Session, Label> slabel = new Map(); // label of sessions
+Map<Obj,Label> olabel = new Map(); // label of objects
+
+// No read up
+void read(Session s, Obj o)
+  requires s in sessions && o in objects && slabel[s] >= olabel[o]; {}
+
+// No write down
+void write(Session s, Obj o)
+  requires s in sessions && o in objects && slabel[s] <= olabel[o]; {}
+  
+// Managing sessions and objects
+void createSession(User u, Label l)
+  requires (u in users) && ulabel[u] >= l ; {
+   s = new Session();
+   sessions[s] = true;
+   slabel[s] = l;
+}
+
+void addObject(Session s, Obj o, Label l)
+  requires (s in sessions) && (o notin objects) && slabel[s] <= l; {
+   objects[o] = true;
+   olabel[o] = l;
+}
+\end{lstlisting}
+
+\subsubsection{Eigenschappen}
+De LBAC structuur is te stijf, er is nood aan vertrouwde objecten. Bovendien is het niet goed geschikt voor commerci"ele omgevingen en lijdt het onder het \textit{covert channel} probleem
+
+\subsection{Role-Based Access Control (RBAC)}
+Het doel van dit model is het voorzien van een beheerbaar toegangscontrolemodel. Centraal staat de \textit{rol}. Een \textit{rol} correspondeert met een gedefinieerde verzameling verantwoordelijkheden. Op deze manier wordt er een \textit{many-to-many} relatie gevormd tussen gebruikers en permissies. Conceptueel kunnen we een rol zien als een verzameling permissies die toegekend kunnen worden aan gebruikers. Wanneer een gebruiker een sessie start kan hij enkele of al zijn rollen activeren. Een sessie heeft vervolgens alle permissies geassocieerd met de geactiveerde rollen.
+
+\subsubsection{Beveiligingsautomaat voor RBAC}
+\begin{lstlisting}
+// stable part of the protection state
+Set<User> users;
+Set<Role> roles;
+Set<Permission> perms;
+Map<User, Set<Role>> ua; // set of roles assigned to each user
+Map<Role, Set<Permission>> pa; // permissions assigned to each role
+
+// dynamic part of the protection state
+Set<Session> sessions;
+Map<Session,Set<Role>> session_roles;
+Map<User,Set<Session>> user_sessions;
+
+// access check
+void checkAccess(Session s, Permission p)
+  requires s in sessions && Exists{ r in session_roles[s]; p in pa[r]}; {
+}
+
+void createSession(User u, Set<Role> rs)
+  requires (u in users) && rs < ua[u]; {
+    Session s = new Session();
+    sessions[s] = true;
+    session_roles[s] = rs;
+    user_sessions[u][s] = true;
+}
+void dropRole(User u, Session s, Role r)
+  requires (u in users) && (s in user_sessions[u]) && (r in session_roles[s]); {
+    session_roles[s][r] = false;
+}
+\end{lstlisting}
+
+\subsubsection{RBAC Extension}
+Een uitbreiding op het RBAC model bestaat uit het invoeren van hi\"erarchische rollen. De vaderrol erft alle permissies van zijn kinderrollen. Daarnaast kunnen ook beperkingen worden ingevoerd:
+\begin{itemize}
+	\item \textbf{Static Constraints} Beperkingen op de toekenning van gebruikersrollen. 
+	\\ \textit{Bijvoorbeeld statische scheiding van plichten: niemand kan beide producten en bestellen en betalingen goedkeuren.}
+	\item \textbf{Dynamic Constraints} Beperkingen op de gelijktijdige activatie van rollen. 
+	\\ \textit{Bijvoorbeeld het afdwingen van de minst geprivilegieerde rol.}
+
+\end{itemize}
+
+\subsubsection{Toepassing}
+
+In realiteit wordt RBAC ge\"implementeerd in gegevensbanken of specifieke applicaties. In een besturingssysteem kan het worden gesimuleerd aan de hand van het \textit{groep}concept. Het kan ook op de applicatieserver worden gesimuleerd.
+
+
+\subsection{Andere modellen voor toegangscontrole}
+Enkele andere modellen:
+\begin{itemize}
+	\item \textbf{Biba Model} Afdwingen van integriteit a.d.h.v informatieverloop
+	\item \textbf{Chinese Wall Model} Dynamisch toegangscontrolemodel \\ 
+	\textit{Een consultant kan enkel geheime bedrijfsinformatie zien van \'e\'en bedrijf in elk mogelijk geval van conflict-of-interest. }
+\end{itemize}
 
 \section{Toegangscontrole voor code}
+Toegangscontrole voor code is noodzakelijk om applicaties uitbreidbaar te maken. Moderne programma's bieden vaak de mogelijkheid tot uitbreiding \textit{at run time} met mogelijk gedownloade code.  Enkele voorbeelden hiervan zijn \textit{applets} of \textit{controls} op een webpagina, browser plugins, multimedia codes, etc. 
+\\\\
+Het besturingssysteem voert de applicatie zelf uit samen met al zijn (mogelijk minder betrouwbare) uitbreidingen. Hier faalt het model van \'e\'en sessie (proces) met een vaste verzameling permissies. Wanneer een onbetrouwbare code wordt uitgevoerd moeten de permissies mogelijk worden gereduceerd. Hiervoor is een nieuwe architectuur voor toegangscontrole vereist.
+
+\subsection{Terminologie}
+
+% TODO: Structure this block of text.
+
+Een \textbf{component} is een softwareonderdeel dat een eenheid vormt voor deployment en kans samengesteld zijn door derde partijen. Een applicatie kan bestaan uit meerdere componenten waarbij sommige meer betrouwbaar zijn dan anderen. Een applicatie kan bovendien worden uitgevoerd \textit{at run time} met nieuwe componenten. 
+
+Een permissie encapsuleert de rechten om middelen aan te spreken of operaties uit voeren. Elke keer een middel wordt aagesproken of een gevoelige operatie wordt uitgevoerd wordt exliciet gecontroleerd welke componenten actief zijn aan de hand van \textbf{stack inspection}. Wanneer er een onregelmatigheid optreedt wordt een exceptie gegooid.
+
+Permissies representeren het recht om een actie te ondernemen. Omdat permissies een semantiek hebben kunnen permissies elkaar impliceren. 
+
+Een beveilingsbeleid kent permissies toe aan componenten. Dit wordt typisch ge\"implementeerd als een configureerbare functie die bewijsmateriaal toekent aan permissies. Dit bewijsmateriaal is relevante informatie over het component zoals waar het vandaan komt en of het digitaal ondertekend is. Wanneer een component wordt geladen checkt de VM de permissies en onthoudt ze voor de volgende keer. 
+
+
+
+\subsection{Stack Walking}
+Elke poging tot het aanspreken van middelen of uitvoeren van een gevoelige operatie via de platform library is beschermd door een \texttt{demandPermission(P)} oproep voor een gewenste permissie \texttt{P}. Het algoritme hierachter maakt gebruik van \textbf{stack inspection} en \textbf{stack walking}. Let wel op: het feit dat veilig is is sterk afhankelijk van de programmeertaal.
+\\\\
+Veronderstel dat een thread $T$ poogt om een resource aan te spreken. De basisregel stelt dat dit wordt toegestaan wanneer alle componenten op de stack het recht hebben om deze resource aant te spreken. Dit algoritme is echter vaak te restrictief.
+
+\begin{blockquote}
+Beschouw het geval waarin we een vertrouwde component het recht willen geven om bepaalde venster te openenen zonder het recht te geven om arbitraire vensters te openen.
+\end{blockquote}
+
+
+
+
+
+
+
 
 \end{document}

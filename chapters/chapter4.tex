@@ -64,13 +64,85 @@ De browser toont HTML en voert \textit{JavasSript} code uit. Het handelt gebruik
 \end{itemize} 
 \end{multicols}
 
-
 \section{Bedreigingsscenario's}
+Daar het web een complex applicatieplatform vorm en er verschillende belanghebbende zijn beteken veiligheid iets verschillend voor elke belanghebbende. Tegenmaatregelen doen veronderstellingen met betrekking tot welke stakeholders kwaadaardig zijn en welke niet. In dit onderdeel worde enkele veelvoorkomende aanvallen beschreven.
+
+\subsection{Scenario's}
+Een overzicht van de scenario's
+\begin{itemize}
+	\item Goedaardige browser interageert met kwaadaardige server. De server valt de browser aan.
+	\item Kwaadaardige server valt andere open sites aan.
+	\item Kwaadaardige browser valt server aan.
+	\item Aanvaller luister netwerkcommunicatie af.
+	\item Aanvaller injecteert goede site met kwaadaardige inhoud.
+\end{itemize}
+
+\subsubsection{Kwaadaardige server valt browser aan}
+De tegenmaatregel bestaat uit een defensieve implementatie van de browser. Dit gebeurt in eerste instantie door \textit{implementation level} kwetsbaarheden te voorkomen. Daarnaast moet er een veilig ontwerp aan de basis liggen van de API's die worden aangeboden aan scripts:
+\begin{itemize}
+	\item Scripts hebben geen toegang tot algemeen bestandssysteem.
+	\item Scripts hebben geen toegang tot algemene netwerk API.
+	\item Scripts hebben geen toegang tot algemene GUI API.
+\end{itemize}
+Ondanks deze tegenmaatregelen blijven veel aanvallen mogelijk. Het exploiteren van low-level kwetsbaarheden in de browser blijft een veelvoorkomende activiteit. Bovendien bevat de browser privacy-gevoelige informatie die gelekt kan worden. Tenslotte gaan veel servers \textit{een vingerafdruk} nemen van de browser om zo de gebruiker te \textit{tracken}.
+
+\subsubsection{Server valt andere open pagina aan}
+De remedie tegen deze aanval is het afdwingen van de \textbf{same-origin-policy (SOP)}. Dit is een verzameling beveiligingsbeperkingen die worden geimplementeerd in de browser:
+\begin{itemize}
+	\item Scripts kunnen enkel aan informatie die afkomstig is van dezelfde oorsprong als het script. 
+	\item Een oorsprong wordt weergegeven als een triplet:  \texttt{<scheme, address, port>}
+	\item De HTML inhoud hoort bij de origin vanwaar het was gedownload.
+	\item Scripts horen tot de origin van het HTML document dat hun bevatte.
+\end{itemize} 
+Deze techniek bescherm websites tegen kwaadaardige scripts van kwaadaardige websites die gelijktijdig geopend zijn in de browser. 
+\\\\
+Deze techniek is echter niet perfect. Door entiteiten in de DOM kan een script een HTTP request starten bij een andere server. Wanneer de browser geprivilegieerde toegang heeft tot een server kan deze worden misbruikt door de aanvaller. Zo kan een script bijvoorbeeld toegang verkrijgen tot servers achter een firewall. Een ander voorbeeld is wanneer een gebruiker een geautoriseerde sessie heeft met een andere server en een script hierdoor geautoriseerde requests kan sturen. Een andere aanvalsmethode bestaat erin event-handlers te overloaden en zo te achterhalen of een server bestaat of beschikbaar is voor de gebruiker.
+
+\subsubsection{Kwaadwillige cli\"ent val server aan}
+De tegenmaatregelen voor deze aanval zijn vanzelfsprekend: toegangscontrole en authenticatie uitvoeren op de server. Typische aanvallen zijn SQL injectie, path inject of command inject.
+
+\subsubsection{Aanvaller neust rond op het netwerk}
+De tegenmaatregel hiervoor is gebruik maken van SSL/TLS. Mogelijke aanvallen hierop zijn op hun beurt het aanvallen van de publieke sleutelinfrastructuur, het ssl protocol of doen aan SSL stripping. Dit laatste betekent alle \texttt{https} voorkomens vervangen door \texttt{http} in de brondcode van de gedownloade webpagina.
+
+\subsubsection{Injectie van kwaadaardige scripts}
+Een aanvaller kan op verschillende manieren een scrip injecteren:
+\begin{itemize}
+	\item Door \textbf{Cross-site scripting (XSS)} door het uitbuiten van kwetsbaarheden vergelijkbaar met SQL injectie.
+	\item Distributie van kwaadaardige advertenties.
+	\item Hacken van een website die een veelgebruikt script host.
+	\item Uitbuiten van extensies van een derde-partij.
+\end{itemize}
+E\'enmaal onderdeel van de pagina kan het script de integriteits- en betrouwbaarheidsgarantie van de site doorbreken (en van de bijhorende sessie).
 
 \section{Kwetsbaarheden en maatregelen}
 
 \subsection{Session handling}
+Het tracken van sessies gebeurt doorgaans met cookies. Het authenticatieniveau is doorgaans verbonden met de sessie waardoor, wanneer de hacker de sessie kan overnemen, hij zich kan gedragen als de gebruiker met diens privileges.
+
+\subsubsection{Session Hijacking}
+Session hijacking is een aanval waarbij de aanvaller toegang probeert te krijgen tot de waarde van de sessie-cookie. Dit kan door het netwerk te \textit{sniffen}, door de cookie te stelen aan de hand van een script of door de waarde te gokken. 
+
+Tegenmaatregelen hiervoor bestaan uit het gebruiken van SSL/TLS of een \textit{random number}-generator worden gebruikt. De cookie beschikt ook over een HTTPSonly-flag wat ervoor zorgt dat de cookie steeds wordt versleuteld. 
+
+\subsubsection{Session Fixation}
+Bij deze aanval forceert de aanvaller de gebruiker om de sessie-ID van de aanvaller te gebruiken. Een eenvoudige tegenmaatregeln bestaat uit het vervangen van de session-cookie wanneer het niveau van authenticatie verandert.
+
+\subsubsection{Cross-site Request Forgery (CSRF)}
+Deze aanval bestaat uit een aanvaller die de browser misleidt tot het injecteren van een request in een geautoriseerde sessie. Dit kan a.d.h.v scripting of het insluiten van een niet-lokale resources. Tegenmaatregelen bestaan uit het gebruiken van een geheim token en het strikt nakijken van de \textit{origin header}. Tenslotte bestaan er ook oplossing langs de kant van de cli\"ent zoals \textit{CsFire}.
+
+\begin{figure}[h1]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../images/CSRF.png}
+    \caption{Cross-Site Request Forgery}
+    \label{fig:awesome_image}
+\end{figure}
+
+\subsection{Clickjacking}
+De cli\"ent wordt misleid tot het klikken op een knop en link die een request start binnen de geautoriseerde sessie door het plaatsen van een onzichtbare frame over een andere pagina. Tegenmaatregelen zijn \textit{Framebusting Javasript code} of gebruik van de \textit{X-Frame-Options} header. Deze laatste voorziet dat een pagina niet in een frame kan weergegeven worden.
+
 \subsection{SQL injectie}
+
+
 \subsection{Scripts}
 \subsection{Andere}
 

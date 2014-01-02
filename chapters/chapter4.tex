@@ -2,4 +2,78 @@
 \begin{document}
 \chapter{Webapplicaties}
 
+\section{Het webplatform}
+Een gebruiker start een webapplicatie door in zijn browser te navigeren naar een URL:
+
+\begin{lstlisting}[caption=URL]
+scheme://login.passwd@address:port/path/to/resource?query\_string#fragment
+\end{lstlisting}
+Deze URL, die een HTTP dialoog start tussen de browser en de server bestaat uit:
+\begin{multicols}{2}
+\begin{enumerate}
+	\item Schema of protocolnaam: http, https, ftp
+	\item Credentials: loginnaam en wachtwoord
+	\item Adres: een DNS naam of een IP adres
+	\item Poort: optioneel poortnummer
+	\item Hi\"erarchisch pad naar de resource
+	\item Een optionele query string parameter
+	\item Een optionele fragment identificatie 
+\end{enumerate}
+\end{multicols}
+
+\subsection{HTTP}
+Het \textbf{Hypertext Transfer Protocol} is een toestandsloos applicatie-level \textbf{request-response} protocol. Het wordt vaak gecombineerd met mechanismen om toch een toestand te kunnen bijhouden. Daarnaast wordt het doorgaans gecombineerd met extensies voor authenticatie en veilige communicatie. 
+
+Het protocol voorzien verschillende methoden waarvan er slecht twee veelgebruikt zijn in praktijk:
+\begin{itemize}
+	\item \textbf{GET} bedoeld voor het ophalen van informatie. 
+	\item \textbf{POST} bedoeld voor het doorsturen van informatie.
+\end{itemize}
+De \textit{requests} kunnen een vari\"eteit aan headers bevatten, waarvan de meeste veiligheidsgerelateerd.
+
+\subsubsection{HTTPS}
+Het Hypertext Transfer Protocol biedt zelfs geen beveiligde communicatie aan. Het HTTPS schema gebruikt HTTP bovenop het SSL/TLS protocol. Dit is een gestandaardiseerd transport layer protocol dat een veilige verbinding aanbiedt. Dit protocol is in grote mate configureerbaar waardoor de veiligheidsgaranties hier sterk afhankelijk van zijn.
+\begin{itemize}
+	\item Gewoonlijk: integriteit en vertrouwelijkheid van communicatie
+	\item Soms: authentificatie van de server
+	\item Zelden: authentificatie van de cli\"ent
+\end{itemize}
+
+\subsubsection{HTTP Cookie}
+Het \textit{cookie}mechanisme laat de server toe om \textit{key-value pairs} op te slaan in de browser. De server gebruikt hiervoor de \texttt{set-cookie} header om de cookie op te slaan. Alle relevante cookies worden meegestuurd in de header bij elke request naar de server. De server heeft controle over aspecten zoals de vervaldatum, de strekking en de beveiligingsmaatregelen.
+
+\subsubsection{HTTP Sessions}
+Om request van een gebruiker te groeperen maakt de server een \textbf{session-id} voor elke gebruiker. Om te zorgen dat deze telkens wordt meegestuurd bij elke request kan gebruik gemaakt worden van \textit{Cookies} of door het embedden van het session-id in de URL. Vanuit beveiligingsperspectief zijn web sessies zeer fragiel.  
+
+\subsubsection{HTTP Authenticatie}
+Er bestaat verschillende mogelijkheden tot authenticatie:
+\begin{itemize}
+	\item \textbf{Basic HTTP Authenticatie} Een gebruikersnaam en paswoord worden meegestuurd in de header met een request.
+	\item \textbf{Applicatie-level authenticatie} Aan de hand van een \textit{form} worden gebruikersnaam en wachtwoord doorgestuurd naar de server. Optimaal gebeurt dit via HTTPS.
+	\item \textbf{Single-Sing-On} Ondersteunen van een enkelvoudige combinatie van gebruikersnaam en wachtwoord voor meerdere webapplicaties.
+\end{itemize}
+
+\subsection{De browser}
+De browser toont HTML en voert \textit{JavasSript} code uit. Het handelt gebruikersevenement en netwerkevenement af. Daarnaast biedt het een krachtige API aan voor scripts:
+\begin{multicols}{2}
+\begin{itemize}
+	\item Inspecteren en aanpassen van de pagina
+	\item Inspecteren en aanpassen van metadata
+	\item Zenden en ontvangen van HTTP
+	\item Afhandelen van evenementen
+\end{itemize} 
+\end{multicols}
+
+
+\section{Bedreigingsscenario's}
+
+\section{Kwetsbaarheden en maatregelen}
+
+\subsection{Session handling}
+\subsection{SQL injectie}
+\subsection{Scripts}
+\subsection{Andere}
+
+\section{Conclusies}
+
 \end{document}

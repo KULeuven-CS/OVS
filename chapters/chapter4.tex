@@ -96,7 +96,7 @@ De remedie tegen deze aanval is het afdwingen van de \textbf{same-origin-policy 
 \end{itemize} 
 Deze techniek bescherm websites tegen kwaadaardige scripts van kwaadaardige websites die gelijktijdig geopend zijn in de browser. 
 \\\\
-Deze techniek is echter niet perfect. Door entiteiten in de DOM kan een script een HTTP request starten bij een andere server. Wanneer de browser geprivilegieerde toegang heeft tot een server kan deze worden misbruikt door de aanvaller. Zo kan een script bijvoorbeeld toegang verkrijgen tot servers achter een firewall. Een ander voorbeeld is wanneer een gebruiker een geautoriseerde sessie heeft met een andere server en een script hierdoor geautoriseerde requests kan sturen. Een andere aanvalsmethode bestaat erin event-handlers te overloaden en zo te achterhalen of een server bestaat of beschikbaar is voor de gebruiker.
+Deze techniek is echter niet perfect. Door entiteiten in het DOM kan een script een HTTP request starten bij een andere server. Wanneer de browser geprivilegieerde toegang heeft tot een server kan deze worden misbruikt door de aanvaller. Zo kan een script bijvoorbeeld toegang verkrijgen tot servers achter een firewall. Een ander voorbeeld is wanneer een gebruiker een geautoriseerde sessie heeft met een andere server en een script hierdoor geautoriseerde requests kan sturen. Een andere aanvalsmethode bestaat erin event-handlers te overloaden en zo te achterhalen of een server bestaat of beschikbaar is voor de gebruiker.
 
 \subsubsection{Kwaadwillige cli\"ent val server aan}
 De tegenmaatregelen voor deze aanval zijn vanzelfsprekend: toegangscontrole en authenticatie uitvoeren op de server. Typische aanvallen zijn SQL injectie, path inject of command inject.
@@ -132,7 +132,7 @@ Deze aanval bestaat uit een aanvaller die de browser misleidt tot het injecteren
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.6\textwidth]{images/CSRF.png}
+    \includegraphics[width=0.6\textwidth]{\imageSrc/CSRF.png}
     \caption{Cross-Site Request Forgery}
     \label{fig:awesome_image}
 \end{figure}

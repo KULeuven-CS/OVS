@@ -106,12 +106,126 @@ Alle DFD elementen worden beschouwd als \textit{assets}. Zie afbeeldinge \ref{ST
     \caption{DFD en STRIDE}
 \end{figure}
 \subsection{Determine Risk}
-Subjectieve numerieke methodes om het belang te schatten (bv. DREAD) worden niet meer gebruikt. De huidige guideline zegt gebruik te maken van objectieve karakteristieken zoals 
+Subjectieve numerieke methodes om het belang te schatten (bv. DREAD) worden niet meer gebruikt. De huidige guideline zegt gebruik te maken van objectieve karakteristieken zoals:
+\begin{itemize}
+	\item Server applicatie versus client applicatie
+	\item Lokaal versus toegankelijk op afstand
+	\item Toegankelijk voor anonieme gebruikers
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../images/spoofing.png}
+    \caption{Spoofing}
+    \label{spoofing}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../images/tampering.png}
+    \caption{Tampering}
+    \label{tampering}
+\end{figure}
+    
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../images/information.png}
+    \caption{Information Disclosure}
+    \label{information}
+\end{figure}
+    
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../images/dos.png}
+    \caption{Denial of Service}
+    \label{dos}
+\end{figure}
+    
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../images/eop.png}
+    \caption{Elevation of Privileges}
+    \label{eop}
+\end{figure}
 
 \subsection{Plan Mitigations}
- 
+Strategie\"en:
+\begin{itemize}
+	\item Niets doen
+	\item De feature verwijderen
+	\item De feature uitschakelen
+	\item De gebruiker waarschuwen (\textit{dancing pigs syndrome})
+	\item Weerstand bieden met technologie
+\end{itemize} 
+
+We kunnen concluderen dat bedreigingsmodellering  plaatsvindt in de vroege fasen van de software levenscyclus. Dit is de fase waarin bedreigingprofiel duidelijk wordt en er tegenmaatregelen kunnen worden getroffen op een ge\"informeerde manier. 
+\\\\
+Microsoft plaats \textit{Bedreigingsmodellering} op plaats 2 in de de lijst van belangrijkste veiligheidsgerelateerde activiteiten. Op de eerste plaatst staat statische analyse van implementatiekwetsbaarheden.
 
 \section{Principes, patronen en richtlijnen}
+Kennis en ervaring verkregen in het ontwikkelen van veilige software het geleid tot een verzameling zogenaamde \textit{best practices}. 
+\begin{itemize}
+	\item \textbf{Principes} zijn generische richtlijnen, toepasbaar doorheen heel de ontwikkelingscyclus.
+	\item \textbf{Patronen} zijn herbruikbare oplossing voor veiligheidsproblemen op architecturaal niveau.
+	\item \textbf{Richtlijnen} bieden een specifiek richtsnoer over hoe wel en niet te programmeren in zekere programmeertalen. 
+\end{itemize}
+
+\subsection{Principes}
+\begin{itemize}
+	\item \textbf{Simplicity} \\ 
+	\textit{Economy of mechanism}: Eenvoudige tegenmaatregelen zijn eenvoudiger juist te krijgen en eenvoudiger te begrijpen.
+	\item \textbf{Open Design} \\
+	Inzetten op beveiliging zelfs al weet de aanvaller wat de tegenmaatregelen zijn. Dus geen  \textit{security by obscurity}.
+	\item \textbf{Least Privilege} \\ 
+	Elk onderdeel van het systeem mag niet meer rechten hebben dan nodig is voor diens functie uit te voeren.
+\end{itemize}
+
+\subsection{Patronen}
+\subsubsection{Architectuurpatronen}
+\begin{itemize}
+	\item \textbf{Compartimentering} \\ Ontwerp het systeem zo dat inbreuken worden afgeschermd.
+	\item \textbf{Minimaliseer het aanvalsoppervlak} \\ Reduceer de hoeveelheid interfaces en informatie toegankelijk voor aanvallers. Maak hiervoor eventueel gebruik van een \textit{secure service facade}.
+	\item \textbf{Complete Mediation} \\ Ontwerp het systeem zo dat elke toegang gebeurt langs een vorm van validatie. Gebruik hiervoor authenticatie of afdwingen toegangscontrole.
+\end{itemize}
+
+\subsubsection{Ontwerppatronen}
+\begin{itemize}
+	\item \textbf{Security Association} \\
+	Definieer een container datastructuur die de data groepeert die gebruikt wordt door \'e\'en deelnemer in beveiligde communicatie.
+	\item \textbf{Security context} \\
+	Definieer een container datastructuur die groepsgerelateerde attributen van de principal of het proces groepeert.
+	\item \textbf{Role-based access} \\
+	Ontkoppel identiteiten van gebruikers van hun privileges.
+	\item \textbf{Limited view} \\
+	Maak de gebruikersinterface op zo'n manier dat gebruikers enkel zien wat ze mogen zien.
+\end{itemize}
+
+\subsection{Richtlijnen}
+Er zijn zoveel richtlijnen, waarvan vele vaag, wat betekent dat de programmeur ze niet allemaal in het achterhoofd kan houden. Een vari\"eteit aan statische analysetools kunnen (een deel) van deze richtlijnen controleren. Voorbeelden hiervan zijn \textit{Coverity, Fortify, FxCop, FindBugs}.
+\subsubsection{Voor C}
+\begin{itemize}
+	\item \textbf{MEM00-C.} Allocate and free memory in the same module, at the same level of abstraction
+	\item \textbf{MEM01-C.} Store a new value in pointers immediately after free()
+	\item \textbf{MEM02-C.} Immediately cast the result of a memory allocation function call to a pointer to the allocated type
+	\item \textbf{MEM06-C.} Ensure that sensitive data is not written out to disk
+	\item \textbf{MEM09-C.} Do not assume memory allocation functions initialize memory
+	\item \textbf{MEM10-C.} Define and use a pointer validation function
+	\item \textbf{MEM11-C.} Do not assume infinite heap space
+\end{itemize}
+\subsubsection{Voor Java}
+\begin{itemize}
+	\item \textbf{OBJ00-J.} Limit extensibility of classes and methods with invariants
+	\item \textbf{OBJ01-J.} Declare data members as private and provide accessible wrapper methods
+	\item \textbf{OBJ03-J.} Do not mix generic with nongeneric raw types in new code
+	\item \textbf{OBJ04-J.} Provide mutable classes with copy functionality to safely allow passing instances to untrusted code
+	\item \textbf{OBJ05-J.} Defensively copy private mutable class members before returning their references
+	\item \textbf{OBJ07-J.} Sensitive classes must not let themselves be copied
+	\item \textbf{OBJ11-J.} Be wary of letting constructors throw exceptions	
+\end{itemize}
+
+
 \section{Conclusie}
+Ontwikkeling van veilige software is een relatief nieuwe ingenieursdiscipline.  De gemeenschap is nog volop aan het leren hoe ze \textit{best practices} kunnen omzetten in herhaalbare en verifieerbare processen. Desondanks is er voldoende empirisch bewijs om de waarde van het modelleren van bedreigingen en statische analyse aan te tonen.
+
 
 \end{document}

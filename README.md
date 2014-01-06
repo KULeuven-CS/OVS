@@ -6,7 +6,7 @@ This repository features a concice summary (in Dutch) of the slides from the Cou
 Status
 ------
 
-Currently the document is still a draft and has to be treated accordingly. The document has not yet been proofread and may content errors related to spelling, grammar and typing. 
+Currently the document is still a draft and has to be treated accordingly. The document has **not yet been proofread** and may content errors related to spelling, grammar and typing. 
 
 Currently the following chapters are almost complete:
 

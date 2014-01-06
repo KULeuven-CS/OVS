@@ -14,3 +14,5 @@ Currently the following chapters are almost complete:
 * Chapter 3
 * Chapter 4
 * Chapter 5
+
+Please feel free to mark, review and correct errors. I'll gladly merge your pull request. 

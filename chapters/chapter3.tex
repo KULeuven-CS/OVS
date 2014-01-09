@@ -5,7 +5,7 @@
 \section{Inleiding}
 Beveiliging is het voorkomen en opsporen van ongeautoriseerde gebeurtenissen met betrekking tot informatie. We kunnen twee belangrijke gevallen onderscheiden:
 \begin{itemize}
-	\item Een aanvallen heeft toegang tot de bits die de informatie voorstelt. Hier is nood aan cryptografische technieken.
+	\item Een aanvaller heeft toegang tot de bits die de informatie voorstelt. Hier is nood aan cryptografische technieken.
 	\item Er bevindt zich een softwarelaag tussen de aanvaller en de informatie. Hier is nood aan toegangscontrole. 
 \end{itemize} 
 
@@ -36,7 +36,7 @@ Authenticatie van de entiteit bestaat uit het verifi\"eren van de geclaimde iden
 De authenticatie kan bestaan uit het kennen van een geheim (paswoord of PIN), uit het bezitten van een fysieke eigenschap (biometrie) of door in het bezit te zijn van een token (smartcard, digipas). Andere opties zijn het verifi\"eren of een gebruiker op een bepaalde locatie is (dialback) of in staat is \textit{iets} te doen (handtekening, CAPTCHA).
 
 \subsection{Guard}
-Wanneer de guard een actie ontvangt zal beslist hij wat ermee te doen. We beschouwen enkel het geval waarbij de keuze bestaat uit \textbf{pass} of \textbf{drop} maar er zijn verschillende alternatieven mogelijk. 
+Wanneer de guard een actie ontvangt beslist hij wat ermee te doen. We beschouwen enkel het geval waarbij de keuze bestaat uit \textbf{pass} of \textbf{drop} maar er zijn verschillende alternatieven mogelijk. 
 \\\\
 De guard kan gemodelleerd worden als een \textit{beveiligingsautomaat} die zich in een zekere toestand bevindt. Zijn verzameling toestanden wordt dan gekenmerkt door een aantal getypeerde toestandsvariabelen. Overgangen kunnen worden beschreven door predicaten gebaseerd op de lokale toestand en de actie.
 
@@ -45,7 +45,7 @@ De guard kan gemodelleerd worden als een \textit{beveiligingsautomaat} die zich 
 We maken onderscheid tussen tussen het \textbf{toegangscontrolebeleid} (\textit{access control policy}) en het \textbf{toegangscontrolemodel} (\textit{access control model}). Het beleid bepaalt de regels die zeggen wat toegestaan is en wat niet. De semantiek hiervan is een beveiligingsautomaat in een zekere toestand. Het toegangsmodel is een verzameling \textit{policies} met gelijkaardige karakteristieken. het model maakt bepaalde beslissingen over wat zich in de beveiligingstoestand bevindt en hoe acties worden afgehandeld. 
 
 \subsection{Discretionary Access Control (DAC)}
-Het doel van die model is het delen van informatie onder controle van de maker ervan.
+Het doel van dit model is het delen van informatie onder controle van de maker ervan.
 \\\\
 De sleutelconcepten zijn:
 \begin{multicols}{2}
@@ -106,12 +106,12 @@ void addUser(User u, User u’) requires u’ notin users; {
 \subsubsection{Eigenschappen}
 Een nadeel van DAC is de lastige administratie en de beperkte mate van beveiliging.
 
-Door een groepsstructuur toe te voegen met groepen en negatieve permissies kan het DAC model worden uitgebreid. Het beheer blijft echter lasting. Ook uitbreidingen die een structuren van operaties voorzien zijn mogelijk.
+Door een groepsstructuur toe te voegen met groepen en negatieve permissies kan het DAC model worden uitgebreid. Het beheer blijft echter lastig. Ook uitbreidingen die structuren van operaties voorzien zijn mogelijk.
 
 DAC wordt doorgaans echter niet ge\"implementeerd aan de hand van een gecentraliseerde beveiligingstoestand. Typisch wordt er gebruik gemaakt van \textbf{access control lists} (Windows 2000) of \textbf{capabilities} (Unix).
 
 \subsection{Mandatory Access Control (MAC)}
-Het doel van dit model is strikte controle verkrijgen over de informatiestroom. Een concreet voorbeeld van dit model is \textbf{Lattice Based Access Control (LBAC)}. Hierbij wordt een raster van \textit{veiligheidslabels} opgesteld. Elke object en gebruiker worden gelabeld met een beveiligingslabel. Er wordt dan afgedwongen dat gebruikers enkel informatie kunnen zien onder hun veiligheidsniveau. 
+Het doel van dit model is strikte controle verkrijgen over de informatiestroom. Een concreet voorbeeld van dit model is \textbf{Lattice Based Access Control (LBAC)}. Hierbij wordt een raster van \textit{veiligheidslabels} opgesteld. Elk object en gebruiker worden gelabeld met een beveiligingslabel. Er wordt dan afgedwongen dat gebruikers enkel informatie kunnen zien onder hun veiligheidsniveau. 
 \\\\
 Een beveiligingslabel bestaat is een tupel bestaande uit een \textit{level} en een \textit{afdeling}. Deze laatste bestaat uit een verzameling van \textit{categorie\"en}. Een \textit{categorie} is een sleutelwoord gerelateerd aan een project of interessegebied. De levels worden vervolgend lineair geordend. Bijvoorbeeld: Top Secret - Secret - Confidential - Unclassified. Afdelingen worden geordend volgens het bevatten van een deelverzameling.
 \\\\
@@ -158,7 +158,7 @@ void addObject(Session s, Obj o, Label l)
 \end{lstlisting}
 
 \subsubsection{Eigenschappen}
-De LBAC structuur is te stijf, er is nood aan vertrouwde objecten. Bovendien is het niet goed geschikt voor commerci"ele omgevingen en lijdt het onder het \textit{covert channel} probleem
+De LBAC structuur is te stijf, er is nood aan vertrouwde objecten. Bovendien is het niet goed geschikt voor commerci\"ele omgevingen en lijdt het onder het \textit{covert channel} probleem
 
 \subsection{Role-Based Access Control (RBAC)}
 Het doel van dit model is het voorzien van een beheerbaar toegangscontrolemodel. Centraal staat de \textit{rol}. Een \textit{rol} correspondeert met een gedefinieerde verzameling verantwoordelijkheden. Op deze manier wordt er een \textit{many-to-many} relatie gevormd tussen gebruikers en permissies. Conceptueel kunnen we een rol zien als een verzameling permissies die toegekend kunnen worden aan gebruikers. Wanneer een gebruiker een sessie start kan hij enkele of al zijn rollen activeren. Een sessie heeft vervolgens alle permissies geassocieerd met de geactiveerde rollen.
@@ -227,26 +227,26 @@ Het besturingssysteem voert de applicatie zelf uit samen met al zijn (mogelijk m
 
 % TODO: Structure this block of text.
 
-Een \textbf{component} is een softwareonderdeel dat een eenheid vormt voor deployment en kans samengesteld zijn door derde partijen. Een applicatie kan bestaan uit meerdere componenten waarbij sommige meer betrouwbaar zijn dan anderen. Een applicatie kan bovendien worden uitgevoerd \textit{at run time} met nieuwe componenten. 
+Een \textbf{component} is een softwareonderdeel dat een eenheid vormt voor deployment en samengesteld kan zijn door derde partijen. Een applicatie kan bestaan uit meerdere componenten waarbij sommige meer betrouwbaar zijn dan anderen. Een applicatie kan bovendien worden uitgevoerd \textit{at run time} met nieuwe componenten. 
 
-Een permissie encapsuleert de rechten om middelen aan te spreken of operaties uit voeren. Elke keer een middel wordt aagesproken of een gevoelige operatie wordt uitgevoerd wordt exliciet gecontroleerd welke componenten actief zijn aan de hand van \textbf{stack inspection}. Wanneer er een onregelmatigheid optreedt wordt een exceptie gegooid.
+Een permissie encapsuleert de rechten om middelen aan te spreken of operaties uit voeren. Elke keer een middel wordt aagesproken of een gevoelige operatie wordt uitgevoerd wordt expliciet gecontroleerd welke componenten actief zijn aan de hand van \textbf{stack inspection}. Wanneer er een onregelmatigheid optreedt wordt een exceptie gegooid.
 
 Permissies representeren het recht om een actie te ondernemen. Omdat permissies een semantiek hebben kunnen permissies elkaar impliceren. 
 
-Een beveilingsbeleid kent permissies toe aan componenten. Dit wordt typisch ge\"implementeerd als een configureerbare functie die bewijsmateriaal toekent aan permissies. Dit bewijsmateriaal is relevante informatie over het component zoals waar het vandaan komt en of het digitaal ondertekend is. Wanneer een component wordt geladen checkt de VM de permissies en onthoudt ze voor de volgende keer. 
+Een beveilingsbeleid kent permissies toe aan componenten. Dit wordt typisch ge\"implementeerd als een configureerbare functie die bewijsmateriaal toekent aan permissies. Dit bewijsmateriaal is relevante informatie over het component, zoals waar het vandaan komt en/of het digitaal ondertekend is. Wanneer een component wordt geladen checkt de VM de permissies en onthoudt ze voor de volgende keer. 
 
 
 
 \subsection{Stack Walking}
-Elke poging tot het aanspreken van middelen of uitvoeren van een gevoelige operatie via de platform library is beschermd door een \texttt{demandPermission(P)} oproep voor een gewenste permissie \texttt{P}. Het algoritme hierachter maakt gebruik van \textbf{stack inspection} en \textbf{stack walking}. Let wel op: het feit dat veilig is is sterk afhankelijk van de programmeertaal.
+Elke poging tot het aanspreken van middelen of uitvoeren van een gevoelige operatie via de platform library is beschermd door een \texttt{demandPermission(P)} oproep voor een gewenste permissie \texttt{P}. Het algoritme hierachter maakt gebruik van \textbf{stack inspection} en \textbf{stack walking}. Let wel op: of dit veilig is, is sterk afhankelijk van de programmeertaal.
 \\\\
-Veronderstel dat een thread $T$ poogt om een resource aan te spreken. De basisregel stelt dat dit wordt toegestaan wanneer alle componenten op de stack het recht hebben om deze resource aant te spreken. Dit algoritme is echter vaak te restrictief.
+Veronderstel dat een thread $T$ poogt om een resource aan te spreken. De basisregel stelt dat dit wordt toegestaan wanneer alle componenten op de stack het recht hebben om deze resource aan te spreken. Dit algoritme is echter vaak te restrictief.
 
 \begin{blockquote}
-Beschouw het geval waarin we een vertrouwde component het recht willen geven om bepaalde venster te openenen zonder het recht te geven om arbitraire vensters te openen.
+Beschouw het geval waarin we een vertrouwde component het recht willen geven om bepaalde vensters te openen zonder het recht te geven om arbitraire vensters te openen.
 \end{blockquote}
 \noindent
-De oplossing is gebruik te maken van \textbf{stack walk modifiers}.
+De oplossing is door gebruik te maken van \textbf{stack walk modifiers}.
 \begin{itemize}
 	\item \texttt{Enable\_permission(P)}
 	\begin{itemize}
@@ -313,7 +313,7 @@ We kunnen concluderen dat de meeste modellen het \textbf{Lampson model} implemen
 Tenslotte besproken we \textit{Code Acces Control} wat een andere aanpak vereiste dan de andere modellen.
 
 \section{Windows toegangscontrole en authenticatie}
-Bij het Windowsbesturingssysteem zijn de \textbf{principals} de gebruikers, machines of groepen. Deze worden ge\"identificeerd aan de hand van hi\"erarchischer en globaal unieke  \textbf{Security Identifiers}. \textbf{Authorities} beheren de principals en hun \textit{credentials}. Op elke computer is een dergelijke \textbf{Local Security Authority} aanwezig. De \textbf{Domain Controller} is de authority voor een domein. Tussen \textit{Authorities} heert vertrouwen. Zo vertrouwt een computer die deel uitmaakt van een domein dit domein. Verschillende domeinen kunnen vetrouwenslinken tussen elkaar vastleggen.
+Bij het Windowsbesturingssysteem zijn de \textbf{principals} de gebruikers, machines of groepen. Deze worden ge\"identificeerd aan de hand van hi\"erarchischer en globaal unieke  \textbf{Security Identifiers}. \textbf{Authorities} beheren de principals en hun \textit{credentials}. Op elke computer is een dergelijke \textbf{Local Security Authority} aanwezig. De \textbf{Domain Controller} is de authority voor een domein. Tussen \textit{Authorities} heerst vertrouwen. Zo vertrouwt een computer die deel uitmaakt van een domein het domein zelf. Verschillende domeinen kunnen vetrouwenslinken tussen elkaar vastleggen.
 \subsection{Logon Session}
 Authenticatie gebeurt lokaal aan de hand van een paswoord. Wanneer de computer deel uitmaakt van een domein wordt \textit{Kerberos} of \textit{NTLM} gebruikt. Succesvolle authenticatie leidt tot een \textbf{logon session}. Hiervan bestaan verschillende varianten:
 \begin{itemize}
@@ -340,7 +340,7 @@ De \textit{logon session} ontvangt een \textbf{access token} die alle autorisati
 \end{itemize}
 
 \subsection{Windows Security Descriptor}
-Elke \textit{beschermbaar object} draagt een \textbf{security descriptor}. Voorbeelden van dergelijke objecten zijn bestanden, registers, gedeelde geheugenplaatsen, etc. Deze \textit{descriptor} bestaat uit:
+Elk \textit{beschermbaar object} draagt een \textbf{security descriptor}. Voorbeelden van dergelijke objecten zijn bestanden, registers, gedeelde geheugenplaatsen, etc. Deze \textit{descriptor} bestaat uit:
 \begin{itemize}
 	\item Eigenaars SID
 	\item Primaire groep SID

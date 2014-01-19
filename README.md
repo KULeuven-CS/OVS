@@ -5,7 +5,7 @@ This repository features a concice summary (in Dutch) of the slides from the Cou
 
 PDF
 ---
-The latest version of the PDF can be found [here](http://git.jonasdevlieghere.com:8000/out/OVS/main) ([log](http://git.jonasdevlieghere.com:8000/log/OVS/main)) (Powered by [InTexration](https://github.com/JDevlieghere/InTeXration))
+The latest version of the PDF can be found [here](http://git.jonasdevlieghere.com:8000/out/JDevlieghere/OVS/main) ([log](http://git.jonasdevlieghere.com:8000/log/JDevlieghere/OVS/main)) (Powered by [InTeXration](https://github.com/JDevlieghere/InTeXration))
 
 
 Status

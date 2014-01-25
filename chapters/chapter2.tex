@@ -172,7 +172,7 @@ Van zodra die functie dan returnt zal bijvoorbeeld de shell code worden uitgevoe
 \begin{figure}
 \centering
 \includegraphics[scale=0.6]{\imageSrc/heapBO4.png}
-\caption{}
+\caption{Resultaat van een indirect pointer overwrite door middel van een buffer overflow op de heap.}
 \label{f:heapBO4}
 \end{figure}
 
@@ -186,7 +186,47 @@ Een programma is kwetsbaar voor zo'n aanval als het drie elementen bevat:
 \end{itemize}
 
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{\imageSrc/heapBO3.png}
+\caption{Buffer overflow op de heap in actie. Een buffer in blok d wordt overflowt (naar boven in deze figuur) tot in het lege blok c.}
+\label{f:heapBO3}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{\imageSrc/heapBO4.png}
+\caption{}
+\label{f:heapBO4}
+\end{figure}
 \subsection{Return-to-libc attacks}
+Tot nu toe hebben we altijd rechtstreek code kunnen injecteren in een buffer.
+Dit is niet altijd mogelijk aangezien er een countermeasures kunnen genomen worden om dit te voorkomen.
+Wel bestaan er dan Indirect code injection attacks die het programma sturen door het manipuleren van de stack.
+Dit maakt het mogelijk om stukken code uit te voeren die al in het geheugen zitten en meestal is er zo'n code beschikbaar bvb. libc.
+
+Figuren \ref{f:libc1} en \ref{f:libc2} tonen hoe het returnen uit een functie de stack beinvloed.
+\begin{figure}
+\centering
+\includegraphics[scale=0.9]{\imageSrc/libc1.png}
+\caption{Stack als functie f2 gaat returnen. De Stack Pointer (SP) en Instruction Pointer (IP) zijn aangeduid.}
+\label{f:libc1}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.9]{\imageSrc/libc2.png}
+\caption{Stack als functie f2 gereturned heeft en enkel nog het f1 stackframe op de stack staat.}
+\label{f:libc2}
+\end{figure}
+
+Aangezien we de werking van de stack doorhebben kunnen we dat gebruiken om de stack na te bootsen.
+Een nagebootste stack kan gewoon in een buffer wordten opgeslagen.
+De fake stack kan bijvoorbeeld een functie aanroepen die een shell start of het mogelijk maakt om andere code rechtstreeks te injecteren.
+Vervoglens moeten we de SP doen wijzen naar de fake stack net voor de return instructie van de actieve functie wordt uitgevoerd.
+
+\lstinputlisting[style=cstyle, label=l:libc]{\codeSrc/libc.c}
+
 \subsection{Data-only attacks}
 \section{Verdedigings voorbeelden}
 \subsection{Stack canaries}

@@ -84,6 +84,17 @@ In deze figuur wordt de overflow aangeduid. Als er geen bounds check gebeurdt ka
 \caption{Stack layout na buffer overflow attack op de lokale variable buffer in functie f1.}
 \label{f:stackBO3}
 \end{figure}
+Het voorbeeld dat we in de introductie zagen (zie listing \ref{l:intro}) is een goed voorbeeld van een programma kwetsbaar voor een buffer overflow attack.
+
+Code die vaak wordt gebruikt om te injecteren is het starten van een nieuwe shell. Om dit te doen wordt er zogenaamde shellcode gebruikt. Dit is een string van hexadecimale codes die dan worden geinterpreteerd als programma code. Hieronder vind u een voorbeeld die op Linux systemen met een intel x86 architectuur kan gebruikt worden om de sh shell te starten.
+
+\begin{blockquote}
+		durr
+	%"xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b\x89\xf3\x8d\x4e\x08\x8d\x56\x0c\xcd\x80\x31\xdb\x89\xd8\x40\xcd\x80\xe8\xdc\xff\xff\xff/bin/sh"
+\end{blockquote}
+
+Om een stack based buffer overflow werkend te krijgen zijn er heel veel details waar de aanvaller rekening mee moet houden: O.a. 
+
 \subsection{Heap-based buffer overflow}
 
 \subsection{Return-to-libc attacks}

@@ -47,12 +47,45 @@ Om onveilige code aan te vallen moet een aanvaller hetvolgende doen:
 						\item Gebruik van onveilige API functie. Die ofwel een buffer overflowt (e.g. \lstinline[style=cstyle]{strcpy()} ofwel intrinsiek onveilig geimplementeerd is in assembly (e.g. \lstinline[style=cstyle]{printf()}
 				\end{itemize}
 		\item Een interessante geheugen plaats vinden om te overschrijven.
+				\begin{itemize}
+								\item Code adressen/pointers: Return address, Function pointer in Virtual function table, Programma specifieke fuction pointers
+								\item Pointers waar de aanvaller kan controleren wat er wordt geschreven als die dereferenced raakt (= Indirect pointer overwrite): redirect de pointer naar een andere interessante locatie en schrijf dan daar een zekere waarde.
+				\end{itemize}
 		\item Aanvals code in het geheugen van het process plaatsen.
 \end{itemize}
 
 \section{Aanvals voorbeelden}
 \subsection{Stack-based buffer overflow}
+De stack is een geheugen gebied dat wordt gebruikt om functie oproepen en returns at run time te beheren.
+Per oproep wordt er een \emph{activation record} of \emph{stack frame} op de stack gepusht. Daarin zitten parameters, return address, lokale variablen, \ldots
+Het is eenvoudig in te zien dat als er nu een lokale variable kan worden overflowt dat er interessante geheugen plaatsen ter beschikking komen.
+
+In de onderstaande figuren leggen we een typisch Stack Based Buffer Overflow uit. Opgelet ook hier weer veronderstellen we dat bovenaan hoge addressen staan en dus overflowt een buffer naar boven.
+In figuur \ref{f:stackBO1} tonen we een normale (niet aangevallen) stack waarbij het laatste stackframe dat van functie f0 is. De instructiepointer (IP) aan het begin van f0 staat en de (Saved) Frame Pointer ((S)FP) en Stack Pointer (SP) staan aangeduid.
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{\imageSrc/stackBO1.png}
+\caption{Stack layout als de laatst opgeroepen functie f0 is.}
+\label{f:stackBO1}
+\end{figure}
+
+Vervolgens in figuur \ref{f:stackBO2} wordt functie f1 opgeroepen. Een nieuw stackframe wordt op de stack gepusht. Let hierop dat in dit frame het return address nu wijst naar code net onder de call naar f1. De SFP wijst naar het frame van f0 en er daarachter plaats is voorzien voor de lokale variable \lstinline[style=cstyle]{buffer[]}. De stackpointer wijst natuurlijk net voorbij het frame van f1.
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{\imageSrc/stackBO2.png}
+\caption{Stack layout na call van functie f1.}
+\label{f:stackBO1}
+\end{figure}
+
+In deze figuur wordt de overflow aangeduid. Als er geen bounds check gebeurdt kan de buffer blijven groeien en zo eerst de SFP, en dan het return address overschrijven. Door nu in het buffer uitvoerbarde code te steken en het return address naar die code te doen verwijzen kan er alles met het programma worden gedaan.
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{\imageSrc/stackBO3.png}
+\caption{Stack layout na buffer overflow attack op de lokale variable buffer in functie f1.}
+\label{f:stackBO3}
+\end{figure}
 \subsection{Heap-based buffer overflow}
+
 \subsection{Return-to-libc attacks}
 \subsection{Data-only attacks}
 \section{Verdedigings voorbeelden}

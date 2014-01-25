@@ -25,10 +25,30 @@ Indien de voorbeeld code \ref{l:intro} wordt ge\"exploiteerd bevind de geinjecte
 \begin{figure}
 \centering
 \includegraphics{\imageSrc/memory_layout.png}
-\caption{Typische geheugen layout met bovenaan \textbf{hoge} adressen.}
+\caption{Typische geheugen layout met bovenaan \textbf{hoge} adressen. De stack groeit van hoge naar lage adressen en de heap van lage naar hoge adressen.}
 \label{f:mem_lay}
 \end{figure}
 
+Memory management in C is zeer fout-gevoelig typische bugs zijn o.a.:
+\begin{itemize}
+		\item Writing past the bound of array (zoals in listing \ref{l:intro})
+		\item Dangling pointers (pointers die niet naar een geldig object wijzen.)
+		\item Double freeing (Twee keer \lstinline[style=cstyle]{free()} aanroepen zodat nog gebruikt geheughen als ongebruikt wordt gemarkeert).
+		\item Memory leaks (Stukken geheugen zijn niet correct vrijgegeven.)
+\end{itemize}
+Om effici\"entie redenen worden deze fouten in C niet at run time gededecteert.
+
+Om onveilige code aan te vallen moet een aanvaller hetvolgende doen:
+\begin{itemize}
+		\item Een bug vinden die memory safety breekt.
+				\begin{itemize}
+						\item Buffer overflow
+						\item Dereference van dangling pointer
+						\item Gebruik van onveilige API functie. Die ofwel een buffer overflowt (e.g. \lstinline[style=cstyle]{strcpy()} ofwel intrinsiek onveilig geimplementeerd is in assembly (e.g. \lstinline[style=cstyle]{printf()}
+				\end{itemize}
+		\item Een interessante geheugen plaats vinden om te overschrijven.
+		\item Aanvals code in het geheugen van het process plaatsen.
+\end{itemize}
 
 \section{Aanvals voorbeelden}
 \subsection{Stack-based buffer overflow}

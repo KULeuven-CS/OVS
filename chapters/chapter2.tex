@@ -86,17 +86,59 @@ In deze figuur wordt de overflow aangeduid. Als er geen bounds check gebeurdt ka
 \end{figure}
 Het voorbeeld dat we in de introductie zagen (zie listing \ref{l:intro}) is een goed voorbeeld van een programma kwetsbaar voor een buffer overflow attack.
 
-Code die vaak wordt gebruikt om te injecteren is het starten van een nieuwe shell. Om dit te doen wordt er zogenaamde shellcode gebruikt. Dit is een string van hexadecimale codes die dan worden geinterpreteerd als programma code. Hieronder vind u een voorbeeld die op Linux systemen met een intel x86 architectuur kan gebruikt worden om de sh shell te starten.
+Code die vaak wordt gebruikt om te injecteren is het starten van een nieuwe shell.
+Om dit te doen wordt er zogenaamde shellcode gebruikt.
+Dit is een string van hexadecimale codes die dan worden geinterpreteerd als programma code.
+Hieronder vind u een voorbeeld die op Linux systemen met een intel x86 architectuur kan gebruikt worden om de \emph{sh} shell te starten.
 
 \begin{blockquote}
-		durr
-	%"xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b\x89\xf3\x8d\x4e\x08\x8d\x56\x0c\xcd\x80\x31\xdb\x89\xd8\x40\xcd\x80\xe8\xdc\xff\xff\xff/bin/sh"
+	"\textbackslash xeb\textbackslash x1f\textbackslash x5e\textbackslash x89\textbackslash x76\textbackslash x08\textbackslash x31\textbackslash xc0\textbackslash x88\textbackslash x46\textbackslash x07\textbackslash x89\textbackslash x46\textbackslash x0c\textbackslash xb0\textbackslash x0b \textbackslash x89\textbackslash xf3\textbackslash x8d\textbackslash x4e \\\textbackslash x08\textbackslash x8d\textbackslash x56\textbackslash x0c\textbackslash xcd \textbackslash x80\textbackslash x31\textbackslash xdb\textbackslash x89\textbackslash xd8\textbackslash x40\textbackslash xcd\textbackslash x80\textbackslash xe8\textbackslash xdc\textbackslash xff\textbackslash xff\textbackslash xffbin/sh"
 \end{blockquote}
 
 Om een stack based buffer overflow werkend te krijgen zijn er heel veel details waar de aanvaller rekening mee moet houden: O.a. 
 
 \subsection{Heap-based buffer overflow}
+Soms bevatten programmas enkel een overflowbare buffer die op de heap gealloceerd is.
+Bijvoorbeeld globaal gedeclareerde structuren.
+Aangezien die zich niet op de stack bevinden is er geen return address dicht bij.
+Wel zijn er andere manieren om toch een succesvolle code injection attack te doen waarvan we er hier twee bekijken: overwriting function pointer en overwriting heap metadata.
+\subsubsection{Overwriting function pointer}
+In listing \ref{l:heapBO} staat een programma dat kwetsbaar is voor een heap based buffer overflow door middel van een function pointer te overschrijven. 
+\lstinputlisting[style=cstyle, label=l:heapBO]{\codeSrc/heapBO.c}
 
+Figuur \ref{f:heapBO1} toont hoe de vulnerability wordt uitgebuit.
+In (a) zien we de opeenvolgende adressen van de struct en de waardes die ze initieel krijgen toegekent.
+In (b) zien we hoe er een overflow kan worden gerealiseerd die cmp overschrijft.
+
+Let hierbij op het feit dat de waardes in Little Endian worden opgeslagen.
+Dit betekend dat de eerste byte van een geheugenlocatie de meest rechtse positie krijgt.
+We kunnen dit makkelijk zien door het einde van het voorbeeld (b)te bekijken. De laatste drie characters van de string zijn ``sdf''.
+We weten dat ``s'' overeenkomt met het hexadecimale ``73'', d met ``64'' en f met ``66''.
+
+Als we nu naar de geheugen locatie van cmp (\emph{0x00353078}) kijken dan vinden we daar \emph{0x00666473}. 
+Tabel
+\begin{table}
+\centering 
+\begin{tabular}{l|cccc|}
+		Geheugen plaats (hex) & 0x0035307b & 0x0035307a & 0x00353079 & 0x00353078 \\ \hline
+		Geheugen waarde (hex) & 00 & 66 & 64 & 73 \\ \hline
+		Character (string representatie) & n/a & f & d & s \\ \hline   
+\end{tabular}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{\imageSrc/heapBO1.png}
+\caption{Stack layout na buffer overflow attack op de lokale variable buffer in functie f1.}
+\label{f:heapBO1}
+\end{figure}
+
+\subsubsection{Overwriting heap metadata}
+De heap wordt gebruikt om dynamisch gealloceerde data op te slaam.
+Met functies zoals \lstinline[style=cstyle]{malloc()} worden er dynamisch geheugenblokken gealloceerd en gedealloceerd met \lstinline[style=cstyle]{free()}.
+De meest memory allocation libraries onthouden metadata voor of achter gebruikte blokken.
+Een gevolg daarvan is dat buffer overruns op de heap deze management informatie kunnen overschrijven.
+Dit maakt een \emph{indirect pointer overwrite} aanval mogelijk. 
 \subsection{Return-to-libc attacks}
 \subsection{Data-only attacks}
 \section{Verdedigings voorbeelden}

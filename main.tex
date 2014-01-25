@@ -25,8 +25,8 @@
 % Titleplage
 \title{OVS}
 \date{\today}
-\author{Dieter Castel, Jonas Devlieghere}
- 
+\author{Professor Frank Piessens, Dieter Castel, Jonas Devlieghere}
+
 % Margins
 \setlength{\topmargin}{0in}
 \setlength{\footskip}{0.5in}
@@ -35,7 +35,7 @@
 \setlength{\evensidemargin}{0in}
 \setlength{\textheight}{8.5in}
 
-% Listings 
+% Listings
 \lstset{
 	basicstyle=\scriptsize,
 	breaklines=true,
@@ -47,7 +47,7 @@
 	keywordstyle=\bfseries,
 	showstringspaces=false,
 	tabsize=2,
-	title=\lstname 
+	title=\lstname
 }
 
 \lstdefinestyle{cstyle}{
@@ -72,7 +72,7 @@
 \newenvironment{blockquote}{%
   \def\FrameCommand{%
     \hspace{1pt}%
-    
+
     {\color{black}\vrule width 4pt}%
     {\color{lightgray}\vrule width 4pt}%
     \colorbox{lightgray}%
@@ -96,6 +96,9 @@
 % Table of Contents Page
 \tableofcontents
 
+\newpage
+\subfile{preface}
+
 \mainmatter
 
 \subfile{chapters/chapter1}
@@ -105,11 +108,11 @@
 \subfile{chapters/chapter5}
 
 % Appendix
-\appendix 
+\appendix
 
 % References
 \bibliographystyle{plain}
-\bibliography{references}
+\bibliography{main}
 \nocite{*}
 
 \end{document}

@@ -1,13 +1,13 @@
-\documentclass[../main.tex]{subfiles} 
+\documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Uitdagingen veilige software}
 
 \section{Motivatie}
-De laatste jaren zien we een enorme toename in de aanwezigheid van software. Zo waren er in 2003 al 670 miljoen computers, in 2005 reeds twee miljard mobiele telefoons en meer dan tien miljard smart cards. Daarnaast merken we dat we meer en meer afhankelijk worden van software met de opkomst van E-services zoals \textit{E-business}, \textit{E-government} en \textit{E-health}. 
+De laatste jaren zien we een enorme toename in de aanwezigheid van hard- en software. Zo waren er in 2003 al 670 miljoen computers, in 2005 reeds twee miljard mobiele telefoons en meer dan tien miljard smart cards. Daarnaast merken we dat we meer en meer afhankelijk worden van software met de opkomst van E-services zoals \textit{E-business}, \textit{E-government} en \textit{E-health}.
 \\\\
-Gelijklopend merken we een toename van connectiviteit. Meer en meer apparaten zijn verbonden met het internet, al dan niet draadloos. Deze opkomst zorgt ervoor dat applicaties soms door miljoenen gebruikers tegelijk worden gebruikt. Webapplicaties zoals Amazon en Google vormen momenteel \'e\'en van de belangrijkste klasse van programma's.
+Gelijklopend merken we een toename van connectiviteit. Meer en meer apparaten zijn verbonden met het internet, al dan niet draadloos. Deze opkomst zorgt ervoor dat applicaties soms door miljoenen gebruikers tegelijk worden gebruikt. Dergelijke webapplicaties, zoals de services geleverd door Amazon en Google vormen momenteel \'e\'en van de belangrijkste klasse applicaties.
 \\\\
-Tenslotte merken we dat computers meer en meer ondersteuning bieden voor software van derde partijen. Hoewel dit \'e\'en van de succesfactoren was voor het succes van de personal computer, speelde dit ook een sleutelrol in veel van diens veiligheidsproblemen. Embedded devices (telefoons, auto's, set-top boxes) bieden vaak de mogelijkheid om software te installeren wat leidt tot een zeker veiligheidsrisico.
+Tenslotte merken we dat computers meer en meer ondersteuning bieden voor software van derde partijen. Hoewel dit \'e\'en van de succesfactoren was voor het succes van de personal computer, speelde dit ook een sleutelrol in veel van diens veiligheidsproblemen. Embedded devices (telefoons, auto's, set-top boxes) bieden vaak de mogelijkheid om software te installeren wat leidt tot een zeker risico wat veilige software betreft.
 
 \subsection{Lessen uit het verleden}
 Uit het verleden hebben we volgende lessen kunnen trekken:
@@ -21,21 +21,21 @@ Uit het verleden hebben we volgende lessen kunnen trekken:
 \subsection{Web gerelateerde bedreigingen}
 Tot ongeveer 10 jaar geleden richtten aanvallers zich doorgaans op infrastructurele software zoals besturingssystemen of servers. Met de toename in verbondenheid zien we dat aanvallen zich vaker en vaker richten op webapplicaties. Hier volgen enkele nieuwe trends die dit met zich mee heeft gebracht.
 
-\paragraph{Defacement} Defacement is vergelijkbaar met \textit{grafitti} op het internet. De aanvaller wijzigt of vervangt de webpagina om zijn aanwezigheid kenbaar te maken. 
+\paragraph{Defacement} Defacement is vergelijkbaar met \textit{grafitti} op het internet. De aanvaller wijzigt of vervangt de webpagina om zijn aanwezigheid kenbaar te maken.
 
 \paragraph{Phishing} Phishing is een combinatie van \textit{social engineering} en \textit{spoofing}. Het doel is het stelen van persoonlijke data zoals bankgegevens. Met deze gegevens kan de aanvaller toegang krijgen tot applicaties onder de naam van het slachtoffer.
 
 \paragraph{Drive-By-Downloads} Kwaadwillige webservers maken gebruik van kwetsbaarheden om malware te installeren op de computer van de gebruiker.
 
-\paragraph{Tracking} Allerhande technieken die worden gebruik om bezoeken aan websites te correleren aan een gebruiker. 
+\paragraph{Tracking} Allerhande technieken die worden gebruik om bezoeken aan websites te correleren aan een gebruiker.
 \\\\
-Naast bovenvermelde bedreiging doen zich dagelijks incidenten voor op het internet. Enkele voorbeelden zijn het lekken van kredietkaart gegevens, klanten die producten aan een fractie van de prijs kopen of gedistribueerde \textit{Denial of Service} aanvallen die een site onbruikbaar maken door deze te \textit{flooden} met requests.
+Naast bovenvermelde bedreiging doen zich dagelijks incidenten voor op het internet. Enkele voorbeelden zijn het lekken van kredietkaart gegevens, klanten die producten aan een fractie van de prijs kopen of gedistribueerde \textit{Denial of Service} aanvallen die websites onbruikbaar maken door deze te \textit{flooden} met requests.
 
 
 
 \paragraph{Browser} De browser moet HTML weergeven, JavaScript en plugins uitvoeren en verschillende protocols en API's ondersteunen. Elk van deze taken brengt een risico met zich mee. Bovendien dient de browser isolatie te voorzien tussen inhoud van verschillende bronnen. De browser gedraagt zich als een soort besturingssysteem voor de webomgeving.
 
-\paragraph{HTTP} Hoewel dit een eenvoudig protocol is laat het toe arbitrair complexe dingen te doen. Het is standaard \textit{stateless} maar er zijn verschillende mechanismen om dit te veranderen. Daarnaast is er een snelle toename van \textit{header} velden die elk hun eigen standaard vereisten. Dit is slechts \'e\'en van de vele web protocols.
+\paragraph{HTTP} Hoewel dit een eenvoudig protocol is laat het toe arbitrair complexe dingen te doen. Het is standaard \textit{stateless} maar er zijn verschillende mechanismen om dit te veranderen. Daarnaast stelt men een snelle toename van \textit{header}-velden vast die elk hun eigen standaard vereisten. Dit is slechts \'e\'en van de vele web protocols.
 
 \subsection{Conclusie}
 Verschillende niet te stoppen trends zoals de toename van computers, connectiviteit, ondersteuning voor softwaremobiliteit en de wereldwijde beschikbaarheid van applicaties maken twee vragen zeer relevant:
@@ -44,75 +44,70 @@ Verschillende niet te stoppen trends zoals de toename van computers, connectivit
 	\item Hoe ontwikkelen we veilige applicaties?
 \end{itemize}
 
-\section{Veilighiedsdoelstelling en concepten}
+\section{Doelen en concepten}
 Software doet vaak dienst als een \textit{enabler} van functionaliteit, maar nieuwe functionaliteit komt met een zeker risico. Beveiliging draait rond het beheren van dit risico.
 \subsection{Bedreigingen en veiligheidsdoelen}
 Op het eerste zicht zijn bedreiging en veiligheidsdoelen elkaars ontkenning.
 Een veiligheidsdoel is een intentieverklaring om gekende bedreigingen tegen te gaan.
-Een bedreiging is een intentie van een agent om een beveiligingsdoel te doorbreken.
-Hieronder vind u steeds een soort bedreiging met daarbij een lijst van overeenkomstige veiligheidsdoelen.
+Een bedreiging is een intentie van een agent om een doelstelling van de verdediger te breken.
+\\\\
+Een lijst met bedreigingstypes en de bijhorende veiligheidsgerelateerde doelen:
 
-\paragraph{Information disclosure} 
-Het lekken van informatie naar de bedreigingsagent die geen toegang hoort te hebben tot deze informatie. Een voorbeeld hiervan is het stelen van kredietkaartnummers. 
-\\
-Corresponderende beveiligingsdoelen:
+\paragraph{Information disclosure}
+Het lekken van informatie naar de bedreigingsagent die geen toegang hoort te hebben tot deze informatie. Een voorbeeld hiervan is het stelen van kredietkaartnummers.
+
 \begin{itemize}
 	\item \textbf{Data Confidentiality} Het beschermen van de data tegen het ongeautoriseerd lezen ervan.
 	\item \textbf{Access Control} Het voorkomen van ongeautoriseerde toegang tot softwareonderdelen.
 \end{itemize}
 
-\paragraph{Information tampering} 
-De bedreigingsagenten knoeien met data waarvan zij het recht niet hebben om deze te wijzigen. Een voorbeeld is het aanpassen van de prijzen van gekochte goederen. 
-\\
-Corresponderende beveiligingsdoelen:
+\paragraph{Information tampering}
+De bedreigingsagenten knoeien met data waarvan zij het recht niet hebben om deze te wijzigen. Een voorbeeld is het aanpassen van de prijzen van gekochte goederen.
+
 \begin{itemize}
 	\item \textbf{Data Integrity} Beschermen van data tegen ongeautoriseerd schrijven.
-	\item \textbf{Data Origin Authentication} Verifi\"eren van de geclaimde identiteit van de verzender van een bericht. 
+	\item \textbf{Data Origin Authentication} Verifi\"eren van de geclaimde identiteit van de verzender van een bericht.
 	\item \textbf{Access Control} Het voorkomen van ongeautoriseerde toegang tot softwareonderdelen.
 \end{itemize}
 
-\paragraph{Repudiation} Het ontkennen van betrokkenheid bij een gebeurtenis door de bedreigingsagent. Een voorbeeld is het ontkennen van het plaatsen van een aandelenorder. 
-\\
-Corresponderende beveiligingsdoelen:
+\paragraph{Repudiation} Het ontkennen van betrokkenheid bij een gebeurtenis door de bedreigingsagent. Een voorbeeld is het ontkennen van het plaatsen van een aandelenorder.
+
 \begin{itemize}
-	\item \textbf{Non-Repudiation} Verstrekken van onweerlegbaar bewijs over wat gebeurt is en wie erbij betrokken was.
+	\item \textbf{Non-Repudiation} Verstrekken van onweerlegbaar bewijs over wat gebeurt is en wie of wat daarbij betrokken was.
 	\item \textbf{Audit} Chronologische verslag van systeemactiviteiten om toe te laten gebeurtenissen te reconstrueren.
 \end{itemize}
 
 \paragraph{Denial of Service}
 De bedreigingsagent vernietigt de bruikbaarheid van een systeem voor legitieme gebruikers. Bijvoorbeeld door een gedistribueerde \textit{flood} attack.
-\\
-Corresponderende beveiligingsdoelen:
+
 \begin{itemize}
 	\item \textbf{Availability} Waarborgen van beschikbaarheid van het systeem voor legitieme gebruikers.
 \end{itemize}
 
 \paragraph{Elevation of privilege}
-De bedreigingsagent krijgt meer toegang tot informatie, communicatie of rekenmiddelen dan waartoe hij is geautoriseerd. Een voorbeeld hiervan is het verkrijgen van \textit{root} privileges.  
-\\
-Corresponderende beveiligingsdoelen:
+De bedreigingsagent krijgt meer toegang tot informatie, communicatie of rekenmiddelen dan waartoe hij is geautoriseerd. Een voorbeeld hiervan is het verkrijgen van \textit{root} privileges.
+
 \begin{itemize}
 	\item \textbf{Access Control} Het voorkomen van ongeautoriseerde toegang tot softwareonderdelen.
 	\item \textbf{Entity Authentication} Verifi\"eren van de geclaimde identiteit van de partij waarmee er interactie plaatsvindt.
 \end{itemize}
 
 \paragraph{Spoofing}
-De bedreigingsagent doet zich voor als iets of iemand die hij niet is. Een voorbeeld hiervan is \textit{phishing}.  
-\\
-Corresponderende beveiligingsdoelen:
+De bedreigingsagent doet zich voor als iets of iemand die hij niet is. Een voorbeeld hiervan is \textit{phishing}.
+
 \begin{itemize}
 	\item \textbf{Entity Authentication} Verifi\"eren van de geclaimde identiteit van de partij waarmee er interactie plaatsvindt.
-	\item \textbf{Data Origin Authentication} Verifi\"eren van de geclaimde identiteit van de verzender van een bericht. 
+	\item \textbf{Data Origin Authentication} Verifi\"eren van de geclaimde identiteit van de verzender van een bericht.
 \end{itemize}
 
 \subsection{Kwetsbaarheden}
-Een kwetsbaarheid is een een aspect van een component of systeem dat een bedreigingsagent toelaat om een bedreiging te realiseren. Dit betekent dat kwetsbaarheden relatief zijn ten opzichte van de agent. Zo kan een systeem bijvoorbeeld niet kwetsbaar zijn voor een buitenstaander maar wel voor een insider. Bovendien komen kwetsbaarheden voor in verschillende lagen van het software systeem. 
+Een kwetsbaarheid is een een aspect van een component of systeem dat een bedreigingsagent toelaat om een bedreiging te realiseren. Dit betekent dat kwetsbaarheden relatief zijn ten opzichte van de agent. Zo kan een systeem bijvoorbeeld niet kwetsbaar zijn voor een buitenstaander maar wel voor een insider. Bovendien komen kwetsbaarheden voor in verschillende lagen van het software systeem.
 \\\\
 Kwetsbaarheden ontstaan door fouten bij de:
 \begin{itemize}
-	\item \textbf{Vereisten} 
+	\item \textbf{Vereisten}
 	\begin{itemize}
-		\item Niet slagen in het identificeren van alle relevante assets of bedreigingen. 
+		\item Niet slagen in het identificeren van alle relevante assets of bedreigingen.
 		\\ \textit{Het verhinderen van downloaden van kwaadaardige code werd niet gezien als een vereiste voor besturingssystemen in de jaren '80.}
 	\end{itemize}
 	\item \textbf{Constructie}
@@ -122,12 +117,15 @@ Kwetsbaarheden ontstaan door fouten bij de:
 		\item Kwetsbaarheden in functionaliteit
 		\\ \textit{Buffer overflows, SQL injection}
 	\end{itemize}
-	\item \textbf{Werking} \\ \textit{Zetten van een foute policy}
+	\item \textbf{Werking}
+	\begin{itemize}
+		\item \textit{Kiezen van een foute policy}
+	\end{itemize}
 \end{itemize}
 
 
 \subsection{Tegenmaatregelen}
-Tegenmaatregelen vormen een mechanisme om kwetsbaarheden te reduceren en daarbij doelstellingen te realiseren en bedreigingen te verijdelen. Tegenmaatregelen kunnen op drie manieren worden genomen:
+Tegenmaatregelen worden gedefinieerd als het mechanisme om kwetsbaarheden te reduceren en daarbij doelstellingen te realiseren en bedreigingen te verijdelen. Tegenmaatregelen kunnen op drie manieren worden genomen:
 \begin{itemize}
 	\item \textbf{Preventief} om een kwetsbaarheid te voorkomen.
 	\item \textbf{Opsporend} om een kwetsbaarheid en dienst uitbuiting op te sporen.
@@ -136,18 +134,18 @@ Tegenmaatregelen vormen een mechanisme om kwetsbaarheden te reduceren en daarbij
 \noindent
 Zowel de software ingenieur die de software ontwerpt als de beheerder die de software uitrolt kunnen tegenmaatregelen nemen.
 
-\paragraph{Software ingenieur} 
+\paragraph{Software ingenieur}
 Om kwetsbaarheden die ontstaan tijdens de vereistefase tot het minimum te beperken, kan de ingenieur veiligheidsvereisten en bedreigingen modelleren en analyseren. Deze kunnen dan worden voorkomen door gebruikt te maken van beveiligingstechnologie\"n zoals cryptografie, toegangscontrole, authentificatie.
 
 Voor kwetsbaarheden die ontstaan tijdens de ontwikkeling, kan gebruik gemaakt worden van \textit{secure programming}, \textit{static analysis} en veilige talen. Kwetsbaarheden tijdens de uitvoering kunnen worden voorkomen door goede documentatie, veilige standaardwaarden en operationele procedures.
 
-\paragraph{Administrator} 
-Preventieve tegenmaatregelen kunnen door de beheerder worden genomen door zwaktes te herstellen en bijkomende beveiliging te voorzien zoals firewalls en VPN's. 
+\paragraph{Administrator}
+Preventieve tegenmaatregelen kunnen door de beheerder worden genomen door kwetsbaarheden te verhelpen en bijkomende beveiliging te voorzien zoals firewalls en VPN's.
 
-Opsporende tegenmaatregelen kunnen bestaan uit het voorzien van \textit{Intrusion} of \textit{Fraud} \textit{Detection} software. Bovendien is het de taak van de beheerder om beveilingsoplossingen te voorzien om reactieve tegenmaatregelen te ondersteunen.
+Opsporende tegenmaatregelen kunnen bestaan uit het voorzien van \textit{Intrusion} of \textit{Fraud} \textit{Detection} software. Het de taak van de beheerder om beveilingsoplossingen te voorzien om reactieve tegenmaatregelen te ondersteunen.
 
 \section{Toepassingen}
-Het beveiligen van software komt neer op het reduceren van het aantal kwetsbaarheden. Hierbij geven we voorkeur aan diegenen die het grootste risico vormen. Het is daarom van belang een idee te hebben welke kwetsbaarheden het belangrijkste zijn in de realiteit. 
+Het beveiligen van software komt neer op het reduceren van het aantal kwetsbaarheden. Hierbij geven we voorkeur aan diegenen die het grootste risico vormen. Het is daarom van belang een idee te hebben welke kwetsbaarheden het meest relevant zijn in de realiteit.
 \\\\
 Verschillende websites bieden een overzicht van kwetsbaarheden met statistieken, abstracties en gekende varianten.
 \begin{itemize}
@@ -161,10 +159,10 @@ Aan de hand van statistieken over 2001 t.e.m. 2006 merken we dat de top 3 bestaa
 	\item Buffer overflow
 	\item SQL injection
 	\item Cross site scripting
-\end{itemize} 
+\end{itemize}
 We kunnen bovendien vaststellen dat 8/10 van de kwetsbaarheden te maken hebben met het valideren van in- en uitvoer en defensief programmeren. Dit betekent dat softwarebeveiliging sterk gekoppeld is aan \textbf{softwarekwaliteit}.
 \\\\
-Een tweede vaststelling is dat 2/3 van de kwetsbaarheden zich in de applicatielaag bevinden. Het belang hiervan is alleen maar toegenomen in de laatste jaren. Het \textbf{beveiligen van applicaties} zal dan ook centraal komen te staan de komende jaren.
+Een tweede vaststelling is dat 2/3 van de kwetsbaarheden zich in de applicatielaag bevindt. Het aandeel hiervan is alleen maar toegenomen in de laatste jaren. Het \textbf{beveiligen van applicaties} zal dan ook centraal komen te staan de komende jaren.
 \\\\
 Tenslotte merken we op dat kwetsbaarheden in termen van populariteit komen en gaan. Het beveiligen van software is dan ook een \textbf{voortdurend proces}.
 \end{document}

@@ -225,6 +225,8 @@ Een nagebootste stack kan gewoon in een buffer wordten opgeslagen.
 De fake stack kan bijvoorbeeld een functie aanroepen die een shell start of het mogelijk maakt om andere code rechtstreeks te injecteren.
 Vervoglens moeten we de SP doen wijzen naar de fake stack net voor de return instructie van de actieve functie wordt uitgevoerd.
 
+Vaak wordt er trampoline code gebruikt die het mogelijk maakt om eenvoudig eender welke andere code uit te voeren.
+
 \textit{Meer uitleg volgt mogelijk nog}
 
 \lstinputlisting[style=cstyle, label=l:libc]{\codeSrc/libc.c}
@@ -247,11 +249,75 @@ Bijgevolg zal er altijd toegang worden verschaft.
 \end{figure}
 
 \subsubsection{Overwriting the environment table}
+Doordat er soms assumpties worden gemaakt over de environment table door de programmeur kan dit worden uitgebuit. 
+In figuur \ref{f:dataonly} zien we kwetsbare code.
+De waarde achter de environment variable ``SAFECOMMAND'' wordt met een system call uitgevoerd.
+Maar aangezien we de offset van de data buffer en zijn waarde kunnen bepalen kunnen we in een (bijna) arbitraire geheugenlocatie schrijven en dus de waarde horend bij ``SAFECOMMAND'' veranderen in value.
+
+\lstinputlisting[style=cstyle, label=l:dataonly]{\codeSrc/dataonly.c}
 
 \section{Verdedigings voorbeelden}
 \subsection{Stack canaries}
+Het idee van een stack canary is vrij eenvoudig en toch behoorlijk effectief.
+Net voor elke base pointer of return address wordt een zeker waarde in het stack frame geplaatst.
+Elke keer er nu een return gebeurdt wordt de waarde gecontroleerd of die niet verandered is.
+Die waarde noemen we dan een ``canary'' zo genoemd naar de canaries die werden gebruikt in de koolmijnen om giftige gassen vroegtijdig te ontdekken.
+In figuur \ref{f:stackcanary} wordt er getoond hoe een overflow met een Canary eenvoudig kan worden gededecteert.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{\imageSrc/stackcanary.png}
+\caption{Stack layout met canary als er een overflow gebeurdt is.}
+\label{f:stackcanary}
+\end{figure}
+
 \subsection{Non-executable data}
+Direct code injection aanvallen voeren een bepaald stuk code uit dat op de stack staat.
+De meeste normale programmas doen dit echter zelden dus een countermeasure kan erin bestaan om de heap en stack volledig als non-executable data te markeren.
+Dit voorkmont dan direct code injection maar geen data-only attacks of return-into-libc.
+Bovendien kan het zijn dat bepaalde legacy programmas hier WEL op steunen en dus met deze maatregel niet meer werken.
+
 \subsection{Control-flow integrity}
+De meeste aanvallen die we bespraken breken de control flow zoals die gecodeerd is in de broncode.
+Een mogelijke countermeasure is dus het controleren dat de control-flow gezond blijft at runtime.
+Dit kan er bijvoorbeeld in bestaan om te controleren dat een functie altijd terugspringt naar van waar hij is opgeroepen.
+Andere mogelijkheden kunnen erin bestaan expliciet te controleren of pointers een geldige mogelijke waarde hebben.
+Dit kan eenderzijds expliciet in de programma broncode worden gedaan.
+
+Anderzijds kan er een control-flow graph worden opgezet die gelinkt is aan mogelijke labels naar waar een call kan springen of kan van returnen.
+Met deze graph kan er dan dynamisch code geinserteerd worden die controleert of elke sprong geldig is door de labels na te kijken. 
+Een voorbeeld daarvan is te vinden in figuur \ref{f:cfi}.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{\imageSrc/cfi.png}
+\caption{Afbeelding die Control Flow Integrety met labels illustreert.}
+\label{f:cfi}
+\end{figure}
+
 \subsection{Layout randomization}
+De meeste van deze low-level aanvallen steunen op kennis van run time memory adressen.
+Door artificiele variatie in deze adressen te introduceren verhoogt de moeilijkheid voor deze aanvallen aanzienlijk. 
+Zo'n Adress Space Layout Randomization (ASLR) is een goedkope en effectieve countermeasure tegen dergerlijke aanvallen.
+
 \section{Conclusie}
+Door het implementeren van de countermeasures is er een soort arms-race ontstaan tussen aanvallers en verdedigers. 
+Countermeasures zijn zelden perfect en de aanvallers bedenken nieuwe manieren om die te omzeilen.
+Hoewel het met de countermeasures veel moeilijker is om in C-family talen dergerlijke aanvallen te doen is het van security standpunt veiliger om over te stappen naar safe languages (bvb. Java of C\#).
+Een samenvatting van hoe de countermeasures die we bespraken de aanvallen (trachten) te voorkomen vind u in tabel \ref{t:overview}.
+\begin{table}
+		\begin{tabular}{|p{3cm}| p{3cm} p{3cm} p{3cm} p{3cm}|}
+				\hline
+				& \textbf{Return address corruption} & \textbf{Heap Function pointer corruption} & \textbf{Jump-to-libc} & \textbf{Non-control data} \\ \hline \hline
+				\textbf{Stack Canary} & Partial defense & n/a & Partial defense & Partial defense \\ \hline
+				\textbf{Control-flow integrety} & Partial defense & Partial defense & Partial defense & \\ \hline 
+				\textbf{Control-flow integrety} &  Partial defense & Partial defense & Partial defense & \\ \hline 
+				\textbf{Address Space Layout Randomization} &  Partial defense & Partial defense & Partial defense & Partial defense \\ \hline 
+		\end{tabular}
+		\caption{Overzicht van aanvallen en verdedigings mechanismes voor low-level attacks.}
+		\label{t:overview}
+\end{table}
+
+De besproken ``automatische'' verdedigings mechanismes zijn maar een deel van het beveiligen van C software.
+Andere onderdelen zijn o.a.: Threat modeling, Code Review en Security Testing.
 \end{document}

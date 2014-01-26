@@ -225,9 +225,29 @@ Een nagebootste stack kan gewoon in een buffer wordten opgeslagen.
 De fake stack kan bijvoorbeeld een functie aanroepen die een shell start of het mogelijk maakt om andere code rechtstreeks te injecteren.
 Vervoglens moeten we de SP doen wijzen naar de fake stack net voor de return instructie van de actieve functie wordt uitgevoerd.
 
+\textit{Meer uitleg volgt mogelijk nog}
+
 \lstinputlisting[style=cstyle, label=l:libc]{\codeSrc/libc.c}
 
 \subsection{Data-only attacks}
+Dit soort aanvallen bestaat erin enkel de data van een programma te veranderen.
+Afhankelijk van die data kan dit tot interessante exploits leiden.
+We bekijken er hier twee: Unix password attack en overwriting the environment table.
+\subsubsection{Unix password attack}
+In figuur \ref{f:UnixPA} staat een voorbeeld van een onveilig passwoord controlerend programma.
+In een oude versie van unix werd dit gebruikt maar dit is eenvoudig te omzeilen.
+Als er immers een passwoord wordt ingegeven dat bestaat uit \emph{pw || hash(pw)} en het pw is lang genoeg dan overflowt het passwoord in de hash.
+Bijgevolg zal er altijd toegang worden verschaft.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{\imageSrc/unixPA.png}
+\caption{Voorbeeld van onveilig password checking programma.}
+\label{f:unixPA}
+\end{figure}
+
+\subsubsection{Overwriting the environment table}
+
 \section{Verdedigings voorbeelden}
 \subsection{Stack canaries}
 \subsection{Non-executable data}

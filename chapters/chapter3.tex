@@ -1,4 +1,4 @@
-\documentclass[../main.tex]{subfiles} 
+\documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Authenticatie en toegangscontrole}
 
@@ -6,46 +6,46 @@
 Beveiliging is het voorkomen en opsporen van ongeautoriseerde gebeurtenissen met betrekking tot informatie. We kunnen twee belangrijke gevallen onderscheiden:
 \begin{itemize}
 	\item Een aanvaller heeft toegang tot de bits die de informatie voorstelt. Hier is nood aan cryptografische technieken.
-	\item Er bevindt zich een softwarelaag tussen de aanvaller en de informatie. Hier is nood aan toegangscontrole. 
-\end{itemize} 
+	\item Er bevindt zich een softwarelaag tussen de aanvaller en de informatie. Hier is nood aan toegangscontrole.
+\end{itemize}
 
 \subsection{Algemeen model}
 Een algemeen model voor toegangscontrole bestaat uit volgende elementen: \textbf{Principal}, \textbf{Action}, \textbf{Guard} en \textbf{Protected System}.
 
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
-\hline 
-\textbf{Principal} & \textbf{Action} & \textbf{Guard} & \textbf{Protected System} \\ 
-\hline 
-Host & Packet send & Firewall & Intranet \\ 
-\hline 
-User & Open File & OS Kernel & File System \\ 
-\hline 
-Java Program & Open File & Java Security Manager & File \\ 
-\hline 
-User & Query & DBMS & Database \\ 
-\hline 
-User & Get page & Web Server  & Web Site \\ 
-\hline 
-\end{tabular} 
+\hline
+\textbf{Principal} & \textbf{Action} & \textbf{Guard} & \textbf{Protected System} \\
+\hline
+Host & Packet send & Firewall & Intranet \\
+\hline
+User & Open File & OS Kernel & File System \\
+\hline
+Java Program & Open File & Java Security Manager & File \\
+\hline
+User & Query & DBMS & Database \\
+\hline
+User & Get page & Web Server  & Web Site \\
+\hline
+\end{tabular}
 \end{center}
 
 \subsection{Principal}
-Authenticatie van de entiteit bestaat uit het verifi\"eren van de geclaimde identiteit van een entiteit (de \textbf{principal}) waarmee de \textbf{guard} interageert. Deze entiteit kan een menselijke gebruiker zijn, een computer, een gebruiker op een andere computer of een gebruiker die een specifiek stuk code uitvoert. Afhankelijk van de entiteit is er nood aan een andere oplossing. We beperken ons hier tot het geval waarbij de \textbf{principal} een gebruiker is.
+Authenticatie bestaat uit het verifi\"eren van de geclaimde identiteit van een entiteit (de \textbf{principal}) waarmee de \textbf{guard} interageert. Deze entiteit kan een menselijke gebruiker zijn, een computer, een gebruiker op een andere computer of een gebruiker die een specifiek stuk code uitvoert. Afhankelijk van de entiteit is er nood aan een andere oplossing. We beperken ons hier tot het geval waarbij de \textbf{principal} een gebruiker is.
 \\\\
 De authenticatie kan bestaan uit het kennen van een geheim (paswoord of PIN), uit het bezitten van een fysieke eigenschap (biometrie) of door in het bezit te zijn van een token (smartcard, digipas). Andere opties zijn het verifi\"eren of een gebruiker op een bepaalde locatie is (dialback) of in staat is \textit{iets} te doen (handtekening, CAPTCHA).
 
 \subsection{Guard}
-Wanneer de guard een actie ontvangt beslist hij wat ermee te doen. We beschouwen enkel het geval waarbij de keuze bestaat uit \textbf{pass} of \textbf{drop} maar er zijn verschillende alternatieven mogelijk. 
+Wanneer de guard een actie ontvangt beslist hij wat ermee te doen. We beschouwen enkel het geval waarbij de keuze bestaat uit \textbf{pass} of \textbf{drop} maar er zijn verschillende alternatieven mogelijk.
 \\\\
 De guard kan gemodelleerd worden als een \textit{beveiligingsautomaat} die zich in een zekere toestand bevindt. Zijn verzameling toestanden wordt dan gekenmerkt door een aantal getypeerde toestandsvariabelen. Overgangen kunnen worden beschreven door predicaten gebaseerd op de lokale toestand en de actie.
 
 
 \section{Klassieke modellen toegangscontrole}
-We maken onderscheid tussen tussen het \textbf{toegangscontrolebeleid} (\textit{access control policy}) en het \textbf{toegangscontrolemodel} (\textit{access control model}). Het beleid bepaalt de regels die zeggen wat toegestaan is en wat niet. De semantiek hiervan is een beveiligingsautomaat in een zekere toestand. Het toegangsmodel is een verzameling \textit{policies} met gelijkaardige karakteristieken. het model maakt bepaalde beslissingen over wat zich in de beveiligingstoestand bevindt en hoe acties worden afgehandeld. 
+We maken onderscheid tussen tussen het \textbf{toegangscontrolebeleid} (\textit{access control policy}) en het \textbf{toegangscontrolemodel} (\textit{access control model}). Het beleid bepaalt de regels die zeggen wat toegestaan is en wat niet. De semantiek hiervan correspondeert met een zekere toestand in de  beveiligingsautomaat. Het toegangsmodel is een verzameling \textit{policies} met gelijkaardige karakteristieken. het model maakt bepaalde beslissingen over wat zich in de beveiligingstoestand bevindt en hoe acties worden afgehandeld.
 
 \subsection{Discretionary Access Control (DAC)}
-Het doel van dit model is het delen van informatie onder controle van de maker ervan.
+Dit model heeft als doel informatie te delen onder controle van diens eigenaar.
 \\\\
 De sleutelconcepten zijn:
 \begin{multicols}{2}
@@ -59,7 +59,7 @@ De sleutelconcepten zijn:
 \end{itemize}
 \end{multicols}
 \noindent
-Verschillende varianten bepalen of het mogelijk is om de eigendom van een object door te geven, om het recht tot toekenning van rechten door te geven of om rechten al dan niet te kunnen intrekken.
+Er bestaan verschillende varianten die het mogelijk maken om het eigendomsrecht van een object door te geven, om het recht tot toekenning van rechten door te geven of om rechten al dan niet te kunnen intrekken.
 
 \subsubsection{Beveiligingsautomaat voor DAC}
 \begin{lstlisting}[caption=DAC Automaat]
@@ -111,11 +111,11 @@ Door een groepsstructuur toe te voegen met groepen en negatieve permissies kan h
 DAC wordt doorgaans echter niet ge\"implementeerd aan de hand van een gecentraliseerde beveiligingstoestand. Typisch wordt er gebruik gemaakt van \textbf{access control lists} (Windows 2000) of \textbf{capabilities} (Unix).
 
 \subsection{Mandatory Access Control (MAC)}
-Het doel van dit model is strikte controle verkrijgen over de informatiestroom. Een concreet voorbeeld van dit model is \textbf{Lattice Based Access Control (LBAC)}. Hierbij wordt een raster van \textit{veiligheidslabels} opgesteld. Elk object en gebruiker worden gelabeld met een beveiligingslabel. Er wordt dan afgedwongen dat gebruikers enkel informatie kunnen zien onder hun veiligheidsniveau. 
+Het doel van dit model is strikte controle verkrijgen over de informatiestroom. Een concreet voorbeeld van dit model is \textbf{Lattice Based Access Control (LBAC)}. Hierbij wordt een raster van \textit{veiligheidslabels} opgesteld. Elk object en elke gebruiker worden gelabeld met een beveiligingslabel. Er wordt dan afgedwongen dat gebruikers enkel informatie kunnen zien onder hun veiligheidsniveau.
 \\\\
 Een beveiligingslabel bestaat is een tupel bestaande uit een \textit{level} en een \textit{afdeling}. Deze laatste bestaat uit een verzameling van \textit{categorie\"en}. Een \textit{categorie} is een sleutelwoord gerelateerd aan een project of interessegebied. De levels worden vervolgend lineair geordend. Bijvoorbeeld: Top Secret - Secret - Confidential - Unclassified. Afdelingen worden geordend volgens het bevatten van een deelverzameling.
 \\\\
-Elke gebruiker start een \textit{sessie} of \textit{onderwerp} welke wordt gelabeld bij hun creatie. Gebruikers met niveau $L$ kunnen onderwerpen starten met labels $L' \leq L$.  Volgende regels worden afgedwongen:
+De gebruiker start een \textit{sessie} of \textit{onderwerp} die wordt gelabeld bij creatie. Gebruikers met niveau $L$ kunnen onderwerpen starten met labels $L' \leq L$.  Volgende regels worden afgedwongen:
 \begin{itemize}
 	\item Een onderwerp met label $L$ kan enkel objecten lezen met label $L' \leq L$. (geen \textit{read up})
 	\item Een onderwerp met label $L$ kan enkel objecten schrijven met label $L' \geq L$. (geen \textit{write down})
@@ -141,7 +141,7 @@ void read(Session s, Obj o)
 // No write down
 void write(Session s, Obj o)
   requires s in sessions && o in objects && slabel[s] <= olabel[o]; {}
-  
+
 // Managing sessions and objects
 void createSession(User u, Label l)
   requires (u in users) && ulabel[u] >= l ; {
@@ -196,11 +196,11 @@ void dropRole(User u, Session s, Role r)
 \end{lstlisting}
 
 \subsubsection{RBAC Extension}
-Een uitbreiding op het RBAC model bestaat uit het invoeren van hi\"erarchische rollen. De vaderrol erft alle permissies van zijn kinderrollen. Daarnaast kunnen ook beperkingen worden ingevoerd:
+Een uitbreiding op het RBAC model bestaat uit het invoeren van hi\"erarchische rollen. Daarnaast kunnen ook beperkingen worden ingevoerd:
 \begin{itemize}
-	\item \textbf{Static Constraints} Beperkingen op de toekenning van gebruikersrollen. 
+	\item \textbf{Static Constraints} Beperkingen op de toekenning van gebruikersrollen.
 	\\ \textit{Bijvoorbeeld statische scheiding van plichten: niemand kan beide producten en bestellen en betalingen goedkeuren.}
-	\item \textbf{Dynamic Constraints} Beperkingen op de gelijktijdige activatie van rollen. 
+	\item \textbf{Dynamic Constraints} Beperkingen op de gelijktijdige activatie van rollen.
 	\\ \textit{Bijvoorbeeld het afdwingen van de minst geprivilegieerde rol.}
 
 \end{itemize}
@@ -214,27 +214,24 @@ In realiteit wordt RBAC ge\"implementeerd in gegevensbanken of specifieke applic
 Enkele andere modellen:
 \begin{itemize}
 	\item \textbf{Biba Model} Afdwingen van integriteit a.d.h.v informatieverloop
-	\item \textbf{Chinese Wall Model} Dynamisch toegangscontrolemodel \\ 
+	\item \textbf{Chinese Wall Model} Dynamisch toegangscontrolemodel \\
 	\textit{Een consultant kan enkel geheime bedrijfsinformatie zien van \'e\'en bedrijf in elk mogelijk geval van conflict-of-interest. }
 \end{itemize}
 
 \section{Toegangscontrole voor code}
-Toegangscontrole voor code is noodzakelijk om applicaties uitbreidbaar te maken. Moderne programma's bieden vaak de mogelijkheid tot uitbreiding \textit{at run time} met mogelijk gedownloade code.  Enkele voorbeelden hiervan zijn \textit{applets} of \textit{controls} op een webpagina, browser plugins, multimedia codes, etc. 
+Toegangscontrole voor code is noodzakelijk om applicaties uitbreidbaar te maken. Moderne programma's bieden vaak de mogelijkheid tot uitbreiding \textit{at run time} met mogelijk gedownloade code.  Enkele voorbeelden hiervan zijn \textit{applets} of \textit{controls} op een webpagina, browser plugins, multimedia codes, etc.
 \\\\
-Het besturingssysteem voert de applicatie zelf uit samen met al zijn (mogelijk minder betrouwbare) uitbreidingen. Hier faalt het model van \'e\'en sessie (proces) met een vaste verzameling permissies. Wanneer een onbetrouwbare code wordt uitgevoerd moeten de permissies mogelijk worden gereduceerd. Hiervoor is een nieuwe architectuur voor toegangscontrole vereist.
+Het besturingssysteem voert de applicatie uit samen met al zijn (mogelijk minder betrouwbare) uitbreidingen. Hier faalt het model van \'e\'en sessie (proces) met een vaste verzameling permissies. Wanneer er onbetrouwbare code wordt uitgevoerd moeten mogelijks de verstrekte permissies worden gereduceerd. Hiervoor is een nieuwe architectuur met betrekking tot toegangscontrole vereist.
 
 \subsection{Terminologie}
 
 % TODO: Structure this block of text.
 
-Een \textbf{component} is een softwareonderdeel dat een eenheid vormt voor deployment en samengesteld kan zijn door derde partijen. Een applicatie kan bestaan uit meerdere componenten waarbij sommige meer betrouwbaar zijn dan anderen. Een applicatie kan bovendien worden uitgevoerd \textit{at run time} met nieuwe componenten. 
-
+Een \textbf{component} is een softwareonderdeel dat een eenheid vormt voor deployment en samengesteld kan zijn door derde partijen. Een applicatie kan bestaan uit meerdere componenten waarbij sommige meer betrouwbaar zijn dan anderen. Een applicatie kan bovendien worden uitgebreid \textit{at run time} met nieuwe componenten.
+\\\\
 Een permissie encapsuleert de rechten om middelen aan te spreken of operaties uit voeren. Elke keer een middel wordt aagesproken of een gevoelige operatie wordt uitgevoerd wordt expliciet gecontroleerd welke componenten actief zijn aan de hand van \textbf{stack inspection}. Wanneer er een onregelmatigheid optreedt wordt een exceptie gegooid.
-
-Permissies representeren het recht om een actie te ondernemen. Omdat permissies een semantiek hebben kunnen permissies elkaar impliceren. 
-
-Een beveilingsbeleid kent permissies toe aan componenten. Dit wordt typisch ge\"implementeerd als een configureerbare functie die bewijsmateriaal toekent aan permissies. Dit bewijsmateriaal is relevante informatie over het component, zoals waar het vandaan komt en/of het digitaal ondertekend is. Wanneer een component wordt geladen checkt de VM de permissies en onthoudt ze voor de volgende keer. 
-
+\\\\
+Permissies weerspiegelen het recht om een actie te ondernemen. Een beveilingsbeleid kent permissies toe aan componenten. Dit wordt typisch ge\"implementeerd als een configureerbare functie die \textit{evidence} toekent aan permissies. Dit \textit{evidence} is relevante informatie over de component, zoals waar het vandaan komt en/of het digitaal ondertekend is. Wanneer een component wordt geladen checkt de VM de permissies en onthoudt ze voor de volgende keer.
 
 
 \subsection{Stack Walking}
@@ -313,15 +310,15 @@ We kunnen concluderen dat de meeste modellen het \textbf{Lampson model} implemen
 Tenslotte besproken we \textit{Code Access Control} wat een andere aanpak vereiste dan de andere modellen.
 
 \section{Windows toegangscontrole en authenticatie}
-Bij het Windowsbesturingssysteem zijn de \textbf{principals} de gebruikers, machines of groepen. Deze worden ge\"identificeerd aan de hand van hi\"erarchischer en globaal unieke  \textbf{Security Identifiers}. \textbf{Authorities} beheren de principals en hun \textit{credentials}. Op elke computer is een dergelijke \textbf{Local Security Authority} aanwezig. De \textbf{Domain Controller} is de authority voor een domein. Tussen \textit{Authorities} heerst vertrouwen. Zo vertrouwt een computer die deel uitmaakt van een domein het domein zelf. Verschillende domeinen kunnen vetrouwenslinken tussen elkaar vastleggen.
+Bij het Windowsbesturingssysteem zijn de \textbf{principals} de gebruikers, machines of groepen. Deze worden ge\"identificeerd aan de hand van hi\"erarchischer en globaal unieke  \textbf{Security Identifiers}. \textbf{Authorities} beheren de principals en hun \textit{credentials}. Op elke computer is een dergelijke \textbf{Local Security Authority} aanwezig. De \textbf{Domain Controller} is de authority voor het domein. Tussen \textit{Authorities} heerst vertrouwen. Zo vertrouwt een computer die deel uitmaakt van een domein het domein zelf. Verschillende domeinen kunnen vetrouwenslinken tussen elkaar vastleggen.
 \subsection{Logon Session}
-Authenticatie gebeurt lokaal aan de hand van een paswoord. Wanneer de computer deel uitmaakt van een domein wordt \textit{Kerberos} of \textit{NTLM} gebruikt. Succesvolle authenticatie leidt tot een \textbf{logon session}. Hiervan bestaan verschillende varianten:
+Authenticatie gebeurt lokaal aan de hand van een wachtwoord. Wanneer de computer deel uitmaakt van een domein wordt \textit{Kerberos} of \textit{NTLM} gebruikt. Succesvolle authenticatie leidt tot een \textbf{logon session}. Hiervan bestaan verschillende varianten:
 \begin{itemize}
 	\item \textbf{Interactieve logon session} voor gebruiker die lokaal aangemeld zijn.
 	\item \textbf{Network logon session} voor gebruiker die op afstand zijn aangemeld.
-	\item \textbf{Service logon session} voor services die uitgevoerd worden als een gegeven gebruiker.
+	\item \textbf{Service logon session} voor services die uitgevoerd worden onder de naam van een gebruiker.
 \end{itemize}
-De \textit{logon session} ontvangt een \textbf{access token} die alle autorisatie-attributen bevat die verbonden zijn met de gebruiker. Alle processen of threads die worden aangemaakt onder een \textit{logon session} ontvangen dezelfde \textit{access token}. 
+De \textit{logon session} ontvangt een \textbf{access token} die alle autorisatie-attributen bevat die verbonden zijn met de gebruiker. Alle processen of threads die worden aangemaakt onder een \textit{logon session} ontvangen dezelfde \textit{access token}.
 
 \subsection{Access Token}
 \begin{itemize}
@@ -329,12 +326,12 @@ De \textit{logon session} ontvangt een \textbf{access token} die alle autorisati
 	\item SID's voor de groepen waartoe de gebruiker behoort
 	\begin{itemize}
 		\item Gedefinieerd door de \textit{authority} (doorgaans het domein)
-		\item Representeert de organisationele stuctuur
+		\item weerspiegelt de organisationele stuctuur
 	\end{itemize}
 	\item SID's voor de lokale groepen waartoe de gebruiker behoort
 	\begin{itemize}
 		\item Lokaal gedefinieerd
-		\item Representeert de logische rollen van applicaties
+		\item weerspiegelt de logische rollen van applicaties
 	\end{itemize}
 	\item Privileges voor de gebruiker
 \end{itemize}
@@ -347,7 +344,7 @@ Elk \textit{beschermbaar object} draagt een \textbf{security descriptor}. Voorbe
 	\item DACL (Discretionary ACL): gebruikt voor toegangscontrole
 	\item SACL (System ACL): specificeert wat geauditeerd moet worden
 \end{itemize}
-Deze wordt aangemaakt op basis van een standaardvoorbeeld op het moment dat een object wordt gecreëerd. 
+Deze wordt aangemaakt op basis van een standaardvoorbeeld op het moment dat een object wordt gecreëerd.
 
 \subsubsection{Windows DACL}
 Een DACL bevat een gesorteerde lijst met toegangscontrole-elementen. Elk item verleent of verbiedt een specifiek toegangsrecht aan een groep gebruikers. Items die toegang verbieden worden vooraan in de lijst geplaatst.
@@ -360,19 +357,20 @@ De kernel voert toeganscontrole checks uit voor elk beveiligbaar object.
 \end{itemize}
 
 \subsection{Caching}
-Uitgebreide caching wordt gebruikt om de performantie op te drijven. Zo worden de autorisatie attributen gecached in het \textit{access token}. Wanneer een bestand is geopend wordt diens \textit{file handle} gebruikt als \textit{capability} zodat verder geen toegangscontrole moet worden uitgevoerd. Dit betekent echter wel dat verandering niet onmiddellijk worden doorgevoerd als de gebruiker aangemeld is.
+Uitgebreide caching wordt gebruikt om de performantie op te drijven. Zo worden de autorisatie attributen gecached. Daarnaast, wanneer een bestand wordt  geopend, wordt diens \textit{file handle} gebruikt als \textit{capability} zodat verder geen toegangscontrole dient te worden uitgevoerd. Dit betekent echter wel dat verandering pas worden doorgevoerd zodra de gebruiker zich opnieuw aanmeldt.
 
 \subsection{Toegangcontrole in applicaties}
 \begin{itemize}
 	\item \textbf{Impersionation} De server verifieert de cli\"ent en bindt diens token aan de thread die de aanvraag uitvoert.
 	\item \textbf{Role-Based} Zoek de lokale groep SID die overeenkomt met de rol van het \textit{access token} van de cli\"ent.
 	\item \textbf{Object-Based} Beheer zelfs ACL's aan de hand van een API.
+\end{itemize}
 
 \subsection{Running least privilege}
-De toegangscontrole van het besturingssysteem kan ook gebruikt worden om programma's te \textit{sandboxen} om het OS te beschreven tegen kwetsbaarheden in het programma, virussen, of Trojaanse paarden. Er moet echter aandacht worden besteed aan welke objecten de applicatie nodig heeft en welke geprivilegieerde API's het programma wilt aanspreken.
+Het mechanisme voor toegangscontrole van het besturingssysteem kan ook gebruikt worden om programma's te \textit{sandboxen} en zo het OS te beschreven tegen kwetsbaarheden in het programma, virussen, of Trojaanse paarden. Er moet echter aandacht worden besteed aan welke objecten de applicatie nodig heeft en welke geprivilegieerde API's het programma wilt aanspreken.
 
 \subsection{Windows Vista's integriteitsbescherming}
-Windows Vista voegt een \textit{lattice-based} toegangscontrolesysteem toe aan zijn model. Het wordt gebruikt voor integriteitscontrole (cfr. Biba model) Beveiligbare objecten ontvangen een integriteitsniveau wat representeert hoe belangrijk zijn integriteit is. Ook \textit{access tokens} ontvangen een niveau wat representeert hoe "ge\"infecteerd" ze zijn. Er wordt onderscheid gemaakt tussen drie niveaus: \textbf{High} (admin), \textbf{Medium} (gebruiker) en \textbf{Low} (niet vertrouwd).
+Windows Vista voegt een \textit{lattice-based} toegangscontrolesysteem toe aan zijn model. Het wordt gebruikt voor integriteitscontrole (cfr. Biba model) Beveiligbare objecten ontvangen een integriteitsniveau wat weerspiegelt hoe belangrijk diens integriteit is. Ook \textit{access tokens} ontvangen een niveau wat weerspiegelt hoe "ge\"infecteerd" ze zijn. Er wordt onderscheid gemaakt tussen drie niveaus: \textbf{High} (admin), \textbf{Medium} (gebruiker) en \textbf{Low} (niet vertrouwd).
 
 \end{itemize}
 \end{document}

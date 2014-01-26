@@ -1,4 +1,4 @@
-\documentclass[../main.tex]{subfiles} 
+\documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Low-Level softwarebeveiliging}
 \section{Introductie}
@@ -6,16 +6,16 @@ Een \emph{implementation-level software vulnerability} is een fout in een progra
 In dit hoofdstuk hebben we het concreet over \emph{memory corruption vulnerabilies}.
 Deze zwakheden zijn enkel relevant voor onveilige talen.
 Dat zijn programmeertalen die niet controleren of programma's het geheugen correct gebruiken.
-Hieronder staat een voorbeeld in ANSI c in listing \ref{l:intro}. Omdat er nergens de lengte van de input argumenten wordt nagekeken kan men in geheugen schrijven waar dat niet zou mogen.
+Hieronder staat een voorbeeld in ANSI C in listing \ref{l:intro}. Omdat er nergens de lengte van de input argumenten wordt nagekeken kan men in geheugen schrijven waar dat niet zou mogen.
 Op die manier kan er arbitraire code worden uitgevoerd (een \emph{code injection attack}).
- 
+
 \lstinputlisting[style=cstyle, label=l:intro]{\codeSrc/intro_example.c}
 
 \subsection{Achtergrond informatie}
 Er kan op verschillende manieren geheugen gealloceerd worden in C:
 \begin{description}
-	\item[Automatisch] via locale variablen in functies.	
-	\item[Statisch] via globale variablen.	
+	\item[Automatisch] via locale variablen in functies.
+	\item[Statisch] via globale variablen.
 	\item[Dynamisch] via \lstinline[style=cstyle]{void *malloc(size_t size);} en \lstinline[style=cstyle]{new}.
 \end{description}
 De programmeur is verantwoordelijk voor dit geheugenbeheer van het alloceren tot het de-alloceren.
@@ -46,21 +46,21 @@ Om onveilige code aan te vallen moet een aanvaller hetvolgende doen:
 						\item Dereference van dangling pointer
 						\item Gebruik van onveilige API functie. Die ofwel een buffer overflowt (e.g. \lstinline[style=cstyle]{strcpy()} ofwel intrinsiek onveilig geimplementeerd is in assembly (e.g. \lstinline[style=cstyle]{printf()}
 				\end{itemize}
-		\item Een interessante geheugen plaats vinden om te overschrijven.
+		\item Een interessante geheugenplaats vinden om te overschrijven.
 				\begin{itemize}
 								\item Code adressen/pointers: Return address, Function pointer in Virtual function table, Programma specifieke fuction pointers
 								\item Pointers waar de aanvaller kan controleren wat er wordt geschreven als die dereferenced raakt (= Indirect pointer overwrite): redirect de pointer naar een andere interessante locatie en schrijf dan daar een zekere waarde.
 				\end{itemize}
-		\item Aanvals code in het geheugen van het process plaatsen.
+		\item Aanvalscode in het geheugen van het process plaatsen.
 \end{itemize}
 
-\section{Aanvals voorbeelden}
+\section{Aanvalsvoorbeelden}
 \subsection{Stack-based buffer overflow}
-De stack is een geheugen gebied dat wordt gebruikt om functie oproepen en returns at run time te beheren.
+De stack is een geheugengebied dat wordt gebruikt om functie-oproepen en returns at run time te beheren.
 Per oproep wordt er een \emph{activation record} of \emph{stack frame} op de stack gepusht. Daarin zitten parameters, return address, lokale variablen, \ldots
-Het is eenvoudig in te zien dat als er nu een lokale variable kan worden overflowt dat er interessante geheugen plaatsen ter beschikking komen.
+Het is eenvoudig in te zien dat als er nu een lokale variable kan worden overflowt dat er interessante geheugenplaatsen ter beschikking komen.
 
-In de onderstaande figuren leggen we een typisch Stack Based Buffer Overflow uit. Opgelet ook hier weer veronderstellen we dat bovenaan hoge addressen staan en dus overflowt een buffer naar boven.
+In de onderstaande figuren leggen we een typisch Stack Based Buffer Overflow uit. Opgelet: ook hier weer veronderstellen we dat bovenaan hoge addressen staan en dus overflowt een buffer naar boven.
 In figuur \ref{f:stackBO1} tonen we een normale (niet aangevallen) stack waarbij het laatste stackframe dat van functie f0 is. De instructiepointer (IP) aan het begin van f0 staat en de (Saved) Frame Pointer ((S)FP) en Stack Pointer (SP) staan aangeduid.
 \begin{figure}
 \centering
@@ -69,7 +69,7 @@ In figuur \ref{f:stackBO1} tonen we een normale (niet aangevallen) stack waarbij
 \label{f:stackBO1}
 \end{figure}
 
-Vervolgens in figuur \ref{f:stackBO2} wordt functie f1 opgeroepen. Een nieuw stackframe wordt op de stack gepusht. Let hierop dat in dit frame het return address nu wijst naar code net onder de call naar f1. De SFP wijst naar het frame van f0 en er daarachter plaats is voorzien voor de lokale variable \lstinline[style=cstyle]{buffer[]}. De stackpointer wijst natuurlijk net voorbij het frame van f1.
+Vervolgens in figuur \ref{f:stackBO2} wordt functie f1 opgeroepen. Een nieuw stackframe wordt op de stack gepusht. Let erop dat in dit frame het return address nu wijst naar code net onder de call naar f1. De SFP wijst naar het frame van f0 en er daarachter plaats is voorzien voor de lokale variable \lstinline[style=cstyle]{buffer[]}. De stackpointer wijst natuurlijk net voorbij het frame van f1.
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{\imageSrc/stackBO2.png}
@@ -77,52 +77,52 @@ Vervolgens in figuur \ref{f:stackBO2} wordt functie f1 opgeroepen. Een nieuw sta
 \label{f:stackBO1}
 \end{figure}
 
-In deze figuur wordt de overflow aangeduid. Als er geen bounds check gebeurdt kan de buffer blijven groeien en zo eerst de SFP, en dan het return address overschrijven. Door nu in het buffer uitvoerbarde code te steken en het return address naar die code te doen verwijzen kan er alles met het programma worden gedaan.
+In deze figuur wordt de overflow aangeduid. Als er geen bounds check gebeurd kan de buffer blijven groeien en zo eerst de SFP, en dan het return address overschrijven. Door nu in het buffer uitvoerbare code te steken en het return address naar die code te doen verwijzen kan het programma volledig worden gecontroleerd.
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{\imageSrc/stackBO3.png}
 \caption{Stack layout na buffer overflow attack op de lokale variable buffer in functie f1.}
 \label{f:stackBO3}
 \end{figure}
-Het voorbeeld dat we in de introductie zagen (zie listing \ref{l:intro}) is een goed voorbeeld van een programma kwetsbaar voor een buffer overflow attack.
-
+Het voorbeeld uit de introductie (zie listing \ref{l:intro}) is een goed voorbeeld van een programma kwetsbaar voor een buffer overflow attack.
+\\\\
 Code die vaak wordt gebruikt om te injecteren is het starten van een nieuwe shell.
 Om dit te doen wordt er zogenaamde shellcode gebruikt.
 Dit is een string van hexadecimale codes die dan worden geinterpreteerd als programma code.
 Hieronder vind u een voorbeeld die op Linux systemen met een intel x86 architectuur kan gebruikt worden om de \emph{sh} shell te starten.
 
 \begin{blockquote}
-	"\textbackslash xeb\textbackslash x1f\textbackslash x5e\textbackslash x89\textbackslash x76\textbackslash x08\textbackslash x31\textbackslash xc0\textbackslash x88\textbackslash x46\textbackslash x07\textbackslash x89\textbackslash x46\textbackslash x0c\textbackslash xb0\textbackslash x0b \textbackslash x89\textbackslash xf3\textbackslash x8d\textbackslash x4e \\\textbackslash x08\textbackslash x8d\textbackslash x56\textbackslash x0c\textbackslash xcd \textbackslash x80\textbackslash x31\textbackslash xdb\textbackslash x89\textbackslash xd8\textbackslash x40\textbackslash xcd\textbackslash x80\textbackslash xe8\textbackslash xdc\textbackslash xff\textbackslash xff\textbackslash xffbin/sh"
+	\texttt{"\textbackslash xeb\textbackslash x1f\textbackslash x5e\textbackslash x89\textbackslash x76\textbackslash x08\textbackslash x31\textbackslash xc0\textbackslash x88\textbackslash x46\textbackslash x07\textbackslash x89\textbackslash x46\textbackslash x0c\textbackslash xb0\textbackslash x0b \textbackslash x89\textbackslash xf3\textbackslash x8d\textbackslash x4e \\\textbackslash x08\textbackslash x8d\textbackslash x56\textbackslash x0c\textbackslash xcd \textbackslash x80\textbackslash x31\textbackslash xdb\textbackslash x89\textbackslash xd8\textbackslash x40\textbackslash xcd\textbackslash x80\textbackslash xe8\textbackslash xdc\textbackslash xff\textbackslash xff\textbackslash xffbin/sh"}
 \end{blockquote}
 
-Om een stack based buffer overflow werkend te krijgen zijn er heel veel details waar de aanvaller rekening mee moet houden: O.a. 
+Om een stack based buffer overflow werkend te krijgen zijn er heel veel details waar de aanvaller rekening mee moet houden.
 
 \subsection{Heap-based buffer overflow}
-Soms bevatten programmas enkel een overflowbare buffer die op de heap gealloceerd is.
+Soms bevatten programma's enkel een overflowbare buffer die op de heap gealloceerd is.
 Bijvoorbeeld globaal gedeclareerde structuren.
-Aangezien die zich niet op de stack bevinden is er geen return address dicht bij.
-Wel zijn er andere manieren om toch een succesvolle code injection attack te doen waarvan we er hier twee bekijken: overwriting function pointer en overwriting heap metadata.
+Aangezien die zich niet op de stack bevinden is er geen return address in de nabijheid.
+Wel zijn er andere manieren om toch een succesvolle code injection aanval te doen waarvan we er hier twee bekijken: overschrijven van een function pointer en het overschrijven van heap metadata.
 \subsubsection{Overwriting function pointer}
-In listing \ref{l:heapBO} staat een programma dat kwetsbaar is voor een heap based buffer overflow door middel van een function pointer te overschrijven. 
+Listing \ref{l:heapBO} toont een programma dat kwetsbaar is voor een heap based buffer overflow door middel van een function pointer te overschrijven.
 \lstinputlisting[style=cstyle, label=l:heapBO]{\codeSrc/heapBO.c}
 
 Figuur \ref{f:heapBO1} toont hoe de vulnerability wordt uitgebuit.
-In (a) zien we de opeenvolgende adressen van de struct en de waardes die ze initieel krijgen toegekent.
+In (a) zien we de opeenvolgende adressen van de struct en de waardes die ze initieel krijgen toegekend.
 In (b) zien we hoe er een overflow kan worden gerealiseerd die cmp overschrijft.
 
-Let hierbij op het feit dat de waardes in Little Endian worden opgeslagen.
+Let hierbij op het feit dat de waardes in \textit{Little Endian} worden opgeslagen.
 Dit betekend dat de eerste byte van een geheugenlocatie de meest rechtse positie krijgt.
-We kunnen dit makkelijk zien door het einde van het voorbeeld (b)te bekijken. De laatste drie characters van de string zijn ``sdf''.
+We kunnen dit makkelijk zien door het einde van het voorbeeld (b) te bekijken. De laatste drie characters van de string zijn ``sdf''.
 We weten dat ``s'' overeenkomt met het hexadecimale ``73'', d met ``64'' en f met ``66''.
 
-Als we nu naar de geheugen locatie van cmp (\emph{0x00353078}) kijken dan vinden we daar \emph{0x00666473}. 
+Als we nu naar de geheugen locatie van cmp (\emph{0x00353078}) kijken dan vinden we daar \emph{0x00666473}.
 Tabel
 \begin{table}
-\centering 
+\centering
 \begin{tabular}{l|cccc|}
-		Geheugen plaats (hex) & 0x0035307b & 0x0035307a & 0x00353079 & 0x00353078 \\ \hline
+		geheugenplaats (hex) & 0x0035307b & 0x0035307a & 0x00353079 & 0x00353078 \\ \hline
 		Geheugen waarde (hex) & 00 & 66 & 64 & 73 \\ \hline
-		Character (string representatie) & n/a & f & d & s \\ \hline   
+		Character (string representatie) & n/a & f & d & s \\ \hline
 \end{tabular}
 \end{table}
 
@@ -138,7 +138,7 @@ De heap wordt gebruikt om dynamisch gealloceerde data op te slaam.
 Met functies zoals \lstinline[style=cstyle]{malloc()} worden er dynamisch geheugenblokken gealloceerd en gedealloceerd met \lstinline[style=cstyle]{free()}.
 De meest memory allocation libraries onthouden metadata voor of achter gebruikte blokken.
 Een gevolg daarvan is dat buffer overruns op de heap deze management informatie kunnen overschrijven.
-Dit maakt een \emph{indirect pointer overwrite} aanval mogelijk. 
+Dit maakt een \emph{indirect pointer overwrite} aanval mogelijk.
 
 Om de aanval te begrijpen kijken we eerst naar hoe de heap er uit ziet in het normale geval.
 In figuur \ref{f:heapBO2} vinden we hoe een gebruikt blok en een leeg blok eruit zien.
@@ -155,11 +155,11 @@ Als een blok gebruikt wordt dan wordt het uit de lijst gehaald door de backward 
 
 Het idee is nu om dit feit uit te buiten door het unlink mechanisme te gebruiken om het return address van een functie op de stack te vervangen.
 In figure \ref{f:heapBO3} wordt er in blok d een buffer geoverflowt zodat de forward en backward pointer van c kunnen overschreven worden.
-Concreet gebeurdt dat door de backward pointer (groen) te doen wijzen naar in de buffer waar de geinjecteerde code staat. 
+Concreet gebeurdt dat door de backward pointer (groen) te doen wijzen naar in de buffer waar de geinjecteerde code staat.
 De forward pointer van c moet dan wijzen naar twaalf plaatsen \emph{onder} (er wordt immers bij het unlinken twaalf plaatsen hoger geschreven) het return address (RA) van een functie.
 Het eigenlijke resultaat is dat te bezichtigen in \ref{f:heapBO4}.
 Van zodra blok c wordt gebruikt zal de aanval opgezet zijn.
-Het return address van een zekere functie zal dan immers wijzen naar de geinjecteerde code. 
+Het return address van een zekere functie zal dan immers wijzen naar de geinjecteerde code.
 Van zodra die functie dan returnt zal bijvoorbeeld de shell code worden uitgevoerd.
 
 \begin{figure}
@@ -220,7 +220,7 @@ Figuren \ref{f:libc1} en \ref{f:libc2} tonen hoe het returnen uit een functie de
 \label{f:libc2}
 \end{figure}
 
-Aangezien we de werking van de stack doorhebben kunnen we dat gebruiken om de stack na te bootsen.
+Aangezien we de werking van de stack begrijpen kunnen we dit gebruiken om de stack na te bootsen.
 Een nagebootste stack kan gewoon in een buffer wordten opgeslagen.
 De fake stack kan bijvoorbeeld een functie aanroepen die een shell start of het mogelijk maakt om andere code rechtstreeks te injecteren.
 Vervoglens moeten we de SP doen wijzen naar de fake stack net voor de return instructie van de actieve functie wordt uitgevoerd.
@@ -236,9 +236,9 @@ Dit soort aanvallen bestaat erin enkel de data van een programma te veranderen.
 Afhankelijk van die data kan dit tot interessante exploits leiden.
 We bekijken er hier twee: Unix password attack en overwriting the environment table.
 \subsubsection{Unix password attack}
-In figuur \ref{f:UnixPA} staat een voorbeeld van een onveilig passwoord controlerend programma.
-In een oude versie van unix werd dit gebruikt maar dit is eenvoudig te omzeilen.
-Als er immers een passwoord wordt ingegeven dat bestaat uit \emph{pw || hash(pw)} en het pw is lang genoeg dan overflowt het passwoord in de hash.
+In figuur \ref{f:UnixPA} staat een voorbeeld van een programma dat op een onveilige manier een wachtwoord controleert.
+In een oude versie van Unix werd dit gebruikt maar dit is eenvoudig te omzeilen.
+Als er immers een wachtwoord wordt ingegeven dat bestaat uit \emph{pw || hash(pw)} en het pw is lang genoeg dan overflowt het wachtwoord in de hash.
 Bijgevolg zal er altijd toegang worden verschaft.
 
 \begin{figure}
@@ -249,7 +249,7 @@ Bijgevolg zal er altijd toegang worden verschaft.
 \end{figure}
 
 \subsubsection{Overwriting the environment table}
-Doordat er soms assumpties worden gemaakt over de environment table door de programmeur kan dit worden uitgebuit. 
+Doordat er soms assumpties worden gemaakt over de environment table door de programmeur kan dit worden uitgebuit.
 In figuur \ref{f:dataonly} zien we kwetsbare code.
 De waarde achter de environment variable ``SAFECOMMAND'' wordt met een system call uitgevoerd.
 Maar aangezien we de offset van de data buffer en zijn waarde kunnen bepalen kunnen we in een (bijna) arbitraire geheugenlocatie schrijven en dus de waarde horend bij ``SAFECOMMAND'' veranderen in value.
@@ -258,10 +258,10 @@ Maar aangezien we de offset van de data buffer en zijn waarde kunnen bepalen kun
 
 \section{Verdedigings voorbeelden}
 \subsection{Stack canaries}
-Het idee van een stack canary is vrij eenvoudig en toch behoorlijk effectief.
+Het idee van een stack canary is vrij eenvoudig en tegelijk behoorlijk effectief.
 Net voor elke base pointer of return address wordt een zeker waarde in het stack frame geplaatst.
-Elke keer er nu een return gebeurdt wordt de waarde gecontroleerd of die niet verandered is.
-Die waarde noemen we dan een ``canary'' zo genoemd naar de canaries die werden gebruikt in de koolmijnen om giftige gassen vroegtijdig te ontdekken.
+Elke keer er nu een return gebeurdt wordt de waarde gecontroleerd of die al dan niet verandered is.
+Die waarde noemen we dan een ``canary'', genoemd naar de canaries die werden gebruikt in de koolmijnen om giftige gassen vroegtijdig te ontdekken.
 In figuur \ref{f:stackcanary} wordt er getoond hoe een overflow met een Canary eenvoudig kan worden gededecteert.
 
 \begin{figure}
@@ -275,7 +275,7 @@ In figuur \ref{f:stackcanary} wordt er getoond hoe een overflow met een Canary e
 Direct code injection aanvallen voeren een bepaald stuk code uit dat op de stack staat.
 De meeste normale programmas doen dit echter zelden dus een countermeasure kan erin bestaan om de heap en stack volledig als non-executable data te markeren.
 Dit voorkmont dan direct code injection maar geen data-only attacks of return-into-libc.
-Bovendien kan het zijn dat bepaalde legacy programmas hier WEL op steunen en dus met deze maatregel niet meer werken.
+Bovendien kan het zijn dat bepaalde legacy programmas hier \textbf{wel} op steunen en dus met deze maatregel niet meer werken.
 
 \subsection{Control-flow integrity}
 De meeste aanvallen die we bespraken breken de control flow zoals die gecodeerd is in de broncode.
@@ -285,7 +285,7 @@ Andere mogelijkheden kunnen erin bestaan expliciet te controleren of pointers ee
 Dit kan eenderzijds expliciet in de programma broncode worden gedaan.
 
 Anderzijds kan er een control-flow graph worden opgezet die gelinkt is aan mogelijke labels naar waar een call kan springen of kan van returnen.
-Met deze graph kan er dan dynamisch code geinserteerd worden die controleert of elke sprong geldig is door de labels na te kijken. 
+Met deze graph kan er dan dynamisch code geinserteerd worden die controleert of elke sprong geldig is door de labels na te kijken.
 Een voorbeeld daarvan is te vinden in figuur \ref{f:cfi}.
 
 \begin{figure}
@@ -297,11 +297,11 @@ Een voorbeeld daarvan is te vinden in figuur \ref{f:cfi}.
 
 \subsection{Layout randomization}
 De meeste van deze low-level aanvallen steunen op kennis van run time memory adressen.
-Door artificiele variatie in deze adressen te introduceren verhoogt de moeilijkheid voor deze aanvallen aanzienlijk. 
+Door artificiele variatie in deze adressen te introduceren verhoogt de moeilijkheid voor deze aanvallen aanzienlijk.
 Zo'n Adress Space Layout Randomization (ASLR) is een goedkope en effectieve countermeasure tegen dergerlijke aanvallen.
 
 \section{Conclusie}
-Door het implementeren van de countermeasures is er een soort arms-race ontstaan tussen aanvallers en verdedigers. 
+Door het implementeren van de countermeasures is er een soort arms-race ontstaan tussen aanvallers en verdedigers.
 Countermeasures zijn zelden perfect en de aanvallers bedenken nieuwe manieren om die te omzeilen.
 Hoewel het met de countermeasures veel moeilijker is om in C-family talen dergerlijke aanvallen te doen is het van security standpunt veiliger om over te stappen naar safe languages (bvb. Java of C\#).
 Een samenvatting van hoe de countermeasures die we bespraken de aanvallen (trachten) te voorkomen vind u in tabel \ref{t:overview}.
@@ -310,14 +310,14 @@ Een samenvatting van hoe de countermeasures die we bespraken de aanvallen (trach
 				\hline
 				& \textbf{Return address corruption} & \textbf{Heap Function pointer corruption} & \textbf{Jump-to-libc} & \textbf{Non-control data} \\ \hline \hline
 				\textbf{Stack Canary} & Partial defense & n/a & Partial defense & Partial defense \\ \hline
-				\textbf{Control-flow integrety} & Partial defense & Partial defense & Partial defense & \\ \hline 
-				\textbf{Control-flow integrety} &  Partial defense & Partial defense & Partial defense & \\ \hline 
-				\textbf{Address Space Layout Randomization} &  Partial defense & Partial defense & Partial defense & Partial defense \\ \hline 
+				\textbf{Control-flow integrety} & Partial defense & Partial defense & Partial defense & \\ \hline
+				\textbf{Control-flow integrety} &  Partial defense & Partial defense & Partial defense & \\ \hline
+				\textbf{Address Space Layout Randomization} &  Partial defense & Partial defense & Partial defense & Partial defense \\ \hline
 		\end{tabular}
 		\caption{Overzicht van aanvallen en verdedigings mechanismes voor low-level attacks.}
 		\label{t:overview}
 \end{table}
 
-De besproken ``automatische'' verdedigings mechanismes zijn maar een deel van het beveiligen van C software.
+De besproken ``automatische'' verdedigingsmechanismes zijn maar een deel van het beveiligen van C software.
 Andere onderdelen zijn o.a.: Threat modeling, Code Review en Security Testing.
 \end{document}

@@ -98,8 +98,8 @@ Deze techniek beschermt websites tegen kwaadaardige scripts van kwaadaardige web
 \\\\
 Deze techniek is echter niet perfect. Door entiteiten in het DOM kan een script een HTTP request starten bij een andere server. Wanneer de browser geprivilegieerde toegang heeft tot een server kan deze worden misbruikt door de aanvaller. Zo kan een script bijvoorbeeld toegang verkrijgen tot servers achter een firewall. Een ander voorbeeld is wanneer een gebruiker een geautoriseerde sessie heeft met een andere server en een script hierdoor geautoriseerde requests kan sturen. Een andere aanvalsmethode bestaat er in event-handlers te overloaden en zo te achterhalen of een server bestaat of beschikbaar is voor de gebruiker.
 
-\subsubsection{Kwaadwillige cli\"ent val server aan}
-De tegenmaatregelen voor deze aanval zijn vanzelfsprekend: toegangscontrole en authenticatie uitvoeren op de server. Typische aanvallen zijn SQL injectie, path inject of command inject.
+\subsubsection{Kwaadwillige cli\"ent valt server aan}
+De tegenmaatregelen voor deze aanval zijn vanzelfsprekend: toegangscontrole en authenticatie uitvoeren op de server. Typische aanvallen zijn SQL injection, path injection of command injection.
 
 \subsubsection{Aanvaller neust rond op het netwerk}
 De tegenmaatregel hiervoor is gebruik maken van SSL/TLS. Mogelijke aanvallen hierop zijn op hun beurt het aanvallen van de publieke sleutelinfrastructuur, het SSL protocol of doen aan SSL stripping. Dit laatste betekent alle \texttt{https} voorkomens vervangen door \texttt{http} in de broncode van de gedownloade webpagina.
@@ -122,13 +122,16 @@ Het tracken van sessies gebeurt doorgaans met cookies. Het authenticatieniveau i
 \subsubsection{Session Hijacking}
 Session hijacking is een aanval waarbij de aanvaller toegang probeert te krijgen tot de waarde van de sessie-cookie. Dit kan door het netwerk te \textit{sniffen}, door de cookie te stelen aan de hand van een script of door de waarde te gokken. 
 
-Tegenmaatregelen hiervoor bestaan uit het gebruiken van SSL/TLS of een \textit{random number}-generator. De cookie beschikt ook over een HTTPSonly-flag wat ervoor zorgt dat de cookie steeds wordt versleuteld. 
+Tegenmaatregelen hiervoor bestaan uit het gebruiken van SSL/TLS of een \textit{random number}-generator. De cookie beschikt ook over een HTTPS-only-flag wat ervoor zorgt dat de cookie steeds wordt versleuteld. 
 
 \subsubsection{Session Fixation}
 Bij deze aanval forceert de aanvaller de gebruiker om de sessie-ID van de aanvaller te gebruiken. Een eenvoudige tegenmaatregel bestaat uit het vervangen van de session-cookie wanneer het niveau van authenticatie verandert.
 
 \subsubsection{Cross-site Request Forgery (CSRF)}
-Deze aanval bestaat uit een aanvaller die de browser misleidt tot het injecteren van een request in een geautoriseerde sessie. Dit kan a.d.h.v scripting of het insluiten van een niet-lokale resources. Tegenmaatregelen bestaan uit het gebruiken van een geheim token en het strikt nakijken van de \textit{origin header}. Tenslotte bestaan er ook oplossing langs de kant van de cli\"ent zoals \textit{CsFire}.
+Deze aanval bestaat uit een aanvaller die de browser misleidt tot het injecteren van een request in een geautoriseerde sessie. 
+Dit kan a.d.h.v. scripting of het insluiten van een niet-lokale resources.
+Tegenmaatregelen bestaan uit het gebruiken van een geheim token en het strikt nakijken van de \textit{origin header}.
+Tenslotte bestaan er ook oplossing langs de kant van de cli\"ent zoals \textit{CsFire}\footnote{\url{https://distrinet.cs.kuleuven.be/software/CsFire/}}.
 
 \begin{figure}[h!]
     \centering
@@ -160,14 +163,14 @@ Elke invoer gebruikt door de webapplicatie die kan gemanipuleerd worden door de 
 	\item Registreer als een gebruiker met de naam \texttt{admin' --}.
 	\begin{itemize}
 		\item Op dit moment is er nog geen sprake van injectie. De naam is correct opgeslagen in de database.
-		\item Veronderstel nu dat het aanpassen van wachtwoorden gebeurt zoals in de listing hieronder.
+		\item Veronderstel nu dat het aanpassen van wachtwoorden gebeurt zoals in listing \ref{l:updpw}.
 	\end{itemize}
-	\item Als we nu ons wachtwoord aanpassen krijgen we een nieuwe query zoals hieronder.
+	\item Als we nu ons wachtwoord aanpassen krijgen we een nieuwe query zoals in listing \ref{l:sqlinj}.
 \end{enumerate}
-\begin{lstlisting}[caption=Updaten wachtwoord]
+\begin{lstlisting}[caption=Updaten wachtwoord, label=l:updpw]
 queryString = "UPDATE users SET password=`" + newPassword + "` WHERE userName=`" + userName + "` AND password=`" +oldPassword+ "`"
 \end{lstlisting}
-\begin{lstlisting}[caption=SQL Injection]
+\begin{lstlisting}[caption=SQL Injection, label=l:sqlinj]
 queryString = "UPDATE users SET password=`newpwd` WHERE userName=`admin`--` AND password=`oldPassword`"
 \end{lstlisting}
 
@@ -192,7 +195,9 @@ SELECT accounts FROM users WHERE
 login=`` or 1=1 --` AND pass=`` and pin=
 \end{lstlisting}
 
-\paragraph{Illegal / logically incorrect queries} Door een foutieve query te vormen krijgen we een error bij diens uitvoer. Neem als invoer
+\paragraph{Illegal / logically incorrect queries} Door een foutieve query te vormen krijgen we een error bij diens uitvoer.
+Deze error geeft meestal informatie terug over wat voor systeem wordt gebruikt die dan voor volgende exploits weer gebruikt kan worden.
+Neem als invoer
 \begin{lstlisting}[caption=Illegal input]
 convert(int,(select top 1 name from sysobjects where xtype=`u`))
 \end{lstlisting}
@@ -256,7 +261,7 @@ Deze twee zullen de meeste aanvallen kunnen stoppen. Toch zijn bijkomende tegenm
 Hier zijn nog enkele niet te verwaarlozen kwetsbaarheden en bijhorende voorbeelden:
 \begin{itemize}
 	\item \textbf{Zwakke toegangscontrole}: \textbf{forceful browsing}, \textit{slechte of geen beveiligingsbeleid}
-	\item \textbf{Zwakke cryptografische bescherming}: \textit{SSL stripping}, \textit{PKI fouten}.
+	\item \textbf{Zwakke cryptografische bescherming}: \textit{SSL stripping}, \textit{Public Key Infrastructure (PKI) fouten}.
 	\item \textbf{Fouten bij de browserimplementatie}: \textit{Drive-by-downloads}, \textit{heap spraying}
 \end{itemize}
 

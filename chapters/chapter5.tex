@@ -3,9 +3,13 @@
 \chapter{Conclusie}
 
 \section{Beveiliging in de softwarecyclus}
-kwetsbaarheden kunnen binnensluipen in elk van de softwareontwikkelingsstadia. Het is dan ook belangrijk de soorten aanvallen te kunnen onderscheiden en te weten welke tegenmaatregelen te treffen in elke situatie en fase van de ontwikkeling. Deze cursus heeft zich voornamelijk toegelegd op het implementatieniveau en af en toe het designniveau.
+Kwetsbaarheden kunnen binnensluipen in elk van de softwareontwikkelingsstadia.
+Het is dan ook belangrijk de soorten aanvallen te kunnen onderscheiden en te weten welke tegenmaatregelen te treffen in elke situatie en fase van de ontwikkeling.
+Deze cursus heeft zich voornamelijk toegelegd op het implementatieniveau en af en toe het designniveau.
 
-Het inpassen van tegenmaatregelen betekenen echter niet dat er een complete verandering nodig is in het ontwikkelingsproces. Aan de hand van \textbf{touchepoints} en \textbf{software process enrichtments} kunnen deze twee worden gecombineerd. Enkele voorbeelden zijn \textit{Cigital's touchepoints} en \textit{Microsoft's SDL}.
+Het inpassen van tegenmaatregelen betekent echter niet dat er een complete verandering nodig is in het ontwikkelingsproces.
+Aan de hand van \textbf{touchepoints} en \textbf{software process enrichtments} kunnen deze twee worden gecombineerd.
+Enkele voorbeelden zijn \textit{Cigital's touchepoints}\footnote{\url{http://www.cigital.com/presentations/ARA10.pdf}} en \textit{Microsoft's SDL}\footnote{\url{http://www.microsoft.com/security/sdl/default.aspx}}.
 
 \section{Bedreigingsmodellering}
 Het modelleren van bedreigingen is een activiteit die plaatsvindt in de beginfase van de softwareontwikkelingslevenscyclus. Het centrale doel is een goed zicht krijgen op de mogelijke kwetsbaarheden van het systeem dat wordt ontwikkeld. 
@@ -16,7 +20,7 @@ Het modelleren kan gebeuren op verschillende niveaus van abstractie:
 	\item \textbf{Applicatie- of componentniveau} \\ \textit{Bv. bedreigingsmodellering van de e-mail client software.}
 \end{itemize}
 \noindent
-Kwetsbaarheden kunnen worden onderverdeeld in categorie\"en:
+Kwetsbaarheden kunnen worden onderverdeeld in categorie\"en volgens het \textbf{STRIDE} threat model:
 \begin{itemize}
 	\item \textbf{S}poofing
 	\item Information \textbf{T}ampering
@@ -98,12 +102,12 @@ Modelleer het systeem aan de hand van \textit{dataflow} diagrammen. Typisch word
 \subsection{Determine Threat Types}
 Microsofts proces maakt gebruikt van de  \textbf{STRIDE} bedreigingstypen. (zie eerder) 
 \subsection{Identify Threats}
-Alle DFD elementen worden beschouwd als \textit{assets}. Zie afbeeldinge \ref{STRIDE}.
+Alle DFD elementen worden beschouwd als \textit{assets}. Zie afbeelding \ref{f:STRIDE}.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/STRIDE.png}
-    \label{STRIDE}
     \caption{DFD en STRIDE}
+    \label{f:STRIDE}
 \end{figure}
 \subsection{Determine Risk}
 Subjectieve numerieke methodes om het belang te schatten (bv. DREAD) worden niet meer gebruikt. De huidige guideline zegt gebruik te maken van objectieve karakteristieken zoals:
@@ -154,7 +158,7 @@ Strategie\"en:
 	\item Niets doen
 	\item De feature verwijderen
 	\item De feature uitschakelen
-	\item De gebruiker waarschuwen (\textit{dancing pigs syndrome})
+	\item De gebruiker waarschuwen (\textit{Dancing pigs syndrome: ``Given a choice between dancing pigs and security, users will pick dancing pigs every time.''})
 	\item Weerstand bieden met technologie
 \end{itemize} 
 

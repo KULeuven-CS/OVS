@@ -16,7 +16,7 @@ Er kan op verschillende manieren geheugen gealloceerd worden in C:
 \begin{description}
 	\item[Automatisch] via locale variablen in functies.
 	\item[Statisch] via globale variablen.
-	\item[Dynamisch] via \lstinline[style=cstyle]{void *malloc(size_t size);} en \lstinline[style=cstyle]{new}.
+	\item[Dynamisch] via \lstinline[style=ilcstyle]{void *malloc(size_t size);} en \lstinline[style=ilcstyle]{new}.
 \end{description}
 De programmeur is verantwoordelijk voor dit geheugenbeheer van het alloceren tot het de-alloceren.
 Figuur \ref{f:mem_lay} geeft de \emph{process memory layout} weer van een programma.
@@ -33,7 +33,7 @@ Memory management in C is zeer fout-gevoelig typische bugs zijn o.a.:
 \begin{itemize}
 		\item Writing past the bound of array (zoals in listing \ref{l:intro})
 		\item Dangling pointers (pointers die niet naar een geldig object wijzen.)
-		\item Double freeing (Twee keer \lstinline[style=cstyle]{free()} aanroepen zodat nog gebruikt geheughen als ongebruikt wordt gemarkeert).
+		\item Double freeing (Twee keer \lstinline[style=ilcstyle]{free()} aanroepen zodat nog gebruikt geheughen als ongebruikt wordt gemarkeert).
 		\item Memory leaks (Stukken geheugen zijn niet correct vrijgegeven.)
 \end{itemize}
 Om effici\"entie redenen worden deze fouten in C niet at run time gededecteert.
@@ -44,7 +44,7 @@ Om onveilige code aan te vallen moet een aanvaller hetvolgende doen:
 				\begin{itemize}
 						\item Buffer overflow
 						\item Dereference van dangling pointer
-						\item Gebruik van onveilige API functie. Die ofwel een buffer overflowt (e.g. \lstinline[style=cstyle]{strcpy()} ofwel intrinsiek onveilig geimplementeerd is in assembly (e.g. \lstinline[style=cstyle]{printf()}
+						\item Gebruik van onveilige API functie. Die ofwel een buffer overflowt (e.g. \lstinline[style=ilcstyle]{strcpy()} ofwel intrinsiek onveilig geimplementeerd is in assembly (e.g. \lstinline[style=ilcstyle]{printf()}
 				\end{itemize}
 		\item Een interessante geheugenplaats vinden om te overschrijven.
 				\begin{itemize}
@@ -69,7 +69,7 @@ In figuur \ref{f:stackBO1} tonen we een normale (niet aangevallen) stack waarbij
 \label{f:stackBO1}
 \end{figure}
 
-Vervolgens in figuur \ref{f:stackBO2} wordt functie f1 opgeroepen. Een nieuw stackframe wordt op de stack gepusht. Let erop dat in dit frame het return address nu wijst naar code net onder de call naar f1. De SFP wijst naar het frame van f0 en er daarachter plaats is voorzien voor de lokale variable \lstinline[style=cstyle]{buffer[]}. De stackpointer wijst natuurlijk net voorbij het frame van f1.
+Vervolgens in figuur \ref{f:stackBO2} wordt functie f1 opgeroepen. Een nieuw stackframe wordt op de stack gepusht. Let erop dat in dit frame het return address nu wijst naar code net onder de call naar f1. De SFP wijst naar het frame van f0 en er daarachter plaats is voorzien voor de lokale variable \lstinline[style=ilcstyle]{buffer[]}. De stackpointer wijst natuurlijk net voorbij het frame van f1.
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{\imageSrc/stackBO2.png}
@@ -135,7 +135,7 @@ Tabel
 
 \subsubsection{Overwriting heap metadata}
 De heap wordt gebruikt om dynamisch gealloceerde data op te slaam.
-Met functies zoals \lstinline[style=cstyle]{malloc()} worden er dynamisch geheugenblokken gealloceerd en gedealloceerd met \lstinline[style=cstyle]{free()}.
+Met functies zoals \lstinline[style=ilcstyle]{malloc()} worden er dynamisch geheugenblokken gealloceerd en gedealloceerd met \lstinline[style=ilcstyle]{free()}.
 De meest memory allocation libraries onthouden metadata voor of achter gebruikte blokken.
 Een gevolg daarvan is dat buffer overruns op de heap deze management informatie kunnen overschrijven.
 Dit maakt een \emph{indirect pointer overwrite} aanval mogelijk.

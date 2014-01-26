@@ -224,8 +224,37 @@ Aangezien we de werking van de stack begrijpen kunnen we dit gebruiken om de sta
 Een nagebootste stack kan gewoon in een buffer wordten opgeslagen.
 De fake stack kan bijvoorbeeld een functie aanroepen die een shell start of het mogelijk maakt om andere code rechtstreeks te injecteren.
 Vervoglens moeten we de SP doen wijzen naar de fake stack net voor de return instructie van de actieve functie wordt uitgevoerd.
+Hiervoor wordt er vaak eerst naar trampoline code gesprongen die dan de stackpointer van locatie kan veranderen afhankelijk van het geinjecteerde address.
+We bekijken het geval uit listing \ref{l:libc}. 
+In figuur \ref{f:libc3} vinden we de assembler code van de qsort functie.
+Let er op dat het register \texttt{ebx} net voor de call op de stack wordt gepusht en dat daarin het address van waar we de nieuwe stack gezet hebben zit.
+Als de call instructie wordt uitgevoerd wordt er naar locatie \textit{0x7c971649} gesprongen. 
+Op locatie \textit{0x7c971649} vinden we de assembler code in figuur \ref{lib4}.
+Dit is de trampoline code die gebruikt wordt om de stack pointer te verplaatsen.
+Deze code bevind zich ergens in het geheugen en komt hier uitstekend van pas om de libc attack uit te voeren. 
+Aangezien in register \texttt{ebx} nog het gewilde address zit wordt de stack pointer (\texttt{esp}) nu verplaatst naar \texttt{ebx} wat dus in ons geval de tmp buffer betekent.
+Verder wordt er nu een return (\texttt{ret}) gedaan en dus begint het stack-unwinden.
+Op deze valse stack kan nu elke mogelijke functie met gewilde argumenten worden gezet.
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{\imageSrc/libc3.png}
+\caption{Gedeeltelijke assembler voorstelling van de qsort functie. Het register \texttt{ebx} geven we als waarde de start van de tmp buffer. En \texttt{comp\_fp} moet de waarde \textit{0x7c971649} hebben zodat er naar de trampoline code wordt gesprongen.}
+\label{f:libc3}
+\end{figure}
 
-Vaak wordt er trampoline code gebruikt die het mogelijk maakt om eenvoudig eender welke andere code uit te voeren.
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{\imageSrc/libc4.png}
+\caption{De trampoline code die gebruikt wordt om de stack pointer naar het gewilde address te verplaatsen en dan een eerste keer te returnen. Deze code bevint zich ergens in het geheugen en als het address geweten is kan die dus worden misbruikt.}
+\label{f:libc4}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{\imageSrc/libc5.png}
+\caption{De stack zoals die eruit ziet in de median functie.}
+\label{f:libc5}
+\end{figure}
 
 \textit{Meer uitleg volgt mogelijk nog}
 

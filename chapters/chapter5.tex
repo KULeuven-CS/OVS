@@ -1,4 +1,4 @@
-\documentclass[../main.tex]{subfiles} 
+\documentclass[../main.tex]{subfiles}
 \begin{document}
 \chapter{Conclusie}
 
@@ -12,7 +12,7 @@ Aan de hand van \textbf{touchepoints} en \textbf{software process enrichtments} 
 Enkele voorbeelden zijn \textit{Cigital's touchepoints}\footnote{\url{http://www.cigital.com/presentations/ARA10.pdf}} en \textit{Microsoft's SDL}\footnote{\url{http://www.microsoft.com/security/sdl/default.aspx}}.
 
 \section{Bedreigingsmodellering}
-Het modelleren van bedreigingen is een activiteit die plaatsvindt in de beginfase van de softwareontwikkelingslevenscyclus. Het centrale doel is een goed zicht krijgen op de mogelijke kwetsbaarheden van het systeem dat wordt ontwikkeld. 
+Het modelleren van bedreigingen is een activiteit die plaatsvindt in de beginfase van de softwareontwikkelingslevenscyclus. Het centrale doel is een goed zicht krijgen op de mogelijke kwetsbaarheden van het systeem dat wordt ontwikkeld.
 
 Het modelleren kan gebeuren op verschillende niveaus van abstractie:
 \begin{itemize}
@@ -44,7 +44,7 @@ Elke applicatie steunt op infrastructurele software om correct te functioneren. 
 	\item Browser
 	\item Windows Server
 	\item Microsoft ISS
-	\item SQl Server 
+	\item SQl Server
 	\item .NET Framework
 \end{itemize}
 \end{multicols}
@@ -59,7 +59,7 @@ Welke beveiligingsgaranties verwachten we van onze externe afhankelijkheden? Voo
 
 \subsection{Create External Security Notes}
 Documenteer beveiligingsrelevante informatie voor de gebruikers van de applicatie.
-\begin{figure}[h1]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{\imageSrc/external_security_notes.png}
     \caption{External Security Notes}
@@ -78,21 +78,21 @@ Modelleer het systeem aan de hand van \textit{dataflow} diagrammen. Typisch word
 \end{itemize}
 \end{multicols}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{\imageSrc/pet_shop_model_1.png}
     \caption{Voorbeeldmodel}
     \label{example1}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/pet_shop_model_2.png}
     \caption{Voorbeeldmodel}
     \label{example2}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/pet_shop_model_3.png}
     \caption{Voorbeeldmodel}
@@ -100,10 +100,10 @@ Modelleer het systeem aan de hand van \textit{dataflow} diagrammen. Typisch word
 \end{figure}
 
 \subsection{Determine Threat Types}
-Microsofts proces maakt gebruikt van de  \textbf{STRIDE} bedreigingstypen. (zie eerder) 
+Microsofts proces maakt gebruikt van de  \textbf{STRIDE} bedreigingstypen. (zie eerder)
 \subsection{Identify Threats}
 Alle DFD elementen worden beschouwd als \textit{assets}. Zie afbeelding \ref{f:STRIDE}.
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/STRIDE.png}
     \caption{DFD en STRIDE}
@@ -117,35 +117,35 @@ Subjectieve numerieke methodes om het belang te schatten (bv. DREAD) worden niet
 	\item Toegankelijk voor anonieme gebruikers
 \end{itemize}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/spoofing.png}
     \caption{Spoofing}
     \label{spoofing}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/tampering.png}
     \caption{Tampering}
     \label{tampering}
 \end{figure}
-    
-\begin{figure}[h!]
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/information.png}
     \caption{Information Disclosure}
     \label{information}
 \end{figure}
-    
-\begin{figure}[h!]
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/dos.png}
     \caption{Denial of Service}
     \label{dos}
 \end{figure}
-    
-\begin{figure}[h!]
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/eop.png}
     \caption{Elevation of Privileges}
@@ -160,27 +160,27 @@ Strategie\"en:
 	\item De feature uitschakelen
 	\item De gebruiker waarschuwen (\textit{Dancing pigs syndrome: ``Given a choice between dancing pigs and security, users will pick dancing pigs every time.''})
 	\item Weerstand bieden met technologie
-\end{itemize} 
+\end{itemize}
 
-We kunnen concluderen dat bedreigingsmodellering  plaatsvindt in de vroege fasen van de software levenscyclus. Dit is de fase waarin bedreigingprofiel duidelijk wordt en er tegenmaatregelen kunnen worden getroffen op een ge\"informeerde manier. 
+We kunnen concluderen dat bedreigingsmodellering  plaatsvindt in de vroege fasen van de software levenscyclus. Dit is de fase waarin bedreigingprofiel duidelijk wordt en er tegenmaatregelen kunnen worden getroffen op een ge\"informeerde manier.
 \\\\
 Microsoft plaatst \textit{Bedreigingsmodellering} op plaats 2 in de de lijst van belangrijkste veiligheidsgerelateerde activiteiten. Op de eerste plaats staat statische analyse van implementatiekwetsbaarheden.
 
 \section{Principes, patronen en richtlijnen}
-Kennis en ervaring verkregen in het ontwikkelen van veilige software heeft geleid tot een verzameling zogenaamde \textit{best practices}. 
+Kennis en ervaring verkregen in het ontwikkelen van veilige software heeft geleid tot een verzameling zogenaamde \textit{best practices}.
 \begin{itemize}
 	\item \textbf{Principes} zijn generische richtlijnen, toepasbaar doorheen heel de ontwikkelingscyclus.
 	\item \textbf{Patronen} zijn herbruikbare oplossing voor veiligheidsproblemen op architecturaal niveau.
-	\item \textbf{Richtlijnen} bieden een specifiek richtsnoer over hoe wel en niet te programmeren in zekere programmeertalen. 
+	\item \textbf{Richtlijnen} bieden een specifiek richtsnoer over hoe wel en niet te programmeren in zekere programmeertalen.
 \end{itemize}
 
 \subsection{Principes}
 \begin{itemize}
-	\item \textbf{Simplicity} \\ 
+	\item \textbf{Simplicity} \\
 	\textit{Economy of mechanism}: Eenvoudige tegenmaatregelen zijn eenvoudiger juist te krijgen en eenvoudiger te begrijpen.
 	\item \textbf{Open Design} \\
 	Inzetten op beveiliging zelfs al weet de aanvaller wat de tegenmaatregelen zijn. Dus geen  \textit{security by obscurity}.
-	\item \textbf{Least Privilege} \\ 
+	\item \textbf{Least Privilege} \\
 	Elk onderdeel van het systeem mag niet meer rechten hebben dan nodig is voor diens functie uit te voeren.
 \end{itemize}
 
@@ -224,7 +224,7 @@ Er zijn zoveel richtlijnen, waarvan vele vaag, wat betekent dat de programmeur z
 	\item \textbf{OBJ04-J.} Provide mutable classes with copy functionality to safely allow passing instances to untrusted code
 	\item \textbf{OBJ05-J.} Defensively copy private mutable class members before returning their references
 	\item \textbf{OBJ07-J.} Sensitive classes must not let themselves be copied
-	\item \textbf{OBJ11-J.} Be wary of letting constructors throw exceptions	
+	\item \textbf{OBJ11-J.} Be wary of letting constructors throw exceptions
 \end{itemize}
 
 

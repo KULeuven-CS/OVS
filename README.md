@@ -8,6 +8,7 @@ PDF
 
 [![PDF Status](https://www.sharelatex.com/github/repos/KULeuven-CS/OVS/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/KULeuven-CS/OVS/builds/latest/output.pdf)
 
+Please **star** this repository if you found its content useful!
 
 Status
 ------
